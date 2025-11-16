@@ -1,7 +1,5 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { applicationSchema, ApplicationInput } from '@alanya-tekmer/shared';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { publicApi } from '../../lib/api';
 import PublicLayout from '../../layouts/PublicLayout';
@@ -12,8 +10,8 @@ export default function ApplicationPage() {
   const [submitted, setSubmitted] = useState(false);
   const [projectFile, setProjectFile] = useState<File | null>(null);
 
-  const { register, handleSubmit, formState: { errors }, watch } = useForm<Omit<ApplicationInput, 'turnstileToken'>>({
-    resolver: zodResolver(applicationSchema.omit({ turnstileToken: true, data_consent: true })),
+  const { register, handleSubmit, formState: { errors } } = useForm<any>({
+    mode: 'onChange',
   });
 
   // Fetch combobox options
@@ -134,7 +132,7 @@ export default function ApplicationPage() {
                       <option key={opt.id} value={opt.option_value}>{opt.option_value}</option>
                     ))}
                   </select>
-                  {errors.project_type && <p className="text-red-500 text-sm mt-1">{errors.project_type.message}</p>}
+                  {errors.project_type && <p className="text-red-500 text-sm mt-1">{String(errors.project_type.message)}</p>}
                 </div>
 
                 <div>
@@ -145,25 +143,25 @@ export default function ApplicationPage() {
                       <option key={opt.id} value={opt.option_value}>{opt.option_value}</option>
                     ))}
                   </select>
-                  {errors.business_idea && <p className="text-red-500 text-sm mt-1">{errors.business_idea.message}</p>}
+                  {errors.business_idea && <p className="text-red-500 text-sm mt-1">{String(errors.business_idea.message)}</p>}
                 </div>
 
                 <div>
                   <label className="block mb-2 font-medium">Proje Adı *</label>
                   <input {...register('project_name')} className="input" />
-                  {errors.project_name && <p className="text-red-500 text-sm mt-1">{errors.project_name.message}</p>}
+                  {errors.project_name && <p className="text-red-500 text-sm mt-1">{String(errors.project_name.message)}</p>}
                 </div>
 
                 <div>
                   <label className="block mb-2 font-medium">Proje Ekibi Kaç Kişiden Oluşuyor? *</label>
                   <input {...register('team_size', { valueAsNumber: true })} type="number" className="input" />
-                  {errors.team_size && <p className="text-red-500 text-sm mt-1">{errors.team_size.message}</p>}
+                  {errors.team_size && <p className="text-red-500 text-sm mt-1">{String(errors.team_size.message)}</p>}
                 </div>
 
                 <div>
                   <label className="block mb-2 font-medium">Proje Özeti * (En az 50 karakter)</label>
                   <textarea {...register('project_summary')} rows={5} className="input" />
-                  {errors.project_summary && <p className="text-red-500 text-sm mt-1">{errors.project_summary.message}</p>}
+                  {errors.project_summary && <p className="text-red-500 text-sm mt-1">{String(errors.project_summary.message)}</p>}
                 </div>
 
                 <button type="button" onClick={nextStep} className="btn btn-primary w-full">
@@ -180,25 +178,25 @@ export default function ApplicationPage() {
                 <div>
                   <label className="block mb-2 font-medium">Ad Soyad *</label>
                   <input {...register('full_name')} className="input" />
-                  {errors.full_name && <p className="text-red-500 text-sm mt-1">{errors.full_name.message}</p>}
+                  {errors.full_name && <p className="text-red-500 text-sm mt-1">{String(errors.full_name.message)}</p>}
                 </div>
 
                 <div>
                   <label className="block mb-2 font-medium">TC Kimlik No * (11 hane)</label>
                   <input {...register('tc_no')} maxLength={11} className="input" />
-                  {errors.tc_no && <p className="text-red-500 text-sm mt-1">{errors.tc_no.message}</p>}
+                  {errors.tc_no && <p className="text-red-500 text-sm mt-1">{String(errors.tc_no.message)}</p>}
                 </div>
 
                 <div>
                   <label className="block mb-2 font-medium">Telefon * (örn: 5386912283)</label>
                   <input {...register('phone')} className="input" placeholder="5386912283" />
-                  {errors.phone && <p className="text-red-500 text-sm mt-1">{errors.phone.message}</p>}
+                  {errors.phone && <p className="text-red-500 text-sm mt-1">{String(errors.phone.message)}</p>}
                 </div>
 
                 <div>
                   <label className="block mb-2 font-medium">E-posta *</label>
                   <input {...register('email')} type="email" className="input" />
-                  {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>}
+                  {errors.email && <p className="text-red-500 text-sm mt-1">{String(errors.email.message)}</p>}
                 </div>
 
                 <div>
@@ -235,13 +233,13 @@ export default function ApplicationPage() {
                       <option key={opt.id} value={opt.option_value}>{opt.option_value}</option>
                     ))}
                   </select>
-                  {errors.requested_area && <p className="text-red-500 text-sm mt-1">{errors.requested_area.message}</p>}
+                  {errors.requested_area && <p className="text-red-500 text-sm mt-1">{String(errors.requested_area.message)}</p>}
                 </div>
 
                 <div>
                   <label className="block mb-2 font-medium">Alanya TEKMER'den Beklentileriniz * (En az 20 karakter)</label>
                   <textarea {...register('expectations')} rows={5} className="input" />
-                  {errors.expectations && <p className="text-red-500 text-sm mt-1">{errors.expectations.message}</p>}
+                  {errors.expectations && <p className="text-red-500 text-sm mt-1">{String(errors.expectations.message)}</p>}
                 </div>
 
                 <div className="flex gap-4">

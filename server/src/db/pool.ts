@@ -20,13 +20,13 @@ pool.on('error', (err) => {
 });
 
 // Helper function to execute queries
-export async function query<T = any>(
+export async function query(
   text: string,
   params?: any[]
-): Promise<QueryResult<T>> {
+): Promise<QueryResult<any>> {
   const start = Date.now();
   try {
-    const result = await pool.query<T>(text, params);
+    const result = await pool.query(text, params);
     const duration = Date.now() - start;
     
     if (config.debugMode) {

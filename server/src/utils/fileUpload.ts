@@ -81,8 +81,8 @@ export async function validateFileMagicNumbers(filePath: string, expectedType: '
     const stream = fs.createReadStream(filePath, { start: 0, end: 3 });
     const chunks: Buffer[] = [];
 
-    stream.on('data', (chunk) => {
-      chunks.push(chunk);
+    stream.on('data', (chunk: any) => {
+      chunks.push(Buffer.from(chunk));
     });
 
     stream.on('end', () => {

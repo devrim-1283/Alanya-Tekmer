@@ -1,5 +1,5 @@
 import winston from 'winston';
-import { config, isDevelopment } from '../config/env';
+import { config, isDevelopment, isProduction } from '../config/env';
 import * as Sentry from '@sentry/node';
 
 // Initialize Sentry if DSN is provided
