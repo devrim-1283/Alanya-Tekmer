@@ -105,11 +105,14 @@ process.on('SIGINT', async () => {
 
 // Handle uncaught exceptions
 process.on('uncaughtException', (error) => {
+  console.error('Uncaught exception:', error);
   logger.error('Uncaught exception', error);
   process.exit(1);
 });
 
-process.on('unhandledRejection', (reason, promise) => {
+process.on('unhandledRejection', (reason: any, promise) => {
+  console.error('Unhandled rejection:', reason);
+  console.error('Promise:', promise);
   logger.error('Unhandled rejection', { reason, promise });
   process.exit(1);
 });

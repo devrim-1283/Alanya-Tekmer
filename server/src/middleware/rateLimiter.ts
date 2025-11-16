@@ -1,15 +1,8 @@
 import rateLimit from 'express-rate-limit';
-import RedisStore from 'rate-limit-redis';
-import { redis } from '../redis/client';
 import { config } from '../config/env';
 
-// General rate limiter
+// General rate limiter (memory-based for now)
 export const generalLimiter = rateLimit({
-  store: new RedisStore({
-    // @ts-ignore - Redis client is compatible
-    client: redis,
-    prefix: 'rl:general:',
-  }),
   windowMs: config.rateLimit.windowMs,
   max: config.rateLimit.maxRequests,
   message: 'Çok fazla istek gönderdiniz. Lütfen daha sonra tekrar deneyin.',
@@ -19,11 +12,6 @@ export const generalLimiter = rateLimit({
 
 // Strict rate limiter for sensitive endpoints
 export const strictLimiter = rateLimit({
-  store: new RedisStore({
-    // @ts-ignore
-    client: redis,
-    prefix: 'rl:strict:',
-  }),
   windowMs: 15 * 60 * 1000, // 15 minutes
   max: 5,
   message: 'Çok fazla başarısız deneme. Lütfen 15 dakika sonra tekrar deneyin.',
@@ -33,11 +21,6 @@ export const strictLimiter = rateLimit({
 
 // Application submission rate limiter
 export const applicationLimiter = rateLimit({
-  store: new RedisStore({
-    // @ts-ignore
-    client: redis,
-    prefix: 'rl:application:',
-  }),
   windowMs: 60 * 60 * 1000, // 1 hour
   max: 3,
   message: 'Saatte en fazla 3 başvuru yapabilirsiniz. Lütfen daha sonra tekrar deneyin.',
@@ -47,11 +30,6 @@ export const applicationLimiter = rateLimit({
 
 // Admin login rate limiter
 export const adminLoginLimiter = rateLimit({
-  store: new RedisStore({
-    // @ts-ignore
-    client: redis,
-    prefix: 'rl:admin:',
-  }),
   windowMs: 15 * 60 * 1000, // 15 minutes
   max: 5,
   message: 'Çok fazla başarısız giriş denemesi. Lütfen 15 dakika sonra tekrar deneyin.',
