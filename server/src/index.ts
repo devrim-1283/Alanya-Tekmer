@@ -42,6 +42,7 @@ app.use('/api', generalLimiter);
 
 // Routes
 app.use('/health', healthRoutes);
+app.use('/api/health', healthRoutes); // Duplicate for Coolify health check
 app.use('/api/v1', publicRoutes);
 app.use('/api/v1/admin', adminRoutes);
 
