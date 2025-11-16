@@ -11,6 +11,9 @@ const transporter: Transporter = nodemailer.createTransport({
     user: config.smtp.user,
     pass: config.smtp.pass,
   },
+  tls: {
+    rejectUnauthorized: false, // Development only - remove in production
+  },
 });
 
 // Verify transporter configuration
