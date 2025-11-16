@@ -33,6 +33,8 @@ ALANYA TEKMER A.Ş., Alanya Alaaddin Keykubat Üniversitesi ve Küçük ve Orta 
 
 ALANYA TEKMER ALKÜ Kestel Yerleşkesinde 1085 m2 alan üzerine inşa edilmiş olup, bünyesinde; 13 kapalı ofis, 3 ortak çalışma alanı, 1 toplantı salonu, 1 eğitim salonu, 1 sosyal alan içermektedir.
 
+
+Alanya Alaaddin Keykubat Üniversitesi olarak hayata geçirdiğimiz TEKMER ile TR 61 Bölgesi’nin teknoloji ve inovasyon üssü olmayı hedefliyoruz. Girişimcilere ve teknoloji odaklı işletmelere sürdürülebilir büyüme için güçlü bir destek sunmakta kararlıyız.
 """
 
 - Misyon:
@@ -61,7 +63,24 @@ Başvuru yaptıktan sonra İcra Kurulumuz projeleri detaylı incelemektedir. Kom
 Başvurular Sadece Online Mı Yapılmaktadır?
 Evet, başvurular sadece online yapılmaktadır.
 """
+- Neden Biz:
+"""
+Neden Alanya TEKMER?
+Toplantı Salonu
+Profesyonel toplantılar ve etkinlikler için tam donanımlı bir toplantı salonu bulunmaktadır.
 
+Neden Biz?
+5746 Sayılı Kanun’dan Yararlanma İmkanı
+Danışmanlık & Mentorluk
+Sınai Mülkiyet Danışmanlık Hizmeti
+Eğitimler
+Sosyal Alanlar
+Temizlik ve güvenlik hizmetleri
+Toplantı Salonu
+Kampüs Olanakları
+Ücretsiz Wi-fi
+7/24 Çalışma İmkanı
+"""
 - İletişim:
 """
 tel: +90 242 505 6272
@@ -136,3 +155,213 @@ Sitenin hızlı açılması bizim için en kritik şeylerden biri site çok hız
 Site responsive ve ceo uyumlu olmalı.
 
 Admin paneli tasarlayacağız admin paneli urlsi domain/ee9Y0hc8rx7yTACaaoXhSh9cOOhrVB7aXCfEzhaC3XAIrsgoi1 güçlü bir url olsun. Admin paneli de erişilmesi zor güvenli bir yapı olmalı.
+
+Alanya Alaaddin Keykubat Üniversitesine bağlı Alanya  Tekmer girişimciler için destek veren bir firma.
+Üst header olmalı orada adres tel sosyal medya hesafları olmalı.
+Headerda Alanya Tekmer Hakkımızda/Ekibimiz/Mevzuat  Hizmetlerimiz Etkinlik ve Duyurular Firmalar Başvuru İletişim sayfaları olmalı.
+
+
+Database Yapısı:
+"""
+team tablosu:
+fotoğraf, ad, görevi 3 girdi ile bunu ekibimiz sayfasında göstericez.
+
+etkinlik tablosu:
+1-10 arası fotoğraf girme  açıklama tarih  açıklamalar emojili vesayre olabilir.
+
+duyurular
+etkinlikle aynı hatta aynı tablo da etkinlik duyuru filtresi ile barındırıp ona göre çekebilirsin.
+
+firmalar 
+firma adı 
+firma logosu
+firma açıklaması
+firma yetkilisi
+firma iletişim tel
+firma iletişim instagram
+firma iletişim linkledian
+firma iletişim web sitesi
+firma iletişim whatsapp
+
+bu tabloda firmaları firmalarımız kısmında listeleyeceğiz ve firmalar hakkında bilgiler barındıracağız.
+
+proje başvurusu
+başvurulan proje
+iş fikri faaliyet alanı
+ad soyad
+telefon 
+tc 
+email
+varsa okuduğunuz üniversite bölüm
+varsa firma adı
+talepe edilen alan
+alanya tekmerden beklentileriniz
+proje adı
+proje ekibi kaç kişiden oluşuyor 
+proje özeti 
+proje dosyası (burada pdf bekliyoruz )
+veri kullanım onayı da olmalı Veri Kullanım Onayı*
+Verdiğim tüm bilgiler doğru ve bana aittir. Bu bilgiler başvurumun değerlendirilmesi ve bana ulaşılmasında kullanılabilir. Bu linkte bulunan; KVKK BİLGİLENDİRME metnini okudum, anladım ve kabul ediyorum.
+
+başvurulan proje
+iş fikri faaliyet alanı
+talepe edilen alan 3 bölüm combobox olsun bu bölümdeki değerleri de admin panelinden girelim.
+
+iletişim 
+iletişim bilgilerini buradan çek admin panelinden değiştirilebilsin
+"""
+
+Proje başvuru kısmı aşama aşama güzel bir animasyonla olsa harika olur. TC 11 hane olmalı sayı olamlı tel +90 5386912283 0 5386912283 5386912283 formatında olabilir.
+
+
+Footer da Bu site www.devrimtuncer.com Tarafından geliştirilmiştir.
+
+Admin panelinde sağlam bir şekilde hangi sayfaya kim tıklamış görmek istiyorum benzersiz ip normal ip ayrıca cookileri kabul etme scripti ekle gizlilik sözleşmesi kullanıcı sözleşmesi de olsun footerda.
+
+
+# Alanya TEKMER - Web Application
+
+Modern, güvenli ve performanslı bir TEKMER web sitesi. React + Node.js + PostgreSQL + Redis ile geliştirilmiştir.
+
+## 🚀 Özellikler
+
+- ✅ Modern ve responsive tasarım
+- ✅ Multi-step başvuru formu
+- ✅ Admin paneli
+- ✅ Redis cache ile yüksek performans
+- ✅ Güvenli dosya yükleme
+- ✅ Email bildirimleri
+- ✅ Analytics ve tracking
+- ✅ SEO optimize
+- ✅ KVKK uyumlu
+
+## 📋 Gereksinimler
+
+- Node.js 18+
+- PostgreSQL 14+
+- Redis 7+
+
+## 🛠️ Kurulum
+
+### 1. Bağımlılıkları Yükleyin
+
+```bash
+npm install
+```
+
+### 2. Environment Variables
+
+`.env` dosyası oluşturun (`.env-example` dosyasını kopyalayın):
+
+```bash
+cp .env-example .env
+```
+
+Gerekli değerleri doldurun.
+
+### 3. Database Kurulumu
+
+PostgreSQL'de database'i oluşturun ve tabloları initialize edin:
+
+```bash
+psql -U your_user -d your_database -f init.sql
+psql -U your_user -d your_database -f seed-admin.sql
+psql -U your_user -d your_database -f seed-data.sql
+```
+
+**Varsayılan admin kullanıcısı:**
+- Kullanıcı adı: `admin`
+- Şifre: `admin`
+- ⚠️ İlk girişten sonra şifreyi değiştirin!
+
+### 4. Development
+
+```bash
+npm run dev
+```
+
+- Frontend: http://localhost:5173
+- Backend: http://localhost:3000
+
+### 5. Production Build
+
+```bash
+npm run build
+npm start
+```
+
+## 🐳 Coolify Deployment
+
+### Persistent Storage
+
+Coolify'da volume oluşturun:
+- Source: `alanya-tekmer-uploads`
+- Destination: `/app/uploads`
+
+### Environment Variables
+
+Coolify UI'dan tüm environment variable'ları ekleyin (.env-example'a bakın).
+
+### Build & Deploy
+
+Coolify otomatik olarak Nixpacks kullanarak build edecektir:
+
+1. Git repository'yi bağlayın
+2. Environment variables'ı ekleyin
+3. Persistent storage'ı mount edin
+4. Deploy edin
+
+## 📁 Proje Yapısı
+
+```
+/
+├── client/          # React frontend
+├── server/          # Node.js backend
+├── shared/          # Shared types & validations
+├── mevzuat/         # PDF files
+├── init.sql         # Database schema
+├── seed-admin.sql   # Admin user
+└── seed-data.sql    # Initial data
+```
+
+## 🔒 Güvenlik
+
+- SQL Injection koruması (parameterized queries)
+- XSS koruması (Helmet + DOMPurify)
+- CSRF koruması
+- Rate limiting (Redis-based)
+- File upload validation (magic numbers)
+- Cloudflare Turnstile
+- Secure sessions (Redis)
+
+## 📧 Email Konfigürasyonu
+
+Kendi mail sunucunuzu kullanın. `.env` dosyasında SMTP ayarlarını yapın:
+
+```
+SMTP_HOST=mail.alanyatekmer.com
+SMTP_PORT=587
+SMTP_USER=destek@alanyatekmer.com
+SMTP_PASS=your-password
+```
+
+## 🔗 Admin Panel
+
+Admin paneline erişim:
+`https://your-domain.com/ee9Y0hc8rx7yTACaaoXhSh9cOOhrVB7aXCfEzhaC3XAIrsgoi1/login`
+
+## 📊 Analytics
+
+Tüm sayfa ziyaretleri otomatik olarak kaydedilir. Admin panelinden görüntüleyebilirsiniz.
+
+## 🧪 Testing
+
+```bash
+npm test
+```
+
+## 📝 Lisans
+
+© 2024 Alanya TEKMER. Tüm hakları saklıdır.
+
+Geliştirici: [www.devrimtuncer.com](https://www.devrimtuncer.com)
