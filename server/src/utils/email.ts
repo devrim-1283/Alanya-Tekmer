@@ -16,14 +16,20 @@ const transporter: Transporter = nodemailer.createTransport({
   },
 });
 
-// Verify transporter configuration
-transporter.verify((error) => {
-  if (error) {
-    logger.error('Email transporter verification failed', error);
-  } else {
-    logger.info('Email transporter is ready');
-  }
-});
+// Verify transporter configuration (optional - don't block startup)
+if (config.smtp.user && config.smtp.pass && config.smtp.user !== 'your-smtp-password-here') {
+  transporter.verify((error) => {
+    if (error) {
+      logger.warn('Email transporter verification failed - emails will not be sent', { 
+        error: error.message 
+      });
+    } else {
+      logger.info('Email transporter is ready');
+    }
+  });
+} else {
+  logger.warn('SMTP credentials not configured - emails will not be sent');
+}
 
 // Email templates
 export const emailTemplates = {
