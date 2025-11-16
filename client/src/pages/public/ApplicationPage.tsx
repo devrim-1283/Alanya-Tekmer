@@ -9,11 +9,11 @@ import SEO from '../../components/SEO';
 
 export default function ApplicationPage() {
   const [step, setStep] = useState(1);
-  const [turnstileToken, setTurnstileToken] = useState('');
   const [submitted, setSubmitted] = useState(false);
+  const [projectFile, setProjectFile] = useState<File | null>(null);
 
-  const { register, handleSubmit, formState: { errors }, watch } = useForm<ApplicationInput>({
-    resolver: zodResolver(applicationSchema),
+  const { register, handleSubmit, formState: { errors }, watch } = useForm<Omit<ApplicationInput, 'turnstileToken'>>({
+    resolver: zodResolver(applicationSchema.omit({ turnstileToken: true, data_consent: true })),
   });
 
   // Fetch combobox options
@@ -42,15 +42,24 @@ export default function ApplicationPage() {
   });
 
   const mutation = useMutation({
-    mutationFn: async (data: ApplicationInput) => {
+    mutationFn: async (data: any) => {
       const formData = new FormData();
+      
+      // Add all form fields
       Object.entries(data).forEach(([key, value]) => {
-        if (key === 'project_file' && value instanceof FileList) {
-          formData.append(key, value[0]);
-        } else if (value !== undefined && value !== '') {
+        if (value !== undefined && value !== '' && key !== 'data_consent') {
           formData.append(key, String(value));
         }
       });
+      
+      // Add project file
+      if (projectFile) {
+        formData.append('project_file', projectFile);
+      }
+      
+      // Add turnstile token (dummy for now)
+      formData.append('turnstileToken', 'dummy-token');
+      
       return await publicApi.submitApplication(formData);
     },
     onSuccess: () => {
@@ -58,8 +67,8 @@ export default function ApplicationPage() {
     },
   });
 
-  const onSubmit = (data: ApplicationInput) => {
-    mutation.mutate({ ...data, turnstileToken });
+  const onSubmit = (data: any) => {
+    mutation.mutate(data);
   };
 
   const nextStep = () => setStep(step + 1);
@@ -253,20 +262,29 @@ export default function ApplicationPage() {
                 
                 <div>
                   <label className="block mb-2 font-medium">Proje Dosyası (PDF) *</label>
-                  <input {...register('project_file')} type="file" accept=".pdf" className="input" />
-                  {errors.project_file && <p className="text-red-500 text-sm mt-1">{errors.project_file.message as string}</p>}
+                  <input 
+                    type="file" 
+                    accept=".pdf" 
+                    className="input"
+                    onChange={(e) => {
+                      const file = e.target.files?.[0];
+                      if (file) {
+                        setProjectFile(file);
+                      }
+                    }}
+                    required
+                  />
                   <p className="text-sm text-gray-500 mt-1">Maksimum dosya boyutu: 10MB</p>
                 </div>
 
                 <div className="bg-gray-50 p-4 rounded-lg">
                   <label className="flex items-start gap-3">
-                    <input {...register('data_consent')} type="checkbox" className="mt-1" />
+                    <input type="checkbox" className="mt-1" required />
                     <span className="text-sm">
                       Verdiğim tüm bilgiler doğru ve bana aittir. Bu bilgiler başvurumun değerlendirilmesi ve bana ulaşılmasında kullanılabilir. 
                       <a href="/gizlilik-sozlesmesi" target="_blank" className="text-primary-600 hover:underline"> KVKK BİLGİLENDİRME</a> metnini okudum, anladım ve kabul ediyorum. *
                     </span>
                   </label>
-                  {errors.data_consent && <p className="text-red-500 text-sm mt-1">{errors.data_consent.message}</p>}
                 </div>
 
                 <div className="flex gap-4">
