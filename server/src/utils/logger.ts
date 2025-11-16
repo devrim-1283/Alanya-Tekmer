@@ -1,15 +1,5 @@
 import winston from 'winston';
-import { config, isDevelopment, isProduction } from '../config/env';
-import * as Sentry from '@sentry/node';
-
-// Initialize Sentry if DSN is provided
-if (config.sentryDsn) {
-  Sentry.init({
-    dsn: config.sentryDsn,
-    environment: config.nodeEnv,
-    tracesSampleRate: isProduction ? 0.1 : 1.0,
-  });
-}
+import { config, isDevelopment } from '../config/env';
 
 // Create Winston logger
 const logFormat = winston.format.combine(
@@ -60,14 +50,11 @@ if (!isDevelopment) {
   );
 }
 
-// Sentry integration
+// Error logging (Sentry removed)
 export function logErrorToSentry(error: Error, context?: Record<string, any>): void {
-  if (config.sentryDsn) {
-    Sentry.captureException(error, {
-      extra: context,
-    });
+  // Log to console in development
+  if (isDevelopment) {
+    console.error('Error:', error, 'Context:', context);
   }
 }
-
-export { Sentry };
 

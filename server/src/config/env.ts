@@ -48,9 +48,6 @@ export const config = {
   // Domain
   frontendUrl: process.env.FRONTEND_URL!,
 
-  // Sentry
-  sentryDsn: process.env.SENTRY_DSN,
-
   // Rate Limiting
   rateLimit: {
     windowMs: parseInt(process.env.RATE_LIMIT_WINDOW_MS || '900000', 10),
