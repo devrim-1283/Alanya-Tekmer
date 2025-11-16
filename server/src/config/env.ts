@@ -1,11 +1,9 @@
-import * as dotenv from 'dotenv-safe';
+import * as dotenv from 'dotenv';
 import path from 'path';
 
 // Load environment variables
 dotenv.config({
   path: path.resolve(__dirname, '../../../.env'),
-  example: path.resolve(__dirname, '../../../.env-example'),
-  allowEmptyValues: false,
 });
 
 export const config = {
