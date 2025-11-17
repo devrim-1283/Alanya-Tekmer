@@ -105,7 +105,8 @@ switch ($requestUri) {
         
     default:
         // Check if it's admin panel
-        if (strpos($requestUri, getenv('ADMIN_PATH')) === 0) {
+        $adminPath = getenv('ADMIN_PATH');
+        if ($adminPath && strpos($requestUri, $adminPath) === 0) {
             require __DIR__ . '/../src/admin/index.php';
         } else {
             http_response_code(404);

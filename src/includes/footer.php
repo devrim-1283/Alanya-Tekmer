@@ -114,12 +114,22 @@
         body.style.overflow = navMenu.classList.contains('active') ? 'hidden' : '';
     }
     
-    // Mobile dropdown toggle
+    // Mobile dropdown toggle - FIX
     document.querySelectorAll('.dropdown-toggle').forEach(toggle => {
         toggle.addEventListener('click', function(e) {
             if (window.innerWidth <= 768) {
                 e.preventDefault();
-                this.parentElement.classList.toggle('active');
+                const dropdown = this.closest('.dropdown');
+                
+                // Close other dropdowns
+                document.querySelectorAll('.dropdown').forEach(d => {
+                    if (d !== dropdown) {
+                        d.classList.remove('active');
+                    }
+                });
+                
+                // Toggle current dropdown
+                dropdown.classList.toggle('active');
             }
         });
     });

@@ -31,7 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     try {
                         $db = Database::getInstance();
                         $user = $db->fetchOne(
-                            'SELECT * FROM admin_users WHERE username = ? AND is_active = true',
+                            'SELECT * FROM users WHERE username = ? AND is_active = true',
                             [$username]
                         );
                         
@@ -40,10 +40,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             $_SESSION['admin_user_id'] = $user['id'];
                             $_SESSION['admin_username'] = $user['username'];
                             
+                            // Regenerate session ID
+                            session_regenerate_id(true);
+                            
                             // Update last login
                             $db->execute(
-                                'UPDATE admin_users SET last_login = CURRENT_TIMESTAMP WHERE id = ?',
+                                'UPDATE users SET last_login = CURRENT_TIMESTAMP WHERE id = ?',
                                 [$user['id']]
+                            );
+                            
+                            // Log activity
+                            $db->execute(
+                                'INSERT INTO activity_log (user_id, action, ip_address, user_agent) VALUES (?, ?, ?, ?)',
+                                [$user['id'], 'admin_login', Security::getClientIp(), $_SERVER['HTTP_USER_AGENT'] ?? '']
                             );
                             
                             redirect(url(getenv('ADMIN_PATH') . '/dashboard'));
@@ -51,7 +60,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             $error = 'Kullanıcı adı veya şifre hatalı.';
                         }
                     } catch (Exception $e) {
-                        $error = 'Giriş işlemi sırasında bir hata oluştu.';
+                        error_log('Admin login error: ' . $e->getMessage());
+                        $error = 'Giriş işlemi sırasında bir hata oluştu. Lütfen daha sonra tekrar deneyin.';
                     }
                 }
             }
@@ -74,7 +84,7 @@ $csrfToken = Security::generateCsrfToken();
     <div class="login-container">
         <div class="login-box">
             <div class="login-header">
-                <img src="<?php echo url('logo.png'); ?>" alt="Alanya TEKMER">
+                <img src="<?php echo asset('images/logo.png'); ?>" alt="Alanya TEKMER">
                 <h1>Admin Paneli</h1>
             </div>
             

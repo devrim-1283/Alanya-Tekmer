@@ -57,6 +57,70 @@ function getSetting($key, $default = '') {
     return $settings[$key] ?? $default;
 }
 
+// Check if user is admin
+function isAdmin() {
+    return isset($_SESSION['admin_logged_in']) && $_SESSION['admin_logged_in'] === true;
+}
+
+// Require admin (redirect if not logged in)
+function requireAdmin() {
+    if (!isAdmin()) {
+        $adminPath = getenv('ADMIN_PATH') ?: 'admin';
+        redirect(url($adminPath));
+    }
+}
+
+// Get current admin user
+function getAdminUser() {
+    if (!isAdmin()) {
+        return null;
+    }
+    
+    try {
+        $db = Database::getInstance();
+        $userId = $_SESSION['admin_user_id'] ?? null;
+        
+        if (!$userId) {
+            return null;
+        }
+        
+        return $db->fetchOne('SELECT id, username, email, full_name FROM users WHERE id = ? AND is_active = true', [$userId]);
+    } catch (Exception $e) {
+        error_log('Error fetching admin user: ' . $e->getMessage());
+        return null;
+    }
+}
+
+// Admin logout
+function adminLogout() {
+    // Log activity before destroying session
+    if (isAdmin()) {
+        try {
+            $db = Database::getInstance();
+            $userId = $_SESSION['admin_user_id'] ?? null;
+            if ($userId) {
+                $db->execute(
+                    'INSERT INTO activity_log (user_id, action, ip_address, user_agent) VALUES (?, ?, ?, ?)',
+                    [$userId, 'admin_logout', Security::getClientIp(), $_SERVER['HTTP_USER_AGENT'] ?? '']
+                );
+            }
+        } catch (Exception $e) {
+            error_log('Error logging logout: ' . $e->getMessage());
+        }
+    }
+    
+    $_SESSION = [];
+    
+    if (isset($_COOKIE[session_name()])) {
+        setcookie(session_name(), '', time() - 3600, '/');
+    }
+    
+    session_destroy();
+    
+    $adminPath = getenv('ADMIN_PATH') ?: 'admin';
+    redirect(url($adminPath));
+}
+
 function formatDate($date, $format = 'd.m.Y') {
     if (empty($date)) {
         return '';
