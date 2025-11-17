@@ -144,16 +144,6 @@ function truncate($text, $length = 100, $suffix = '...') {
     return mb_substr($text, 0, $length) . $suffix;
 }
 
-function isAdmin() {
-    return isset($_SESSION['admin_logged_in']) && $_SESSION['admin_logged_in'] === true;
-}
-
-function requireAdmin() {
-    if (!isAdmin()) {
-        redirect(url(getenv('ADMIN_PATH')));
-    }
-}
-
 function logPageView($page) {
     try {
         $db = Database::getInstance();
