@@ -9,7 +9,10 @@ if ($_SERVER['REQUEST_URI'] === '/health' || $_SERVER['REQUEST_URI'] === '/healt
     exit;
 }
 
-require_once __DIR__ . '/../vendor/autoload.php';
+// Load vendor autoload first
+if (file_exists(__DIR__ . '/../vendor/autoload.php')) {
+    require_once __DIR__ . '/../vendor/autoload.php';
+}
 
 // Graceful error handling for missing dependencies
 try {
@@ -21,10 +24,14 @@ try {
     require_once __DIR__ . '/../src/utils/upload.php';
     require_once __DIR__ . '/../src/utils/cache.php';
 } catch (Exception $e) {
+    $errorMsg = 'Initialization error: ' . $e->getMessage() . ' in ' . $e->getFile() . ':' . $e->getLine();
+    error_log($errorMsg);
+    
     if (getenv('DEBUG_MODE') === 'true') {
-        die('Initialization error: ' . $e->getMessage());
+        http_response_code(500);
+        echo '<pre>' . $errorMsg . "\n\n" . $e->getTraceAsString() . '</pre>';
+        exit;
     } else {
-        error_log('Initialization error: ' . $e->getMessage());
         http_response_code(500);
         die('Application initialization failed. Please check logs.');
     }

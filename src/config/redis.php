@@ -1,9 +1,15 @@
 <?php
 // Redis configuration and connection
 
-require_once __DIR__ . '/../../vendor/autoload.php';
+// Check if vendor/autoload exists before requiring
+if (file_exists(__DIR__ . '/../../vendor/autoload.php')) {
+    require_once __DIR__ . '/../../vendor/autoload.php';
+}
 
-use Predis\Client;
+// Only use Predis if it's available
+if (class_exists('Predis\Client')) {
+    use Predis\Client;
+}
 
 class RedisCache {
     private static $instance = null;
@@ -19,8 +25,15 @@ class RedisCache {
             return;
         }
         
+        // Check if Predis is available
+        if (!class_exists('Predis\Client')) {
+            error_log('Predis\Client class not found, caching disabled');
+            $this->enabled = false;
+            return;
+        }
+        
         try {
-            $this->redis = new Client($redisUrl, [
+            $this->redis = new \Predis\Client($redisUrl, [
                 'parameters' => [
                     'database' => 0,
                     'timeout' => 5.0,
