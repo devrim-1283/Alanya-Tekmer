@@ -2,14 +2,18 @@
 // Admin panel router
 
 $requestUri = $_SERVER['REQUEST_URI'];
-$adminPath = getenv('ADMIN_PATH');
-$requestUri = str_replace($adminPath, '', $requestUri);
+$requestUri = parse_url($requestUri, PHP_URL_PATH);
 $requestUri = trim($requestUri, '/');
-$requestUri = strtok($requestUri, '?');
 
-// If not logged in and not on login page, redirect to login
+$adminPath = getenv('ADMIN_PATH');
+if ($adminPath && strpos($requestUri, $adminPath) === 0) {
+    $requestUri = substr($requestUri, strlen($adminPath));
+    $requestUri = trim($requestUri, '/');
+}
+
+// If not logged in and not on login page, show login page
 if (!isAdmin() && $requestUri !== '' && $requestUri !== 'login') {
-    redirect(url($adminPath));
+    $requestUri = 'login';
 }
 
 switch ($requestUri) {

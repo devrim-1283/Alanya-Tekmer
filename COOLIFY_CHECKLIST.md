@@ -134,6 +134,7 @@ curl https://test-sms-link.com.tr/health
 ✅ Build başarılı
 ✅ PHP server çalışıyor (port 3000)
 ✅ /health endpoint hazır
+✅ Admin routing düzeltildi (sonsuz redirect döngüsü giderildi)
 ❌ Health check başarısız - URL yanlış olabilir
 ❌ Environment variables eksik olabilir
 ```
