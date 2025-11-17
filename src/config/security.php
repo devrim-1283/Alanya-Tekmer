@@ -5,30 +5,41 @@ class Security {
     
     // Start secure session with Redis
     public static function startSession() {
-        if (session_status() === PHP_SESSION_NONE) {
-            $redis = RedisCache::getInstance();
-            
-            if ($redis->isEnabled()) {
-                ini_set('session.save_handler', 'redis');
-                $redisUrl = getenv('REDIS_URL');
-                ini_set('session.save_path', $redisUrl);
+        // Check if session already started
+        if (session_status() !== PHP_SESSION_NONE) {
+            return;
+        }
+        
+        // Check if headers already sent
+        if (headers_sent()) {
+            error_log('Cannot start session: headers already sent');
+            return;
+        }
+        
+        // Try Redis session handler only if PHP redis extension is available
+        $redis = RedisCache::getInstance();
+        if ($redis->isEnabled() && extension_loaded('redis')) {
+            $redisUrl = getenv('REDIS_URL');
+            if ($redisUrl) {
+                @ini_set('session.save_handler', 'redis');
+                @ini_set('session.save_path', $redisUrl);
             }
-            
-            ini_set('session.cookie_httponly', 1);
-            ini_set('session.cookie_secure', isset($_SERVER['HTTPS']) ? 1 : 0);
-            ini_set('session.cookie_samesite', 'Strict');
-            ini_set('session.use_strict_mode', 1);
-            
-            // Use session secret from environment
-            $sessionSecret = getenv('SESSION_SECRET');
-            if ($sessionSecret) {
-                ini_set('session.hash_function', 'sha256');
-                ini_set('session.entropy_file', '/dev/urandom');
-                ini_set('session.entropy_length', '32');
-            }
-            
-            session_name('TEKMER_SESSION');
-            session_start();
+        }
+        
+        // Session configuration
+        @ini_set('session.cookie_httponly', 1);
+        @ini_set('session.cookie_secure', isset($_SERVER['HTTPS']) ? 1 : 0);
+        @ini_set('session.cookie_samesite', 'Strict');
+        @ini_set('session.use_strict_mode', 1);
+        
+        // Use session secret from environment
+        $sessionSecret = getenv('SESSION_SECRET');
+        if ($sessionSecret) {
+            @ini_set('session.hash_function', 'sha256');
+        }
+        
+        session_name('TEKMER_SESSION');
+        session_start();
             
             // Regenerate session ID periodically
             if (!isset($_SESSION['created'])) {
