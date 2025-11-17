@@ -17,7 +17,6 @@ if (file_exists(__DIR__ . '/../vendor/autoload.php')) {
 // Graceful error handling for missing dependencies
 try {
     require_once __DIR__ . '/../src/config/db.php';
-    require_once __DIR__ . '/../src/config/redis.php';
     require_once __DIR__ . '/../src/config/security.php';
     require_once __DIR__ . '/../src/utils/helpers.php';
     require_once __DIR__ . '/../src/utils/validation.php';

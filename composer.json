@@ -3,13 +3,11 @@
     "description": "Alanya TEKMER Official Website",
     "type": "project",
     "require": {
-        "php": ">=8.1",
-        "predis/predis": "^2.2"
+        "php": ">=8.1"
     },
     "suggest": {
         "ext-pdo": "For database connections",
         "ext-pdo_pgsql": "For PostgreSQL support",
-        "ext-redis": "For Redis support (faster than predis)",
         "ext-gd": "For image processing",
         "ext-mbstring": "For multibyte string handling",
         "ext-fileinfo": "For file type detection"

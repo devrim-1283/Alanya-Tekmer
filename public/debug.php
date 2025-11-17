@@ -13,10 +13,10 @@ echo "=== Alanya TEKMER Debug Info ===\n\n";
 echo "PHP Version: " . PHP_VERSION . "\n\n";
 
 echo "=== Environment Variables ===\n";
-$envVars = ['DATABASE_URL', 'REDIS_URL', 'DEBUG_MODE', 'APP_ENV', 'BASE_URL', 'UPLOAD_PATH'];
+$envVars = ['DATABASE_URL', 'DEBUG_MODE', 'APP_ENV', 'BASE_URL', 'UPLOAD_PATH', 'PORT'];
 foreach ($envVars as $var) {
     $value = getenv($var);
-    if ($var === 'DATABASE_URL' || $var === 'REDIS_URL') {
+    if ($var === 'DATABASE_URL') {
         // Hide passwords
         $value = preg_replace('/:[^:@]+@/', ':****@', $value);
     }
@@ -31,11 +31,9 @@ echo "src/config/redis.php exists: " . (file_exists(__DIR__ . '/../src/config/re
 echo "\n=== Extensions ===\n";
 echo "PDO: " . (extension_loaded('pdo') ? 'YES' : 'NO') . "\n";
 echo "pdo_pgsql: " . (extension_loaded('pdo_pgsql') ? 'YES' : 'NO') . "\n";
-echo "redis: " . (extension_loaded('redis') ? 'YES' : 'NO') . "\n";
 echo "gd: " . (extension_loaded('gd') ? 'YES' : 'NO') . "\n";
-
-echo "\n=== Classes ===\n";
-echo "Predis\Client: " . (class_exists('Predis\Client') ? 'YES' : 'NO') . "\n";
+echo "mbstring: " . (extension_loaded('mbstring') ? 'YES' : 'NO') . "\n";
+echo "fileinfo: " . (extension_loaded('fileinfo') ? 'YES' : 'NO') . "\n";
 
 echo "\n=== Database Test ===\n";
 try {
@@ -51,13 +49,15 @@ try {
     echo "Error: " . $e->getMessage() . "\n";
 }
 
-echo "\n=== Redis Test ===\n";
+echo "\n=== Cache Test (PostgreSQL) ===\n";
 try {
-    require_once __DIR__ . '/../src/config/redis.php';
-    $redis = RedisCache::getInstance();
-    echo "Redis connection: " . ($redis->isEnabled() ? 'ENABLED' : 'DISABLED') . "\n";
+    require_once __DIR__ . '/../src/utils/cache.php';
+    Cache::set('test_key', 'test_value', 60);
+    $value = Cache::get('test_key');
+    echo "Cache write/read: " . ($value === 'test_value' ? 'SUCCESS' : 'FAILED') . "\n";
+    Cache::delete('test_key');
 } catch (Exception $e) {
-    echo "Redis connection: FAILED\n";
+    echo "Cache test: FAILED\n";
     echo "Error: " . $e->getMessage() . "\n";
 }
 

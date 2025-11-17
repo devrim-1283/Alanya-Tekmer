@@ -3,21 +3,16 @@
 
 class Security {
     
-    // Start secure session with Redis
+    // Start secure session (file-based)
     public static function startSession() {
         if (session_status() === PHP_SESSION_NONE) {
-            $redis = RedisCache::getInstance();
-            
-            if ($redis->isEnabled()) {
-                ini_set('session.save_handler', 'redis');
-                $redisUrl = getenv('REDIS_URL');
-                ini_set('session.save_path', $redisUrl);
-            }
-            
+            // Use file-based sessions (default PHP behavior)
             ini_set('session.cookie_httponly', 1);
             ini_set('session.cookie_secure', isset($_SERVER['HTTPS']) ? 1 : 0);
             ini_set('session.cookie_samesite', 'Strict');
             ini_set('session.use_strict_mode', 1);
+            ini_set('session.gc_maxlifetime', 3600); // 1 hour
+            ini_set('session.cookie_lifetime', 0); // Until browser closes
             
             // Use session secret from environment
             $sessionSecret = getenv('SESSION_SECRET');
@@ -30,7 +25,7 @@ class Security {
             session_name('TEKMER_SESSION');
             session_start();
             
-            // Regenerate session ID periodically
+            // Regenerate session ID periodically (every 30 minutes)
             if (!isset($_SESSION['created'])) {
                 $_SESSION['created'] = time();
             } else if (time() - $_SESSION['created'] > 1800) {
