@@ -33,39 +33,42 @@
         </div>
     </div>
 
-    <!-- Top Header -->
+    <!-- Top Header (Hidden on mobile) -->
     <div class="top-header">
         <div class="container">
             <div class="top-header-content">
                 <div class="contact-info">
-                    <a href="tel:<?php echo getSetting('contact_phone'); ?>">
-                        <i class="fas fa-phone"></i> <?php echo getSetting('contact_phone'); ?>
+                    <a href="tel:<?php echo getSetting('contact_phone'); ?>" class="contact-item">
+                        <i class="fas fa-phone-alt"></i>
+                        <span><?php echo getSetting('contact_phone'); ?></span>
                     </a>
-                    <a href="mailto:<?php echo getSetting('contact_email'); ?>">
-                        <i class="fas fa-envelope"></i> <?php echo getSetting('contact_email'); ?>
+                    <a href="mailto:<?php echo getSetting('contact_email'); ?>" class="contact-item">
+                        <i class="fas fa-envelope"></i>
+                        <span><?php echo getSetting('contact_email'); ?></span>
                     </a>
-                    <span>
-                        <i class="fas fa-map-marker-alt"></i> <?php echo Security::escape(getSetting('contact_address')); ?>
-                    </span>
+                    <div class="contact-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span><?php echo Security::escape(getSetting('contact_address')); ?></span>
+                    </div>
                 </div>
                 <div class="social-links">
                     <?php if (getSetting('facebook_url')): ?>
-                        <a href="<?php echo Security::escape(getSetting('facebook_url')); ?>" target="_blank" rel="noopener">
-                            <i class="fab fa-facebook"></i>
+                        <a href="<?php echo Security::escape(getSetting('facebook_url')); ?>" target="_blank" rel="noopener" class="social-link" aria-label="Facebook">
+                            <i class="fab fa-facebook-f"></i>
                         </a>
                     <?php endif; ?>
                     <?php if (getSetting('instagram_url')): ?>
-                        <a href="<?php echo Security::escape(getSetting('instagram_url')); ?>" target="_blank" rel="noopener">
+                        <a href="<?php echo Security::escape(getSetting('instagram_url')); ?>" target="_blank" rel="noopener" class="social-link" aria-label="Instagram">
                             <i class="fab fa-instagram"></i>
                         </a>
                     <?php endif; ?>
                     <?php if (getSetting('linkedin_url')): ?>
-                        <a href="<?php echo Security::escape(getSetting('linkedin_url')); ?>" target="_blank" rel="noopener">
-                            <i class="fab fa-linkedin"></i>
+                        <a href="<?php echo Security::escape(getSetting('linkedin_url')); ?>" target="_blank" rel="noopener" class="social-link" aria-label="LinkedIn">
+                            <i class="fab fa-linkedin-in"></i>
                         </a>
                     <?php endif; ?>
                     <?php if (getSetting('youtube_url')): ?>
-                        <a href="<?php echo Security::escape(getSetting('youtube_url')); ?>" target="_blank" rel="noopener">
+                        <a href="<?php echo Security::escape(getSetting('youtube_url')); ?>" target="_blank" rel="noopener" class="social-link" aria-label="YouTube">
                             <i class="fab fa-youtube"></i>
                         </a>
                     <?php endif; ?>
@@ -74,39 +77,80 @@
         </div>
     </div>
 
-    <!-- Main Header -->
-    <header class="main-header">
+    <!-- Main Header with Scroll Effect -->
+    <header class="main-header" id="mainHeader">
         <div class="container">
             <nav class="navbar">
-                <div class="logo">
-                    <a href="<?php echo url(); ?>">
-                        <img src="<?php echo asset('images/logo.png'); ?>" alt="Alanya TEKMER">
+                <div class="logo-wrapper">
+                    <a href="<?php echo url(); ?>" class="logo">
+                        <img src="<?php echo asset('images/logo.png'); ?>" alt="Alanya TEKMER" class="logo-img">
+                        <div class="logo-text">
+                            <span class="logo-title">Alanya TEKMER</span>
+                            <span class="logo-subtitle">Teknoloji Geliştirme Merkezi</span>
+                        </div>
                     </a>
                 </div>
                 
-                <button class="mobile-menu-toggle" onclick="toggleMobileMenu()">
-                    <i class="fas fa-bars"></i>
+                <button class="mobile-menu-toggle" id="mobileMenuToggle" onclick="toggleMobileMenu()" aria-label="Menu">
+                    <span class="hamburger-line"></span>
+                    <span class="hamburger-line"></span>
+                    <span class="hamburger-line"></span>
                 </button>
                 
                 <ul class="nav-menu" id="navMenu">
-                    <li><a href="<?php echo url(); ?>" class="<?php echo ($currentPage ?? '') === 'home' ? 'active' : ''; ?>">Ana Sayfa</a></li>
-                    <li class="dropdown">
-                        <a href="<?php echo url('hakkimizda'); ?>" class="<?php echo ($currentPage ?? '') === 'about' ? 'active' : ''; ?>">
-                            Hakkımızda <i class="fas fa-chevron-down"></i>
+                    <li class="nav-item">
+                        <a href="<?php echo url(); ?>" class="nav-link <?php echo ($currentPage ?? '') === 'home' ? 'active' : ''; ?>">
+                            <i class="fas fa-home"></i>
+                            <span>Ana Sayfa</span>
+                        </a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle <?php echo in_array(($currentPage ?? ''), ['about', 'team', 'mevzuat']) ? 'active' : ''; ?>">
+                            <i class="fas fa-info-circle"></i>
+                            <span>Hakkımızda</span>
+                            <i class="fas fa-chevron-down dropdown-icon"></i>
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a href="<?php echo url('hakkimizda'); ?>">Biz Kimiz</a></li>
-                            <li><a href="<?php echo url('ekibimiz'); ?>">Ekibimiz</a></li>
-                            <li><a href="<?php echo url('mevzuat'); ?>">Mevzuat</a></li>
+                            <li><a href="<?php echo url('hakkimizda'); ?>"><i class="fas fa-building"></i> Biz Kimiz</a></li>
+                            <li><a href="<?php echo url('ekibimiz'); ?>"><i class="fas fa-users"></i> Ekibimiz</a></li>
+                            <li><a href="<?php echo url('mevzuat'); ?>"><i class="fas fa-gavel"></i> Mevzuat</a></li>
                         </ul>
                     </li>
-                    <li><a href="<?php echo url('hizmetlerimiz'); ?>" class="<?php echo ($currentPage ?? '') === 'services' ? 'active' : ''; ?>">Hizmetlerimiz</a></li>
-                    <li><a href="<?php echo url('etkinlikler'); ?>" class="<?php echo ($currentPage ?? '') === 'events' ? 'active' : ''; ?>">Etkinlik ve Duyurular</a></li>
-                    <li><a href="<?php echo url('firmalar'); ?>" class="<?php echo ($currentPage ?? '') === 'companies' ? 'active' : ''; ?>">Firmalar</a></li>
-                    <li><a href="<?php echo url('basvuru'); ?>" class="<?php echo ($currentPage ?? '') === 'application' ? 'active' : ''; ?> btn-primary">Başvuru</a></li>
-                    <li><a href="<?php echo url('iletisim'); ?>" class="<?php echo ($currentPage ?? '') === 'contact' ? 'active' : ''; ?>">İletişim</a></li>
+                    <li class="nav-item">
+                        <a href="<?php echo url('hizmetlerimiz'); ?>" class="nav-link <?php echo ($currentPage ?? '') === 'services' ? 'active' : ''; ?>">
+                            <i class="fas fa-briefcase"></i>
+                            <span>Hizmetlerimiz</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="<?php echo url('etkinlikler'); ?>" class="nav-link <?php echo ($currentPage ?? '') === 'events' ? 'active' : ''; ?>">
+                            <i class="fas fa-calendar-alt"></i>
+                            <span>Etkinlikler</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="<?php echo url('firmalar'); ?>" class="nav-link <?php echo ($currentPage ?? '') === 'companies' ? 'active' : ''; ?>">
+                            <i class="fas fa-industry"></i>
+                            <span>Firmalar</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="<?php echo url('iletisim'); ?>" class="nav-link <?php echo ($currentPage ?? '') === 'contact' ? 'active' : ''; ?>">
+                            <i class="fas fa-envelope"></i>
+                            <span>İletişim</span>
+                        </a>
+                    </li>
+                    <li class="nav-item cta-item">
+                        <a href="<?php echo url('basvuru'); ?>" class="nav-link btn-cta <?php echo ($currentPage ?? '') === 'application' ? 'active' : ''; ?>">
+                            <i class="fas fa-file-alt"></i>
+                            <span>Başvuru Yap</span>
+                        </a>
+                    </li>
                 </ul>
             </nav>
         </div>
+        
+        <!-- Mobile Menu Overlay -->
+        <div class="mobile-overlay" id="mobileOverlay" onclick="toggleMobileMenu()"></div>
     </header>
 
