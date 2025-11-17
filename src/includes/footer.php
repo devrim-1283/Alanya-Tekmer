@@ -5,8 +5,8 @@
                     <h3>Alanya TEKMER</h3>
                     <p><?php echo Security::escape(getSetting('site_description')); ?></p>
                     <div class="footer-logos">
-                        <img src="<?php echo url('footerlogo.png'); ?>" alt="Footer Logo">
-                        <img src="<?php echo url('kosgeb.png'); ?>" alt="KOSGEB">
+                        <img src="<?php echo asset('images/footer.png'); ?>" alt="Footer Logo" class="footer-logo">
+                        <img src="<?php echo asset('images/kosgebv.png'); ?>" alt="KOSGEB" class="kosgeb-logo">
                     </div>
                 </div>
                 

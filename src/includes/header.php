@@ -80,7 +80,7 @@
             <nav class="navbar">
                 <div class="logo">
                     <a href="<?php echo url(); ?>">
-                        <img src="<?php echo url('logo.png'); ?>" alt="Alanya TEKMER">
+                        <img src="<?php echo asset('images/logo.png'); ?>" alt="Alanya TEKMER">
                     </a>
                 </div>
                 
