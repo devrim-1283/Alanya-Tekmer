@@ -1,14 +1,34 @@
 <?php
 // Main entry point
 
+// Check if this is a health check request
+if ($_SERVER['REQUEST_URI'] === '/health' || $_SERVER['REQUEST_URI'] === '/health.php') {
+    header('Content-Type: application/json');
+    http_response_code(200);
+    echo json_encode(['status' => 'healthy', 'timestamp' => time()]);
+    exit;
+}
+
 require_once __DIR__ . '/../vendor/autoload.php';
-require_once __DIR__ . '/../src/config/db.php';
-require_once __DIR__ . '/../src/config/redis.php';
-require_once __DIR__ . '/../src/config/security.php';
-require_once __DIR__ . '/../src/utils/helpers.php';
-require_once __DIR__ . '/../src/utils/validation.php';
-require_once __DIR__ . '/../src/utils/upload.php';
-require_once __DIR__ . '/../src/utils/cache.php';
+
+// Graceful error handling for missing dependencies
+try {
+    require_once __DIR__ . '/../src/config/db.php';
+    require_once __DIR__ . '/../src/config/redis.php';
+    require_once __DIR__ . '/../src/config/security.php';
+    require_once __DIR__ . '/../src/utils/helpers.php';
+    require_once __DIR__ . '/../src/utils/validation.php';
+    require_once __DIR__ . '/../src/utils/upload.php';
+    require_once __DIR__ . '/../src/utils/cache.php';
+} catch (Exception $e) {
+    if (getenv('DEBUG_MODE') === 'true') {
+        die('Initialization error: ' . $e->getMessage());
+    } else {
+        error_log('Initialization error: ' . $e->getMessage());
+        http_response_code(500);
+        die('Application initialization failed. Please check logs.');
+    }
+}
 
 // Set security headers
 Security::setSecurityHeaders();

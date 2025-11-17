@@ -4,6 +4,14 @@
 
 $uri = urldecode(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH));
 
+// Health check endpoint (fast response, no dependencies)
+if ($uri === '/health' || $uri === '/health.php') {
+    header('Content-Type: application/json');
+    http_response_code(200);
+    echo json_encode(['status' => 'healthy', 'timestamp' => time()]);
+    exit;
+}
+
 // Serve static files directly
 if ($uri !== '/' && file_exists(__DIR__ . $uri)) {
     return false;
