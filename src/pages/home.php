@@ -10,7 +10,7 @@ require_once __DIR__ . '/../includes/header.php';
 <!-- Hero Section with Background Image -->
 <section class="hero-section">
     <div class="hero-background">
-        <img src="<?php echo url('uploads/tekmer.jpg'); ?>" alt="Alanya TEKMER" class="hero-bg-image">
+        <img src="<?php echo asset('images/tekmer.jpg'); ?>" alt="Alanya TEKMER" class="hero-bg-image" loading="eager" onerror="this.src='/uploads/tekmer.jpg'">
         <div class="hero-overlay"></div>
     </div>
     
