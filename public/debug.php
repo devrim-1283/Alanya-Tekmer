@@ -1,69 +1,65 @@
 <?php
-// Debug endpoint - sadece DEBUG_MODE=true iken çalışır
+// Minimal debug page - NO database, NO dependencies
 
-header('Content-Type: text/plain');
+header('Content-Type: text/plain; charset=utf-8');
 
 if (getenv('DEBUG_MODE') !== 'true') {
     http_response_code(403);
     die('Debug mode disabled');
 }
 
-echo "=== Alanya TEKMER Debug Info ===\n\n";
+echo "=== ALANYA TEKMER DEBUG ===\n\n";
 
-echo "PHP Version: " . PHP_VERSION . "\n\n";
+echo "⏰ Time: " . date('Y-m-d H:i:s') . "\n";
+echo "🐘 PHP Version: " . PHP_VERSION . "\n\n";
 
-echo "=== Environment Variables ===\n";
-$envVars = ['DATABASE_URL', 'DEBUG_MODE', 'APP_ENV', 'BASE_URL', 'UPLOAD_PATH', 'PORT'];
+echo "=== ENVIRONMENT VARIABLES ===\n";
+$envVars = [
+    'APP_ENV', 'DEBUG_MODE', 'BASE_URL', 
+    'DATABASE_URL', 'PORT', 'UPLOAD_PATH',
+    'ADMIN_PATH', 'SESSION_SECRET', 'CSRF_SECRET'
+];
+
 foreach ($envVars as $var) {
     $value = getenv($var);
-    if ($var === 'DATABASE_URL') {
-        // Hide passwords
-        $value = preg_replace('/:[^:@]+@/', ':****@', $value);
+    if (in_array($var, ['DATABASE_URL', 'SESSION_SECRET', 'CSRF_SECRET'])) {
+        $value = $value ? substr($value, 0, 20) . '...' : 'NOT SET';
     }
-    echo "$var: " . ($value ? $value : 'NOT SET') . "\n";
+    echo sprintf("%-20s: %s\n", $var, $value ?: 'NOT SET');
 }
 
-echo "\n=== File Checks ===\n";
-echo "vendor/autoload.php exists: " . (file_exists(__DIR__ . '/../vendor/autoload.php') ? 'YES' : 'NO') . "\n";
-echo "src/config/db.php exists: " . (file_exists(__DIR__ . '/../src/config/db.php') ? 'YES' : 'NO') . "\n";
-echo "src/config/redis.php exists: " . (file_exists(__DIR__ . '/../src/config/redis.php') ? 'YES' : 'NO') . "\n";
-
-echo "\n=== Extensions ===\n";
-echo "PDO: " . (extension_loaded('pdo') ? 'YES' : 'NO') . "\n";
-echo "pdo_pgsql: " . (extension_loaded('pdo_pgsql') ? 'YES' : 'NO') . "\n";
-echo "gd: " . (extension_loaded('gd') ? 'YES' : 'NO') . "\n";
-echo "mbstring: " . (extension_loaded('mbstring') ? 'YES' : 'NO') . "\n";
-echo "fileinfo: " . (extension_loaded('fileinfo') ? 'YES' : 'NO') . "\n";
-
-echo "\n=== Database Test ===\n";
-try {
-    require_once __DIR__ . '/../vendor/autoload.php';
-    require_once __DIR__ . '/../src/config/db.php';
-    $db = Database::getInstance();
-    echo "Database connection: SUCCESS\n";
-    echo "Database version: ";
-    $result = $db->fetchOne('SELECT version()');
-    echo $result['version'] . "\n";
-} catch (Exception $e) {
-    echo "Database connection: FAILED\n";
-    echo "Error: " . $e->getMessage() . "\n";
+echo "\n=== PHP EXTENSIONS ===\n";
+$extensions = ['pdo', 'pdo_pgsql', 'mbstring', 'fileinfo', 'gd', 'json', 'session'];
+foreach ($extensions as $ext) {
+    $loaded = extension_loaded($ext);
+    echo sprintf("%-15s: %s\n", $ext, $loaded ? '✅ YES' : '❌ NO');
 }
 
-echo "\n=== Cache Test (PostgreSQL) ===\n";
-try {
-    require_once __DIR__ . '/../src/utils/cache.php';
-    Cache::set('test_key', 'test_value', 60);
-    $value = Cache::get('test_key');
-    echo "Cache write/read: " . ($value === 'test_value' ? 'SUCCESS' : 'FAILED') . "\n";
-    Cache::delete('test_key');
-} catch (Exception $e) {
-    echo "Cache test: FAILED\n";
-    echo "Error: " . $e->getMessage() . "\n";
+echo "\n=== SERVER INFO ===\n";
+echo "Server Software: " . ($_SERVER['SERVER_SOFTWARE'] ?? 'Unknown') . "\n";
+echo "Server Protocol: " . ($_SERVER['SERVER_PROTOCOL'] ?? 'Unknown') . "\n";
+echo "Request Method: " . ($_SERVER['REQUEST_METHOD'] ?? 'Unknown') . "\n";
+echo "Request URI: " . ($_SERVER['REQUEST_URI'] ?? 'Unknown') . "\n";
+echo "Remote Address: " . ($_SERVER['REMOTE_ADDR'] ?? 'Unknown') . "\n";
+
+echo "\n=== FILE CHECKS ===\n";
+$files = [
+    'vendor/autoload.php',
+    'src/config/db.php',
+    'src/config/security.php',
+    'src/utils/cache.php',
+    'sql/schema.sql'
+];
+
+foreach ($files as $file) {
+    $path = __DIR__ . '/../' . $file;
+    $exists = file_exists($path);
+    echo sprintf("%-30s: %s\n", $file, $exists ? '✅ EXISTS' : '❌ MISSING');
 }
 
-echo "\n=== Memory ===\n";
-echo "Memory usage: " . round(memory_get_usage() / 1024 / 1024, 2) . " MB\n";
-echo "Memory limit: " . ini_get('memory_limit') . "\n";
+echo "\n=== MEMORY ===\n";
+echo "Memory Usage: " . round(memory_get_usage() / 1024 / 1024, 2) . " MB\n";
+echo "Memory Limit: " . ini_get('memory_limit') . "\n";
+echo "Peak Memory: " . round(memory_get_peak_usage() / 1024 / 1024, 2) . " MB\n";
 
-echo "\n=== END ===\n";
-
+echo "\n=== END DEBUG ===\n";
