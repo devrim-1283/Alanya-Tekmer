@@ -15,8 +15,16 @@
     <meta property="og:title" content="<?php echo Security::escape($pageTitle ?? 'Alanya TEKMER'); ?>">
     <meta property="og:description" content="<?php echo Security::escape($metaDescription ?? getSetting('site_description')); ?>">
     
-    <link rel="stylesheet" href="<?php echo asset('css/style.css'); ?>">
+    <!-- Styles -->
+    <link rel="stylesheet" href="/assets/css/style.css?v=<?php echo time(); ?>">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* Critical CSS - Inline for instant load */
+        body { margin: 0; font-family: 'Inter', sans-serif; }
+        .container { max-width: 1280px; margin: 0 auto; padding: 0 24px; }
+        * { box-sizing: border-box; }
+    </style>
     
     <?php if (isset($additionalCss)): ?>
         <?php foreach ((array)$additionalCss as $css): ?>
