@@ -10,11 +10,15 @@ error_log("Router: Request to $uri from " . ($_SERVER['REMOTE_ADDR'] ?? 'unknown
 
 // Health check endpoint (PRIORITY - fast response, no dependencies)
 if ($uri === '/health' || $uri === '/health.php') {
-    error_log("Router: Health check request");
-    header('Content-Type: application/json');
-    header('Cache-Control: no-cache');
+    error_log("Router: Health check request - sending response");
     http_response_code(200);
-    echo json_encode(['status' => 'healthy', 'timestamp' => time(), 'uri' => $uri]);
+    header('Content-Type: text/plain');
+    header('Content-Length: 2');
+    header('Cache-Control: no-cache, no-store, must-revalidate');
+    header('Connection: close');
+    echo "OK";
+    flush();
+    error_log("Router: Health check response sent");
     exit(0);
 }
 
