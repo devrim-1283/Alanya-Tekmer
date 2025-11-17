@@ -1,67 +1,34 @@
-# Dependencies
-node_modules/
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-pnpm-debug.log*
-
-# Environment variables
+# Environment
 .env
 .env.local
-.env.development.local
-.env.test.local
-.env.production.local
 
-# Build outputs
-dist/
-build/
-client/dist/
-server/dist/
+# Dependencies
+/vendor/
+
+# Logs
+/logs/
+*.log
 
 # Uploads
-uploads/
-*.pdf
-*.jpg
-*.jpeg
-*.png
-*.gif
-*.webp
-!logo.png
-!logo.ico
-!footerlogo.png
-!kosgeb.png
+/public/uploads/*
+!/public/uploads/.gitkeep
 
 # IDE
-.vscode/
 .idea/
+.vscode/
 *.swp
 *.swo
 *~
-.DS_Store
-
-# Logs
-logs/
-*.log
-
-# Testing
-coverage/
-.nyc_output/
-
-# Temporary files
-tmp/
-temp/
-*.tmp
 
 # OS
-Thumbs.db
 .DS_Store
+Thumbs.db
 
-# TypeScript
-*.tsbuildinfo
+# Temporary files
+*.tmp
+*.temp
+*.cache
 
-# Redis dump
-dump.rdb
-
-# Plan file (internal use)
-*.plan.md
+# Composer
+composer.lock
 

@@ -1,0 +1,83 @@
+/* Admin Panel Styles */
+:root {
+    --primary: #0066cc;
+    --success: #28a745;
+    --danger: #dc3545;
+    --warning: #ffc107;
+    --info: #17a2b8;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body.admin-body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f5f5f5; }
+
+/* Login Page */
+.login-page { display: flex; align-items: center; justify-content: center; min-height: 100vh; background: linear-gradient(135deg, var(--primary) 0%, #004c99 100%); }
+.login-box { background: white; padding: 40px; border-radius: 10px; box-shadow: 0 5px 20px rgba(0,0,0,0.2); max-width: 400px; width: 100%; }
+.login-header { text-align: center; margin-bottom: 30px; }
+.login-header img { height: 60px; margin-bottom: 10px; }
+
+/* Admin Layout */
+.admin-wrapper { display: flex; min-height: 100vh; }
+.admin-sidebar { width: 250px; background: #2c3e50; color: white; padding: 20px 0; }
+.sidebar-header { text-align: center; padding: 0 20px 20px; border-bottom: 1px solid #34495e; }
+.sidebar-header img { height: 50px; }
+.sidebar-menu { padding: 20px 0; }
+.menu-item { display: block; padding: 12px 20px; color: white; transition: background 0.3s; }
+.menu-item:hover, .menu-item.active { background: #34495e; }
+.sidebar-footer { padding: 20px; border-top: 1px solid #34495e; margin-top: auto; }
+
+.admin-content { flex: 1; display: flex; flex-direction: column; }
+.admin-header { background: white; padding: 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); display: flex; justify-content: space-between; align-items: center; }
+.admin-main { padding: 20px; flex: 1; }
+
+/* Dashboard */
+.dashboard-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-bottom: 30px; }
+.stat-card { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); display: flex; gap: 15px; }
+.stat-icon { font-size: 2.5em; }
+.stat-icon.success { color: var(--success); }
+.stat-icon.warning { color: var(--warning); }
+.stat-icon.info { color: var(--info); }
+.dashboard-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 20px; }
+
+/* Cards */
+.card { background: white; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); margin-bottom: 20px; }
+.card-header { padding: 15px 20px; border-bottom: 1px solid #e0e0e0; display: flex; justify-content: space-between; align-items: center; }
+.card-body { padding: 20px; }
+
+/* Forms */
+.form-group { margin-bottom: 20px; }
+.form-group label { display: block; margin-bottom: 5px; font-weight: 500; }
+.form-group input, .form-group textarea, .form-group select { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; }
+.form-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; }
+
+/* Buttons */
+.btn { display: inline-block; padding: 10px 20px; border-radius: 5px; border: none; cursor: pointer; transition: all 0.3s; }
+.btn-primary { background: var(--primary); color: white; }
+.btn-success { background: var(--success); color: white; }
+.btn-danger { background: var(--danger); color: white; }
+.btn-secondary { background: #6c757d; color: white; }
+.btn-sm { padding: 5px 10px; font-size: 0.9em; }
+.btn-block { width: 100%; }
+
+/* Table */
+.table { width: 100%; border-collapse: collapse; }
+.table th, .table td { padding: 12px; text-align: left; border-bottom: 1px solid #ddd; }
+.table thead { background: #f8f9fa; }
+
+/* Alerts */
+.alert { padding: 15px 20px; border-radius: 5px; margin-bottom: 20px; }
+.alert-success { background: #d4edda; color: #155724; }
+.alert-danger { background: #f8d7da; color: #721c24; }
+
+/* Badges */
+.badge { display: inline-block; padding: 4px 8px; border-radius: 4px; font-size: 0.85em; font-weight: 500; }
+.badge-success { background: var(--success); color: white; }
+.badge-danger { background: var(--danger); color: white; }
+.badge-warning { background: var(--warning); color: #000; }
+.badge-info { background: var(--info); color: white; }
+
+@media (max-width: 768px) {
+    .admin-sidebar { position: fixed; left: -250px; z-index: 1000; height: 100vh; transition: left 0.3s; }
+    .admin-sidebar.active { left: 0; }
+}
+

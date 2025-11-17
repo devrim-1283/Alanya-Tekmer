@@ -1,0 +1,26 @@
+{
+    "name": "alanya-tekmer/website",
+    "description": "Alanya TEKMER Official Website",
+    "type": "project",
+    "require": {
+        "php": ">=8.1",
+        "ext-pdo": "*",
+        "ext-pdo_pgsql": "*",
+        "ext-redis": "*",
+        "ext-gd": "*",
+        "ext-mbstring": "*",
+        "ext-fileinfo": "*",
+        "predis/predis": "^2.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "src/"
+        }
+    },
+    "config": {
+        "optimize-autoloader": true,
+        "preferred-install": "dist",
+        "sort-packages": true
+    }
+}
+

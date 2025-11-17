@@ -1,6 +1,0 @@
-User-agent: *
-Allow: /
-Disallow: /ee9Y0hc8rx7yTACaaoXhSh9cOOhrVB7aXCfEzhaC3XAIrsgoi1/
-
-Sitemap: https://test-sms-link.com.tr/sitemap.xml
-

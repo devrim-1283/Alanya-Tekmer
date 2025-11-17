@@ -1,0 +1,18 @@
+[phases.setup]
+nixPkgs = ["php82", "php82Packages.composer", "postgresql"]
+aptPkgs = ["imagemagick"]
+
+[phases.install]
+cmds = [
+    "composer install --no-dev --optimize-autoloader --no-interaction",
+    "mkdir -p /app/uploads logs",
+    "chmod -R 755 /app/uploads",
+    "chmod -R 755 logs"
+]
+
+[start]
+cmd = "php -S 0.0.0.0:${PORT:-8080} -t public public/router.php"
+
+[variables]
+PHP_VERSION = "8.2"
+
