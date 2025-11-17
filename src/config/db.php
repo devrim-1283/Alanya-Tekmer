@@ -21,7 +21,8 @@ class Database {
         $user = $dbParts['user'] ?? '';
         $password = $dbParts['pass'] ?? '';
         
-        $dsn = "pgsql:host={$host};port={$port};dbname={$dbname};sslmode=require";
+        // Coolify internal network doesn't require SSL
+        $dsn = "pgsql:host={$host};port={$port};dbname={$dbname}";
         
         try {
             $this->pdo = new PDO($dsn, $user, $password, [
