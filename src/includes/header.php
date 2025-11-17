@@ -106,12 +106,6 @@
                 </button>
                 
                 <ul class="nav-menu" id="navMenu">
-                    <li class="nav-item">
-                        <a href="<?php echo url(); ?>" class="nav-link <?php echo ($currentPage ?? '') === 'home' ? 'active' : ''; ?>">
-                            <i class="fas fa-home"></i>
-                            <span>Ana Sayfa</span>
-                        </a>
-                    </li>
                     <li class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle <?php echo in_array(($currentPage ?? ''), ['about', 'team', 'mevzuat']) ? 'active' : ''; ?>">
                             <i class="fas fa-info-circle"></i>

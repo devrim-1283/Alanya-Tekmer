@@ -7,16 +7,12 @@ $currentPage = 'home';
 require_once __DIR__ . '/../includes/header.php';
 ?>
 
-<!-- Hero Section with Background Image -->
-<section class="hero-section">
-    <div class="hero-background">
-        <img src="<?php echo asset('images/tekmer.jpg'); ?>" alt="Alanya TEKMER" class="hero-bg-image" loading="eager" onerror="this.src='/uploads/tekmer.jpg'">
-        <div class="hero-overlay"></div>
-    </div>
-    
-    <div class="hero-content">
-        <div class="container">
-            <div class="hero-text" data-aos="fade-up">
+<!-- Hero Section - Split Layout -->
+<section class="hero-section hero-split">
+    <div class="container">
+        <div class="hero-wrapper">
+            <!-- Left Side - Text Content -->
+            <div class="hero-text" data-aos="fade-right">
                 <span class="hero-subtitle">Hoş Geldiniz</span>
                 <h1 class="hero-title">Alanya Teknoloji Geliştirme Merkezi</h1>
                 <p class="hero-description">
@@ -32,6 +28,14 @@ require_once __DIR__ . '/../includes/header.php';
                         <i class="fas fa-info-circle"></i>
                         <span>Biz Kimiz?</span>
                     </a>
+                </div>
+            </div>
+            
+            <!-- Right Side - Image -->
+            <div class="hero-image" data-aos="fade-left">
+                <div class="hero-image-wrapper">
+                    <img src="<?php echo asset('images/tekmer.jpg'); ?>" alt="Alanya TEKMER" class="hero-img" loading="eager" onerror="this.src='/uploads/tekmer.jpg'">
+                    <div class="hero-image-overlay"></div>
                 </div>
             </div>
         </div>
