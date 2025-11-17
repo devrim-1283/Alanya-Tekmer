@@ -31,7 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     try {
                         $db = Database::getInstance();
                         $user = $db->fetchOne(
-                            'SELECT * FROM users WHERE username = ? AND is_active = true',
+                            'SELECT * FROM admin_users WHERE username = ? AND is_active = true',
                             [$username]
                         );
                         
@@ -45,7 +45,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             
                             // Update last login
                             $db->execute(
-                                'UPDATE users SET last_login = CURRENT_TIMESTAMP WHERE id = ?',
+                                'UPDATE admin_users SET last_login = CURRENT_TIMESTAMP WHERE id = ?',
                                 [$user['id']]
                             );
                             

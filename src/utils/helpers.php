@@ -84,7 +84,7 @@ function getAdminUser() {
             return null;
         }
         
-        return $db->fetchOne('SELECT id, username, email, full_name FROM users WHERE id = ? AND is_active = true', [$userId]);
+        return $db->fetchOne('SELECT id, username, email FROM admin_users WHERE id = ? AND is_active = true', [$userId]);
     } catch (Exception $e) {
         error_log('Error fetching admin user: ' . $e->getMessage());
         return null;
