@@ -1,65 +1,69 @@
 <?php
-// Minimal debug page - NO database, NO dependencies
+// Debug endpoint - sadece DEBUG_MODE=true iken çalışır
 
-header('Content-Type: text/plain; charset=utf-8');
+header('Content-Type: text/plain');
 
 if (getenv('DEBUG_MODE') !== 'true') {
     http_response_code(403);
     die('Debug mode disabled');
 }
 
-echo "=== ALANYA TEKMER DEBUG ===\n\n";
+echo "=== Alanya TEKMER Debug Info ===\n\n";
 
-echo "⏰ Time: " . date('Y-m-d H:i:s') . "\n";
-echo "🐘 PHP Version: " . PHP_VERSION . "\n\n";
+echo "PHP Version: " . PHP_VERSION . "\n\n";
 
-echo "=== ENVIRONMENT VARIABLES ===\n";
-$envVars = [
-    'APP_ENV', 'DEBUG_MODE', 'BASE_URL', 
-    'DATABASE_URL', 'PORT', 'UPLOAD_PATH',
-    'ADMIN_PATH', 'SESSION_SECRET', 'CSRF_SECRET'
-];
-
+echo "=== Environment Variables ===\n";
+$envVars = ['DATABASE_URL', 'REDIS_URL', 'DEBUG_MODE', 'APP_ENV', 'BASE_URL', 'UPLOAD_PATH'];
 foreach ($envVars as $var) {
     $value = getenv($var);
-    if (in_array($var, ['DATABASE_URL', 'SESSION_SECRET', 'CSRF_SECRET'])) {
-        $value = $value ? substr($value, 0, 20) . '...' : 'NOT SET';
+    if ($var === 'DATABASE_URL' || $var === 'REDIS_URL') {
+        // Hide passwords
+        $value = preg_replace('/:[^:@]+@/', ':****@', $value);
     }
-    echo sprintf("%-20s: %s\n", $var, $value ?: 'NOT SET');
+    echo "$var: " . ($value ? $value : 'NOT SET') . "\n";
 }
 
-echo "\n=== PHP EXTENSIONS ===\n";
-$extensions = ['pdo', 'pdo_pgsql', 'mbstring', 'fileinfo', 'gd', 'json', 'session'];
-foreach ($extensions as $ext) {
-    $loaded = extension_loaded($ext);
-    echo sprintf("%-15s: %s\n", $ext, $loaded ? '✅ YES' : '❌ NO');
+echo "\n=== File Checks ===\n";
+echo "vendor/autoload.php exists: " . (file_exists(__DIR__ . '/../vendor/autoload.php') ? 'YES' : 'NO') . "\n";
+echo "src/config/db.php exists: " . (file_exists(__DIR__ . '/../src/config/db.php') ? 'YES' : 'NO') . "\n";
+echo "src/config/redis.php exists: " . (file_exists(__DIR__ . '/../src/config/redis.php') ? 'YES' : 'NO') . "\n";
+
+echo "\n=== Extensions ===\n";
+echo "PDO: " . (extension_loaded('pdo') ? 'YES' : 'NO') . "\n";
+echo "pdo_pgsql: " . (extension_loaded('pdo_pgsql') ? 'YES' : 'NO') . "\n";
+echo "redis: " . (extension_loaded('redis') ? 'YES' : 'NO') . "\n";
+echo "gd: " . (extension_loaded('gd') ? 'YES' : 'NO') . "\n";
+
+echo "\n=== Classes ===\n";
+echo "Predis\Client: " . (class_exists('Predis\Client') ? 'YES' : 'NO') . "\n";
+
+echo "\n=== Database Test ===\n";
+try {
+    require_once __DIR__ . '/../vendor/autoload.php';
+    require_once __DIR__ . '/../src/config/db.php';
+    $db = Database::getInstance();
+    echo "Database connection: SUCCESS\n";
+    echo "Database version: ";
+    $result = $db->fetchOne('SELECT version()');
+    echo $result['version'] . "\n";
+} catch (Exception $e) {
+    echo "Database connection: FAILED\n";
+    echo "Error: " . $e->getMessage() . "\n";
 }
 
-echo "\n=== SERVER INFO ===\n";
-echo "Server Software: " . ($_SERVER['SERVER_SOFTWARE'] ?? 'Unknown') . "\n";
-echo "Server Protocol: " . ($_SERVER['SERVER_PROTOCOL'] ?? 'Unknown') . "\n";
-echo "Request Method: " . ($_SERVER['REQUEST_METHOD'] ?? 'Unknown') . "\n";
-echo "Request URI: " . ($_SERVER['REQUEST_URI'] ?? 'Unknown') . "\n";
-echo "Remote Address: " . ($_SERVER['REMOTE_ADDR'] ?? 'Unknown') . "\n";
-
-echo "\n=== FILE CHECKS ===\n";
-$files = [
-    'vendor/autoload.php',
-    'src/config/db.php',
-    'src/config/security.php',
-    'src/utils/cache.php',
-    'sql/schema.sql'
-];
-
-foreach ($files as $file) {
-    $path = __DIR__ . '/../' . $file;
-    $exists = file_exists($path);
-    echo sprintf("%-30s: %s\n", $file, $exists ? '✅ EXISTS' : '❌ MISSING');
+echo "\n=== Redis Test ===\n";
+try {
+    require_once __DIR__ . '/../src/config/redis.php';
+    $redis = RedisCache::getInstance();
+    echo "Redis connection: " . ($redis->isEnabled() ? 'ENABLED' : 'DISABLED') . "\n";
+} catch (Exception $e) {
+    echo "Redis connection: FAILED\n";
+    echo "Error: " . $e->getMessage() . "\n";
 }
 
-echo "\n=== MEMORY ===\n";
-echo "Memory Usage: " . round(memory_get_usage() / 1024 / 1024, 2) . " MB\n";
-echo "Memory Limit: " . ini_get('memory_limit') . "\n";
-echo "Peak Memory: " . round(memory_get_peak_usage() / 1024 / 1024, 2) . " MB\n";
+echo "\n=== Memory ===\n";
+echo "Memory usage: " . round(memory_get_usage() / 1024 / 1024, 2) . " MB\n";
+echo "Memory limit: " . ini_get('memory_limit') . "\n";
 
-echo "\n=== END DEBUG ===\n";
+echo "\n=== END ===\n";
+

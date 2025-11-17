@@ -1,2 +1,2 @@
-web: php -S 0.0.0.0:${PORT:-3000} -t public public/router.php
+web: php -S 0.0.0.0:3000 -t public public/router.php
 
