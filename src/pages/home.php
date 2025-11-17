@@ -50,7 +50,7 @@ require_once __DIR__ . '/../includes/header.php';
     </div>
 </section>
 
-<!-- Stats Section -->
+<!-- Stats Section - Modern Design -->
 <section class="stats-section">
     <div class="container">
         <div class="stats-grid">
@@ -59,7 +59,7 @@ require_once __DIR__ . '/../includes/header.php';
                     <i class="fas fa-building"></i>
                 </div>
                 <div class="stat-content">
-                    <h3 class="stat-number" data-count="<?php echo getTotalCompanies(); ?>">0</h3>
+                    <h3 class="stat-number" data-count="<?php echo getSetting('stat_companies', '0'); ?>"><?php echo getSetting('stat_companies', '0'); ?></h3>
                     <p class="stat-label">Şirket</p>
                 </div>
             </div>
@@ -69,7 +69,7 @@ require_once __DIR__ . '/../includes/header.php';
                     <i class="fas fa-users"></i>
                 </div>
                 <div class="stat-content">
-                    <h3 class="stat-number" data-count="150">0</h3>
+                    <h3 class="stat-number" data-count="<?php echo getSetting('stat_entrepreneurs', '0'); ?>"><?php echo getSetting('stat_entrepreneurs', '0'); ?></h3>
                     <p class="stat-label">Girişimci</p>
                 </div>
             </div>
@@ -79,18 +79,8 @@ require_once __DIR__ . '/../includes/header.php';
                     <i class="fas fa-calendar-check"></i>
                 </div>
                 <div class="stat-content">
-                    <h3 class="stat-number" data-count="<?php echo getTotalEvents(); ?>">0</h3>
+                    <h3 class="stat-number" data-count="<?php echo getSetting('stat_events', '0'); ?>"><?php echo getSetting('stat_events', '0'); ?></h3>
                     <p class="stat-label">Etkinlik</p>
-                </div>
-            </div>
-            
-            <div class="stat-item" data-aos="fade-up" data-aos-delay="400">
-                <div class="stat-icon">
-                    <i class="fas fa-award"></i>
-                </div>
-                <div class="stat-content">
-                    <h3 class="stat-number" data-count="50">0</h3>
-                    <p class="stat-label">Başarı Hikayesi</p>
                 </div>
             </div>
         </div>
