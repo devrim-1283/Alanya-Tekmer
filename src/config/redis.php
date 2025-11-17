@@ -6,11 +6,6 @@ if (file_exists(__DIR__ . '/../../vendor/autoload.php')) {
     require_once __DIR__ . '/../../vendor/autoload.php';
 }
 
-// Only use Predis if it's available
-if (class_exists('Predis\Client')) {
-    use Predis\Client;
-}
-
 class RedisCache {
     private static $instance = null;
     private $redis;
