@@ -40,14 +40,13 @@ class Security {
         
         session_name('TEKMER_SESSION');
         session_start();
-            
-            // Regenerate session ID periodically
-            if (!isset($_SESSION['created'])) {
-                $_SESSION['created'] = time();
-            } else if (time() - $_SESSION['created'] > 1800) {
-                session_regenerate_id(true);
-                $_SESSION['created'] = time();
-            }
+        
+        // Regenerate session ID periodically
+        if (!isset($_SESSION['created'])) {
+            $_SESSION['created'] = time();
+        } else if (time() - $_SESSION['created'] > 1800) {
+            session_regenerate_id(true);
+            $_SESSION['created'] = time();
         }
     }
     
