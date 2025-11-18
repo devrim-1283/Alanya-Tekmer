@@ -113,7 +113,7 @@
                             <i class="fas fa-chevron-down dropdown-icon"></i>
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a href="<?php echo url('hakkimizda'); ?>"><i class="fas fa-building"></i> Biz Kimiz</a></li>
+                            <li><a href="<?php echo url('hakkimizda'); ?>"><i class="fas fa-building"></i> Bizi Tanıyın</a></li>
                             <li><a href="<?php echo url('ekibimiz'); ?>"><i class="fas fa-users"></i> Ekibimiz</a></li>
                             <li><a href="<?php echo url('mevzuat'); ?>"><i class="fas fa-gavel"></i> Mevzuat</a></li>
                         </ul>

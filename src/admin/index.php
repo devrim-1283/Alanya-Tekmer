@@ -51,6 +51,14 @@ switch ($requestUri) {
         require __DIR__ . '/companies.php';
         break;
         
+    case 'faq':
+    case 'faq/add':
+    case 'faq/edit':
+    case 'faq/delete':
+        requireAdmin();
+        require __DIR__ . '/faq.php';
+        break;
+        
     case 'applications':
     case 'applications/view':
     case 'applications/update-status':

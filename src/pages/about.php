@@ -83,54 +83,36 @@ require_once __DIR__ . '/../includes/header.php';
             </div>
             
             <div class="faq-accordion">
-                <div class="faq-item">
-                    <div class="faq-question">
-                        <h3>TEKMER Nedir?</h3>
-                        <i class="fas fa-chevron-down"></i>
+                <?php
+                try {
+                    $db = Database::getInstance();
+                    $faqs = $db->fetchAll(
+                        'SELECT * FROM faq WHERE is_active = ? ORDER BY sort_order ASC',
+                        [true]
+                    );
+                    
+                    if (empty($faqs)) {
+                        echo '<p class="text-center">Yakında SSS eklenecektir.</p>';
+                    } else {
+                        foreach ($faqs as $faq):
+                ?>
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <h3><?php echo Security::escape($faq['question']); ?></h3>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <?php echo $faq['answer']; ?>
+                        </div>
                     </div>
-                    <div class="faq-answer">
-                        <p>TEKMER; girişimcilere ve işletmelere ön inkübasyon, inkübasyon, inkübasyon sonrası süreçlerde; iş geliştirme, mali kaynaklara erişim, yönetim, danışmanlık, mentörlük, ofis ve ağlara katılım gibi hizmetlerin sağlandığı yapılardır.</p>
-                        
-                        <p><strong>Bu süreçler;</strong></p>
-                        <ul>
-                            <li><strong>Ön inkübasyon:</strong> İşletmesini kurmamış girişimcilere yönelik tek başına veya bir grup halinde eğitim, danışmanlık, mentörlük, proje fikri doğrulama ve iş geliştirme amacıyla verilen hizmetleri,</li>
-                            
-                            <li><strong>İnkübasyon:</strong> Girişimci veya işletmelerin geliştirilmesi ve proje/iş fikirlerinin ticarileşmesini sağlamak amacıyla sunulan eğitim, teknik danışmanlık, mentörlük, koçluk, ağlara erişim, yatırımcı bulma, işlik/çalışma alanı ve ortak kullanıma yönelik alan/makine/yazılım hizmetleri ile tanıtıma yönelik hizmetleri ve hızlandırıcı programını,</li>
-                            
-                            <li><strong>İnkübasyon sonrası:</strong> İnkübasyon sürecini tamamlamış/tamamlamak üzere olan işletmelere sunulan pazar stratejisi geliştirme, yönetim, büyüme stratejisi, fon bulma, ağlara erişim hizmetleri ile bu işletmeler tarafından ön inkübasyon/inkübasyon sürecindekilere sunulan tecrübe paylaşımı, mentörlük, koçluk, fon sağlama benzeri hizmetleri ve hızlandırıcı programlarını kapsar.</li>
-                        </ul>
-                    </div>
-                </div>
-                
-                <div class="faq-item">
-                    <div class="faq-question">
-                        <h3>TEKMER'e Nasıl Başvurabilirim?</h3>
-                        <i class="fas fa-chevron-down"></i>
-                    </div>
-                    <div class="faq-answer">
-                        <p>Web sitemiz üzerindeki <a href="<?php echo url('basvuru'); ?>">online başvuru</a> butonuna tıkladıktan sonra karşınıza çıkan ilgili formu doldurarak başvurunuzu gerçekleştirebilirsiniz.</p>
-                    </div>
-                </div>
-                
-                <div class="faq-item">
-                    <div class="faq-question">
-                        <h3>Başvuru Sonrası Süreç Nasıl İşlemektedir?</h3>
-                        <i class="fas fa-chevron-down"></i>
-                    </div>
-                    <div class="faq-answer">
-                        <p>Başvuru yaptıktan sonra İcra Kurulumuz projeleri detaylı incelemektedir. Komite kararı sonucu başarılı bulunan girişimci adayları ve firmalar mülakata davet edilerek seçilenler ilgili programa katılmaya ve sunulacak tüm imkânlardan faydalanmaya hak kazanır.</p>
-                    </div>
-                </div>
-                
-                <div class="faq-item">
-                    <div class="faq-question">
-                        <h3>Başvurular Sadece Online Mı Yapılmaktadır?</h3>
-                        <i class="fas fa-chevron-down"></i>
-                    </div>
-                    <div class="faq-answer">
-                        <p>Evet, başvurular sadece online yapılmaktadır.</p>
-                    </div>
-                </div>
+                <?php
+                        endforeach;
+                    }
+                } catch (Exception $e) {
+                    error_log('Error fetching FAQs: ' . $e->getMessage());
+                    echo '<p class="text-center">SSS yüklenirken bir hata oluştu.</p>';
+                }
+                ?>
             </div>
         </div>
         

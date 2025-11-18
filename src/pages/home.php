@@ -207,6 +207,50 @@ require_once __DIR__ . '/../includes/header.php';
     </div>
 </section>
 
+<!-- FAQ Section -->
+<section class="faq-section-home">
+    <div class="container">
+        <div class="section-header" data-aos="fade-up">
+            <span class="section-subtitle">Merak Edilenler</span>
+            <h2 class="section-title">Sıkça Sorulan Sorular</h2>
+            <p class="section-description">TEKMER hakkında merak ettiğiniz her şey</p>
+        </div>
+        
+        <div class="faq-accordion" data-aos="fade-up" data-aos-delay="100">
+            <?php
+            try {
+                $db = Database::getInstance();
+                $faqs = $db->fetchAll(
+                    'SELECT * FROM faq WHERE is_active = ? ORDER BY sort_order ASC',
+                    [true]
+                );
+                
+                if (empty($faqs)) {
+                    echo '<p class="text-center">Yakında SSS eklenecektir.</p>';
+                } else {
+                    foreach ($faqs as $faq):
+            ?>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3><?php echo Security::escape($faq['question']); ?></h3>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <?php echo $faq['answer']; ?>
+                    </div>
+                </div>
+            <?php
+                    endforeach;
+                }
+            } catch (Exception $e) {
+                error_log('Error fetching FAQs: ' . $e->getMessage());
+                echo '<p class="text-center">SSS yüklenirken bir hata oluştu.</p>';
+            }
+            ?>
+        </div>
+    </div>
+</section>
+
 <!-- CTA Section -->
 <section class="cta-section">
     <div class="container">
@@ -267,6 +311,24 @@ require_once __DIR__ . '/../includes/header.php';
     if (statsSection) {
         observer.observe(statsSection);
     }
+    
+    // FAQ Accordion
+    document.querySelectorAll('.faq-question').forEach(question => {
+        question.addEventListener('click', () => {
+            const faqItem = question.closest('.faq-item');
+            const isActive = faqItem.classList.contains('active');
+            
+            // Close all
+            document.querySelectorAll('.faq-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            
+            // Open clicked if it wasn't active
+            if (!isActive) {
+                faqItem.classList.add('active');
+            }
+        });
+    });
 </script>
 
 <?php
