@@ -42,6 +42,11 @@
                     <i class="fas fa-question-circle"></i> SSS Yönetimi
                 </a>
                 
+                <a href="<?php echo url(getenv('ADMIN_PATH') . '/gallery'); ?>" 
+                   class="menu-item <?php echo ($currentAdminPage ?? '') === 'gallery' ? 'active' : ''; ?>">
+                    <i class="fas fa-images"></i> Galeri Yönetimi
+                </a>
+                
                 <a href="<?php echo url(getenv('ADMIN_PATH') . '/applications'); ?>" 
                    class="menu-item <?php echo ($currentAdminPage ?? '') === 'applications' ? 'active' : ''; ?>">
                     <i class="fas fa-file-alt"></i> Başvurular

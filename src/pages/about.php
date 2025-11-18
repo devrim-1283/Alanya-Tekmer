@@ -75,6 +75,110 @@ require_once __DIR__ . '/../includes/header.php';
             </div>
         </div>
         
+        <!-- Gallery -->
+        <div class="gallery-section" data-aos="fade-up" data-aos-delay="150">
+            <div class="section-header-center">
+                <h2 class="section-title">Galeri</h2>
+                <p class="section-description">TEKMER'den görüntüler ve videolar</p>
+            </div>
+            
+            <div class="gallery-grid">
+                <?php
+                try {
+                    $db = Database::getInstance();
+                    $galleries = $db->fetchAll(
+                        'SELECT * FROM gallery WHERE is_active = ? ORDER BY sort_order ASC, id DESC',
+                        [true]
+                    );
+                    
+                    if (empty($galleries)) {
+                        echo '<p class="text-center">Henüz galeri öğesi eklenmemiş.</p>';
+                    } else {
+                        foreach ($galleries as $item):
+                            if ($item['type'] === 'image'):
+                ?>
+                    <div class="gallery-item" data-aos="zoom-in" data-aos-delay="100">
+                        <div class="gallery-image">
+                            <img src="<?php echo url($item['media_path']); ?>" 
+                                 alt="<?php echo Security::escape($item['title'] ?? 'Galeri resmi'); ?>"
+                                 loading="lazy">
+                            <div class="gallery-overlay">
+                                <i class="fas fa-search-plus"></i>
+                            </div>
+                        </div>
+                        <?php if ($item['title'] || $item['description']): ?>
+                        <div class="gallery-content">
+                            <?php if ($item['title']): ?>
+                                <h3><?php echo Security::escape($item['title']); ?></h3>
+                            <?php endif; ?>
+                            <?php if ($item['description']): ?>
+                                <p><?php echo Security::escape($item['description']); ?></p>
+                            <?php endif; ?>
+                        </div>
+                        <?php endif; ?>
+                    </div>
+                <?php
+                            elseif ($item['type'] === 'video'):
+                                // YouTube veya Vimeo URL'si varsa
+                                if ($item['video_url']):
+                                    $videoId = '';
+                                    $platform = '';
+                                    
+                                    // YouTube video ID'sini çıkar
+                                    if (preg_match('/(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/ ]{11})/i', $item['video_url'], $match)) {
+                                        $videoId = $match[1];
+                                        $platform = 'youtube';
+                                    }
+                                    // Vimeo video ID'sini çıkar
+                                    elseif (preg_match('/vimeo\.com\/(\d+)/i', $item['video_url'], $match)) {
+                                        $videoId = $match[1];
+                                        $platform = 'vimeo';
+                                    }
+                                    
+                                    if ($videoId):
+                ?>
+                    <div class="gallery-item gallery-video" data-aos="zoom-in" data-aos-delay="100">
+                        <div class="gallery-image">
+                            <?php if ($platform === 'youtube'): ?>
+                                <iframe src="https://www.youtube.com/embed/<?php echo $videoId; ?>" 
+                                        frameborder="0" 
+                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                                        allowfullscreen></iframe>
+                            <?php elseif ($platform === 'vimeo'): ?>
+                                <iframe src="https://player.vimeo.com/video/<?php echo $videoId; ?>" 
+                                        frameborder="0" 
+                                        allow="autoplay; fullscreen; picture-in-picture" 
+                                        allowfullscreen></iframe>
+                            <?php endif; ?>
+                            <div class="video-badge">
+                                <i class="fas fa-play-circle"></i>
+                            </div>
+                        </div>
+                        <?php if ($item['title'] || $item['description']): ?>
+                        <div class="gallery-content">
+                            <?php if ($item['title']): ?>
+                                <h3><?php echo Security::escape($item['title']); ?></h3>
+                            <?php endif; ?>
+                            <?php if ($item['description']): ?>
+                                <p><?php echo Security::escape($item['description']); ?></p>
+                            <?php endif; ?>
+                        </div>
+                        <?php endif; ?>
+                    </div>
+                <?php
+                                    endif;
+                                endif;
+                            endif;
+                        endforeach;
+                    }
+                } catch (Exception $e) {
+                    error_log('Error fetching gallery: ' . $e->getMessage());
+                    echo '<p class="text-center">Galeri yüklenirken bir hata oluştu.</p>';
+                }
+                ?>
+            </div>
+        </div>
+        
         <!-- FAQ -->
         <div class="faq-section" data-aos="fade-up" data-aos-delay="200">
             <div class="section-header-center">
