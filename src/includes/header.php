@@ -94,7 +94,7 @@
                         <img src="<?php echo asset('images/logo.png'); ?>" alt="Alanya TEKMER" class="logo-img">
                         <div class="logo-text">
                             <span class="logo-title">Alanya TEKMER</span>
-                            <span class="logo-subtitle">Teknoloji Geliştirme Merkezi</span>
+                            <span class="logo-subtitle desktop-only">Teknoloji Geliştirme Merkezi</span>
                         </div>
                     </a>
                 </div>
@@ -106,8 +106,8 @@
                 </button>
                 
                 <ul class="nav-menu" id="navMenu">
-                    <li class="nav-item dropdown">
-                        <a href="#" class="nav-link dropdown-toggle <?php echo in_array(($currentPage ?? ''), ['about', 'team', 'mevzuat', 'gallery']) ? 'active' : ''; ?>">
+                    <li class="nav-item dropdown" data-dropdown>
+                        <a href="#" class="nav-link dropdown-toggle <?php echo in_array(($currentPage ?? ''), ['about', 'team', 'mevzuat', 'gallery']) ? 'active' : ''; ?>" onclick="return false;">
                             <i class="fas fa-info-circle"></i>
                             <span>Hakkımızda</span>
                             <i class="fas fa-chevron-down dropdown-icon"></i>

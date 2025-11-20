@@ -209,11 +209,35 @@ class Security {
     
     // Set security headers
     public static function setSecurityHeaders() {
+        // Don't set headers if already sent
+        if (headers_sent()) {
+            return;
+        }
+        
         header('X-Content-Type-Options: nosniff');
         header('X-Frame-Options: SAMEORIGIN');
         header('X-XSS-Protection: 1; mode=block');
         header('Referrer-Policy: strict-origin-when-cross-origin');
-        header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://challenges.cloudflare.com https://cdnjs.cloudflare.com https://unpkg.com https://static.cloudflareinsights.com; style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://fonts.googleapis.com https://unpkg.com; img-src 'self' data: https: blob:; font-src 'self' data: https://cdnjs.cloudflare.com https://fonts.gstatic.com; connect-src 'self' https://challenges.cloudflare.com https://cloudflareinsights.com; frame-src https://challenges.cloudflare.com;");
+        
+        // More permissive CSP for better compatibility with Cloudflare Turnstile and modern browsers
+        $csp = [
+            "default-src 'self'",
+            "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://challenges.cloudflare.com https://cdnjs.cloudflare.com https://unpkg.com https://static.cloudflareinsights.com https://*.cloudflare.com",
+            "style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://fonts.googleapis.com https://unpkg.com",
+            "img-src 'self' data: https: blob:",
+            "font-src 'self' data: https://cdnjs.cloudflare.com https://fonts.gstatic.com",
+            "connect-src 'self' https://challenges.cloudflare.com https://*.cloudflare.com https://cloudflareinsights.com",
+            "frame-src 'self' https://challenges.cloudflare.com https://*.cloudflare.com https://www.google.com",
+            "media-src 'self' https:",
+            "object-src 'none'",
+            "base-uri 'self'",
+            "form-action 'self'"
+        ];
+        
+        header("Content-Security-Policy: " . implode("; ", $csp));
+        
+        // Permissions Policy for better privacy
+        header("Permissions-Policy: geolocation=(), microphone=(), camera=()");
     }
     
     // Hash password
