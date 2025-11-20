@@ -114,36 +114,49 @@
         body.style.overflow = navMenu.classList.contains('active') ? 'hidden' : '';
     }
     
-    // Mobile and Desktop dropdown toggle - IMPROVED
+    // Mobile and Desktop dropdown toggle - FIXED
     document.querySelectorAll('.dropdown-toggle').forEach(toggle => {
-        toggle.addEventListener('click', function(e) {
-            // Always prevent default for dropdown toggles
-            e.preventDefault();
-            e.stopPropagation();
-            
-            const dropdown = this.closest('.dropdown');
-            const isMobile = window.innerWidth <= 768;
-            
-            if (isMobile) {
-                // Close other dropdowns on mobile
-                document.querySelectorAll('.dropdown').forEach(d => {
-                    if (d !== dropdown) {
-                        d.classList.remove('active');
-                    }
-                });
-                
-                // Toggle current dropdown
-                dropdown.classList.toggle('active');
-                
-                // Rotate icon
-                const icon = this.querySelector('.dropdown-icon');
-                if (icon) {
-                    icon.style.transform = dropdown.classList.contains('active') ? 'rotate(180deg)' : 'rotate(0deg)';
-                    icon.style.transition = 'transform 0.3s ease';
-                }
-            }
-        });
+        // Remove any existing listeners
+        toggle.removeEventListener('click', handleDropdownClick);
+        
+        // Add new listener
+        toggle.addEventListener('click', handleDropdownClick);
     });
+    
+    function handleDropdownClick(e) {
+        // Always prevent default
+        e.preventDefault();
+        e.stopPropagation();
+        
+        const dropdown = this.closest('.dropdown');
+        const isMobile = window.innerWidth <= 768;
+        
+        if (isMobile) {
+            // Close other dropdowns
+            document.querySelectorAll('.dropdown').forEach(d => {
+                if (d !== dropdown) {
+                    d.classList.remove('active');
+                    const otherIcon = d.querySelector('.dropdown-icon');
+                    if (otherIcon) {
+                        otherIcon.style.transform = 'rotate(0deg)';
+                    }
+                }
+            });
+            
+            // Toggle current dropdown
+            const isActive = dropdown.classList.contains('active');
+            dropdown.classList.toggle('active');
+            
+            // Rotate icon
+            const icon = this.querySelector('.dropdown-icon');
+            if (icon) {
+                icon.style.transform = isActive ? 'rotate(0deg)' : 'rotate(180deg)';
+                icon.style.transition = 'transform 0.3s ease';
+            }
+            
+            console.log('Dropdown toggled:', isActive ? 'closed' : 'opened');
+        }
+    }
     
     // Close dropdowns when clicking dropdown menu items on mobile
     document.querySelectorAll('.dropdown-menu a').forEach(link => {

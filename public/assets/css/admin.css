@@ -1,4 +1,6 @@
 /* Alanya TEKMER Admin Panel Styles */
+@import url('modern-admin.css');
+
 :root {
     --primary: #0066cc;
     --secondary: #333;

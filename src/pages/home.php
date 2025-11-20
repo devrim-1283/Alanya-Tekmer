@@ -354,14 +354,25 @@ require_once __DIR__ . '/../includes/header.php';
     }
     
     .hero-buttons {
-        flex-direction: column;
-        gap: 15px;
+        flex-direction: row;
+        gap: 10px;
+        justify-content: center;
     }
     
     .btn-hero-primary,
     .btn-hero-secondary {
-        width: 100%;
+        flex: 1;
+        min-width: 0;
         justify-content: center;
+        padding: 12px 20px;
+        font-size: 14px;
+    }
+    
+    .btn-hero-primary span,
+    .btn-hero-secondary span {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
     
     .hero-image {
@@ -445,6 +456,21 @@ require_once __DIR__ . '/../includes/header.php';
     
     .hero-subtitle {
         font-size: 0.9rem;
+    }
+    
+    .hero-buttons {
+        gap: 8px;
+    }
+    
+    .btn-hero-primary,
+    .btn-hero-secondary {
+        padding: 10px 12px;
+        font-size: 13px;
+    }
+    
+    .btn-hero-primary i,
+    .btn-hero-secondary i {
+        font-size: 14px;
     }
     
     .stats-grid {

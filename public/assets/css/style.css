@@ -1683,30 +1683,33 @@ a {
         background: rgba(33, 150, 243, 0.05);
     }
     
+    /* Dropdown menu on mobile */
     .dropdown-menu {
-        position: static;
-        opacity: 1;
-        visibility: visible;
-        transform: none;
+        position: static !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+        transform: none !important;
         box-shadow: none;
         background: #f8f9fa;
         margin: 0;
         padding: 0;
         max-height: 0;
         overflow: hidden;
-        transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1), padding 0.3s ease;
         border-radius: 0;
+        display: block !important;
     }
     
     .dropdown.active .dropdown-menu {
         max-height: 500px;
-        padding: 5px 0;
+        padding: 8px 0;
     }
     
     .dropdown-menu a {
-        padding: 15px 25px 15px 50px;
+        padding: 14px 25px 14px 50px;
         background: transparent;
         transition: all 0.3s ease;
+        display: flex !important;
     }
     
     .dropdown-menu a:hover {
@@ -1718,6 +1721,7 @@ a {
         position: relative;
         justify-content: space-between;
         width: 100%;
+        display: flex !important;
     }
     
     .dropdown-icon {
@@ -1725,10 +1729,12 @@ a {
         right: 25px;
         transition: transform 0.3s ease;
         font-size: 12px;
+        pointer-events: none;
     }
     
-    .dropdown.active .dropdown-icon {
-        transform: rotate(180deg);
+    /* Force icon rotation */
+    .dropdown.active .dropdown-toggle .dropdown-icon {
+        transform: rotate(180deg) !important;
     }
     
     .btn-cta {
@@ -1777,19 +1783,19 @@ a {
     .hero-buttons {
         display: flex;
         flex-direction: row;
-        gap: 12px;
+        gap: 10px;
         justify-content: center;
-        flex-wrap: wrap;
+        flex-wrap: nowrap;
     }
     
     .btn-hero-primary,
     .btn-hero-secondary {
         flex: 1;
-        min-width: 180px;
-        max-width: 250px;
+        min-width: 0;
+        max-width: none;
         justify-content: center;
-        padding: 14px 25px;
-        font-size: 15px;
+        padding: 12px 16px;
+        font-size: 14px;
     }
     
     .scroll-indicator {
