@@ -73,5 +73,37 @@ include __DIR__ . '/../includes/header.php';
     </div>
 </section>
 
+<!-- Mobile Optimizations for Mevzuat Page -->
+<style>
+@media (max-width: 768px) {
+    .mevzuat-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    
+    .mevzuat-card {
+        padding: 25px 20px;
+    }
+    
+    .mevzuat-title {
+        font-size: 1.1rem;
+    }
+    
+    .mevzuat-desc {
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .mevzuat-card {
+        padding: 20px 15px;
+    }
+    
+    .mevzuat-title {
+        font-size: 1rem;
+    }
+}
+</style>
+
 <?php include __DIR__ . '/../includes/footer.php'; ?>
 

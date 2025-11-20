@@ -257,5 +257,65 @@ include __DIR__ . '/../includes/header.php';
     });
 </script>
 
+<!-- Mobile Optimizations for Services Page -->
+<style>
+@media (max-width: 768px) {
+    .page-hero {
+        padding: 60px 0 40px !important;
+    }
+    
+    .page-hero h1 {
+        font-size: 2rem !important;
+    }
+    
+    .page-hero p {
+        font-size: 1rem !important;
+    }
+    
+    section[style*="padding: 80px"] {
+        padding: 50px 0 !important;
+    }
+    
+    h2[style*="font-size: 2.5em"] {
+        font-size: 1.75rem !important;
+    }
+    
+    div[style*="grid-template-columns"] {
+        grid-template-columns: 1fr !important;
+        gap: 20px !important;
+    }
+    
+    div[style*="padding: 35px"] {
+        padding: 25px 20px !important;
+    }
+    
+    h3[style*="font-size: 1.4em"] {
+        font-size: 1.2rem !important;
+    }
+    
+    ul[style*="padding-left"] {
+        padding-left: 20px !important;
+    }
+    
+    .support-grid {
+        grid-template-columns: 1fr !important;
+    }
+}
+
+@media (max-width: 576px) {
+    .page-hero h1 {
+        font-size: 1.5rem !important;
+    }
+    
+    section[style*="padding"] {
+        padding: 40px 0 !important;
+    }
+    
+    div[style*="padding: 25px 20px"] {
+        padding: 20px 15px !important;
+    }
+}
+</style>
+
 <?php include __DIR__ . '/../includes/footer.php'; ?>
 

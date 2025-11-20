@@ -100,5 +100,43 @@ include __DIR__ . '/../includes/header.php';
     </div>
 </section>
 
+<!-- Mobile Optimizations for Companies Page -->
+<style>
+@media (max-width: 768px) {
+    .companies-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    
+    .company-card {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .company-logo {
+        width: 100%;
+        height: 150px;
+    }
+    
+    .company-info {
+        padding: 20px;
+    }
+    
+    .company-name {
+        font-size: 1.1rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .company-info {
+        padding: 15px;
+    }
+    
+    .company-name {
+        font-size: 1rem;
+    }
+}
+</style>
+
 <?php include __DIR__ . '/../includes/footer.php'; ?>
 

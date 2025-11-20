@@ -107,7 +107,7 @@
                 
                 <ul class="nav-menu" id="navMenu">
                     <li class="nav-item dropdown">
-                        <a href="#" class="nav-link dropdown-toggle <?php echo in_array(($currentPage ?? ''), ['about', 'team', 'mevzuat']) ? 'active' : ''; ?>">
+                        <a href="#" class="nav-link dropdown-toggle <?php echo in_array(($currentPage ?? ''), ['about', 'team', 'mevzuat', 'gallery']) ? 'active' : ''; ?>">
                             <i class="fas fa-info-circle"></i>
                             <span>Hakkımızda</span>
                             <i class="fas fa-chevron-down dropdown-icon"></i>
@@ -115,6 +115,7 @@
                         <ul class="dropdown-menu">
                             <li><a href="<?php echo url('hakkimizda'); ?>"><i class="fas fa-building"></i> Bizi Tanıyın</a></li>
                             <li><a href="<?php echo url('ekibimiz'); ?>"><i class="fas fa-users"></i> Ekibimiz</a></li>
+                            <li><a href="<?php echo url('galeri'); ?>"><i class="fas fa-images"></i> Galeri</a></li>
                             <li><a href="<?php echo url('mevzuat'); ?>"><i class="fas fa-gavel"></i> Mevzuat</a></li>
                         </ul>
                     </li>

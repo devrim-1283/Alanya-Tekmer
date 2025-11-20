@@ -18,5 +18,40 @@ include __DIR__ . '/../includes/header.php';
     </div>
 </section>
 
+<!-- Mobile Optimizations for 404 Page -->
+<style>
+@media (max-width: 768px) {
+    .error-section {
+        padding: 60px 0;
+    }
+    
+    .error-code {
+        font-size: 6rem;
+    }
+    
+    .error-message {
+        font-size: 1.5rem;
+    }
+    
+    .error-description {
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .error-code {
+        font-size: 4rem;
+    }
+    
+    .error-message {
+        font-size: 1.25rem;
+    }
+    
+    .error-description {
+        font-size: 0.9rem;
+    }
+}
+</style>
+
 <?php include __DIR__ . '/../includes/footer.php'; ?>
 

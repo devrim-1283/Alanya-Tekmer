@@ -70,6 +70,10 @@ switch ($requestUri) {
         require __DIR__ . '/../src/pages/mevzuat.php';
         break;
         
+    case 'galeri':
+        require __DIR__ . '/../src/pages/gallery.php';
+        break;
+        
     case 'hizmetlerimiz':
         require __DIR__ . '/../src/pages/services.php';
         break;

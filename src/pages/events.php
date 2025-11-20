@@ -93,5 +93,69 @@ include __DIR__ . '/../includes/header.php';
     </div>
 </section>
 
+<!-- Mobile Optimizations for Events Page -->
+<style>
+@media (max-width: 768px) {
+    .events-filter {
+        flex-wrap: wrap;
+        gap: 10px;
+        justify-content: center;
+    }
+    
+    .filter-btn {
+        padding: 10px 20px;
+        font-size: 0.9rem;
+    }
+    
+    .events-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    
+    .event-card {
+        flex-direction: column;
+    }
+    
+    .event-image {
+        width: 100%;
+        height: 200px;
+    }
+    
+    .event-content {
+        padding: 20px;
+    }
+    
+    .event-title {
+        font-size: 1.1rem;
+    }
+    
+    .event-date,
+    .event-location,
+    .event-type {
+        font-size: 0.85rem;
+    }
+    
+    .event-meta {
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+}
+
+@media (max-width: 576px) {
+    .filter-btn {
+        flex: 1;
+        min-width: 100px;
+    }
+    
+    .event-content {
+        padding: 15px;
+    }
+    
+    .event-title {
+        font-size: 1rem;
+    }
+}
+</style>
+
 <?php include __DIR__ . '/../includes/footer.php'; ?>
 

@@ -266,20 +266,56 @@ include __DIR__ . '/../includes/header.php';
 </section>
 
 <!-- Map Section -->
-<?php if (getSetting('google_maps_url')): ?>
-<section style="padding: 0; background: white;">
-    <div style="height: 450px; position: relative;">
-        <iframe 
-            src="<?php echo str_replace('app.goo.gl', 'maps.google.com/maps?q=', getSetting('google_maps_url')) . '&output=embed'; ?>"
-            width="100%" 
-            height="100%" 
-            style="border:0; filter: grayscale(20%);" 
-            allowfullscreen="" 
-            loading="lazy">
-        </iframe>
+<section style="padding: 80px 0; background: #f9fafb;">
+    <div class="container">
+        <div data-aos="fade-up" style="text-align: center; margin-bottom: 50px;">
+            <span style="display: inline-block; background: linear-gradient(135deg, #1e40af, #3b82f6); color: white; padding: 8px 20px; border-radius: 50px; font-size: 0.9em; margin-bottom: 20px;">
+                <i class="fas fa-map-marker-alt"></i> Konumumuz
+            </span>
+            <h2 style="font-size: 2.5em; font-weight: 800; color: #111827; margin-bottom: 15px;">Bizi Ziyaret Edin</h2>
+            <p style="color: #6b7280; font-size: 1.1em; max-width: 700px; margin: 0 auto;">Alanya Alaaddin Keykubat Üniversitesi Kestel Yerleşkesi'ndeyiz</p>
+        </div>
+        
+        <div data-aos="fade-up" data-aos-delay="100" style="border-radius: 24px; overflow: hidden; box-shadow: 0 20px 60px rgba(0,0,0,0.15); position: relative;">
+            <div style="height: 500px; position: relative;">
+                <iframe 
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3206.13060868513!2d32.0827820112754!3d36.52684327221093!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14dc9b9a0703d157%3A0x64083ab78c21c2c!2sAlanya%20Teknoloji%20Geli%C5%9Ftirme%20Merkezi%20(TEKMER)!5e0!3m2!1str!2str!4v1763630327641!5m2!1str!2str"
+                    width="100%" 
+                    height="100%" 
+                    style="border:0;" 
+                    allowfullscreen="" 
+                    loading="lazy" 
+                    referrerpolicy="no-referrer-when-downgrade">
+                </iframe>
+            </div>
+            
+            <!-- Map Overlay Info Card -->
+            <div style="position: absolute; bottom: 30px; left: 30px; background: white; border-radius: 16px; padding: 25px; box-shadow: 0 10px 40px rgba(0,0,0,0.2); max-width: 400px;">
+                <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 15px;">
+                    <div style="width: 50px; height: 50px; background: linear-gradient(135deg, #1e40af, #3b82f6); border-radius: 12px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                        <i class="fas fa-building" style="color: white; font-size: 22px;"></i>
+                    </div>
+                    <div>
+                        <h3 style="margin: 0; font-size: 1.2em; font-weight: 700; color: #111827;">Alanya TEKMER</h3>
+                        <p style="margin: 5px 0 0 0; color: #6b7280; font-size: 0.9em;">Teknoloji Geliştirme Merkezi</p>
+                    </div>
+                </div>
+                <div style="display: flex; align-items: flex-start; gap: 10px; color: #374151; font-size: 0.95em; line-height: 1.6;">
+                    <i class="fas fa-map-marker-alt" style="color: #3b82f6; margin-top: 3px; flex-shrink: 0;"></i>
+                    <span><?php echo Security::escape(getSetting('contact_address', 'Alanya Alaaddin Keykubat Üniversitesi, Kestel Yerleşkesi, Alanya/Antalya')); ?></span>
+                </div>
+                <a href="https://www.google.com/maps/dir/?api=1&destination=36.52684327221093,32.0827820112754" 
+                   target="_blank" 
+                   style="display: inline-flex; align-items: center; gap: 8px; margin-top: 15px; background: linear-gradient(135deg, #1e40af, #3b82f6); color: white; padding: 10px 20px; border-radius: 10px; text-decoration: none; font-weight: 600; font-size: 0.9em; transition: all 0.3s;"
+                   onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 5px 15px rgba(30,64,175,0.3)'"
+                   onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none'">
+                    <i class="fas fa-directions"></i>
+                    <span>Yol Tarifi Al</span>
+                </a>
+            </div>
+        </div>
     </div>
 </section>
-<?php endif; ?>
 
 <!-- Responsive Styles -->
 <style>
@@ -295,6 +331,31 @@ include __DIR__ . '/../includes/header.php';
         
         form > div[style*="grid-template-columns: 1fr 1fr"] {
             grid-template-columns: 1fr !important;
+        }
+        
+        /* Map overlay card responsive */
+        section div[style*="position: absolute; bottom: 30px; left: 30px"] {
+            position: relative !important;
+            bottom: auto !important;
+            left: auto !important;
+            max-width: 100% !important;
+            margin-top: -50px !important;
+            margin-left: 20px !important;
+            margin-right: 20px !important;
+        }
+    }
+    
+    @media (max-width: 480px) {
+        section h1[style*="font-size: 3em"] {
+            font-size: 2em !important;
+        }
+        
+        section h2[style*="font-size: 2.5em"] {
+            font-size: 1.8em !important;
+        }
+        
+        section h2[style*="font-size: 2em"] {
+            font-size: 1.5em !important;
         }
     }
 </style>

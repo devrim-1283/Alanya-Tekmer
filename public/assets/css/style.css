@@ -2087,3 +2087,606 @@ a {
         height: 250px;
     }
 }
+
+/* ========================================
+   COMPREHENSIVE MOBILE OPTIMIZATION
+   ======================================== */
+
+/* Tablet and Below (992px) */
+@media (max-width: 992px) {
+    /* Container padding adjustment */
+    .container {
+        padding: 0 20px;
+    }
+    
+    /* Page header adjustments */
+    .page-header {
+        padding: 80px 0 60px;
+    }
+    
+    .page-title {
+        font-size: 2rem;
+    }
+    
+    .page-subtitle {
+        font-size: 1rem;
+    }
+    
+    /* Section padding */
+    section {
+        padding: 60px 0;
+    }
+    
+    /* Grid adjustments */
+    .features-grid,
+    .services-grid,
+    .team-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+    }
+    
+    /* Cards */
+    .card,
+    .content-card {
+        padding: 30px 20px;
+    }
+    
+    /* Typography */
+    h1 {
+        font-size: 2.5rem;
+    }
+    
+    h2 {
+        font-size: 2rem;
+    }
+    
+    h3 {
+        font-size: 1.5rem;
+    }
+}
+
+/* Mobile Landscape and Below (768px) */
+@media (max-width: 768px) {
+    /* Header adjustments */
+    .top-header {
+        display: none; /* Hide top header on mobile */
+    }
+    
+    .main-header {
+        padding: 15px 0;
+    }
+    
+    .logo-text {
+        display: none; /* Hide logo text on mobile */
+    }
+    
+    .logo-img {
+        height: 40px;
+    }
+    
+    /* Mobile menu */
+    .nav-menu {
+        position: fixed;
+        top: 0;
+        right: -100%;
+        width: 280px;
+        height: 100vh;
+        background: white;
+        flex-direction: column;
+        padding: 80px 20px 20px;
+        box-shadow: -5px 0 15px rgba(0,0,0,0.1);
+        transition: right 0.3s ease;
+        z-index: 999;
+        overflow-y: auto;
+    }
+    
+    .nav-menu.active {
+        right: 0;
+    }
+    
+    .mobile-menu-toggle {
+        display: flex;
+    }
+    
+    /* Page header */
+    .page-header {
+        padding: 60px 0 40px;
+    }
+    
+    .page-title {
+        font-size: 1.75rem;
+    }
+    
+    .page-subtitle {
+        font-size: 0.95rem;
+    }
+    
+    .legal-icon {
+        font-size: 48px;
+    }
+    
+    /* Container */
+    .container {
+        padding: 0 16px;
+    }
+    
+    /* Section padding */
+    section {
+        padding: 50px 0;
+    }
+    
+    /* Grid layouts - single column */
+    .features-grid,
+    .services-grid,
+    .team-grid,
+    .stats-grid,
+    .rights-grid,
+    .responsibility-grid,
+    .service-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    
+    /* Cards */
+    .card,
+    .content-card,
+    .legal-card {
+        padding: 25px 20px;
+        border-radius: 16px;
+    }
+    
+    .card-header {
+        padding: 20px;
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .card-body {
+        padding: 20px;
+    }
+    
+    .card-icon {
+        width: 50px;
+        height: 50px;
+        font-size: 24px;
+    }
+    
+    /* Intro cards */
+    .legal-intro-card {
+        padding: 30px 20px;
+    }
+    
+    /* Typography */
+    h1 {
+        font-size: 2rem;
+        line-height: 1.2;
+    }
+    
+    h2 {
+        font-size: 1.5rem;
+        line-height: 1.3;
+    }
+    
+    h3 {
+        font-size: 1.25rem;
+    }
+    
+    p {
+        font-size: 0.95rem;
+    }
+    
+    /* Buttons */
+    .btn,
+    .btn-primary,
+    .btn-secondary {
+        padding: 12px 24px;
+        font-size: 0.95rem;
+    }
+    
+    .btn-lg {
+        padding: 14px 28px;
+        font-size: 1rem;
+    }
+    
+    /* Tables */
+    .table-responsive {
+        overflow-x: auto;
+    }
+    
+    table {
+        font-size: 0.85rem;
+    }
+    
+    /* Forms */
+    input,
+    textarea,
+    select {
+        font-size: 16px; /* Prevent zoom on iOS */
+    }
+    
+    /* Hero sections */
+    .hero-section {
+        padding: 60px 0;
+    }
+    
+    .hero-title {
+        font-size: 2rem;
+    }
+    
+    .hero-subtitle {
+        font-size: 1rem;
+    }
+    
+    /* Stats */
+    .stat-card {
+        padding: 20px;
+    }
+    
+    .stat-value {
+        font-size: 2rem;
+    }
+    
+    /* Events/Companies cards */
+    .event-card,
+    .company-card {
+        flex-direction: column;
+    }
+    
+    .event-image,
+    .company-logo {
+        width: 100%;
+        height: 200px;
+    }
+    
+    /* Breadcrumb */
+    .breadcrumb {
+        font-size: 0.85rem;
+    }
+    
+    /* Contact info grid */
+    .contact-info-grid,
+    .contact-methods {
+        grid-template-columns: 1fr;
+    }
+    
+    /* IP grid and security grid */
+    .ip-grid,
+    .security-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    /* Info boxes */
+    .info-box,
+    .terms-box,
+    .warning-box,
+    .update-box {
+        flex-direction: column;
+        text-align: center;
+        padding: 20px;
+    }
+    
+    .agreement-box {
+        flex-direction: column;
+        text-align: center;
+        padding: 25px 20px;
+    }
+    
+    /* FAQ */
+    .faq-item {
+        padding: 20px;
+    }
+    
+    .faq-question h3 {
+        font-size: 1rem;
+    }
+    
+    /* Modal */
+    .modal-content {
+        width: 95%;
+        max-height: 90vh;
+        overflow-y: auto;
+    }
+    
+    .modal-header h2 {
+        font-size: 1.25rem;
+    }
+}
+
+/* Mobile Portrait (576px and below) */
+@media (max-width: 576px) {
+    /* Extra small adjustments */
+    .container {
+        padding: 0 15px;
+    }
+    
+    /* Page header */
+    .page-header {
+        padding: 50px 0 30px;
+    }
+    
+    .page-title {
+        font-size: 1.5rem;
+    }
+    
+    .page-subtitle {
+        font-size: 0.9rem;
+    }
+    
+    .legal-icon {
+        font-size: 36px;
+    }
+    
+    /* Section padding */
+    section {
+        padding: 40px 0;
+    }
+    
+    /* Typography */
+    h1 {
+        font-size: 1.75rem;
+    }
+    
+    h2 {
+        font-size: 1.35rem;
+    }
+    
+    h3 {
+        font-size: 1.1rem;
+    }
+    
+    /* Cards */
+    .card,
+    .content-card,
+    .legal-card {
+        padding: 20px 15px;
+    }
+    
+    .card-header {
+        padding: 15px;
+    }
+    
+    .card-body {
+        padding: 15px;
+    }
+    
+    .card-icon {
+        width: 45px;
+        height: 45px;
+        font-size: 20px;
+    }
+    
+    /* Intro cards */
+    .legal-intro-card {
+        padding: 25px 15px;
+    }
+    
+    .intro-icon {
+        font-size: 36px;
+    }
+    
+    /* Buttons */
+    .btn,
+    .btn-primary,
+    .btn-secondary {
+        padding: 10px 20px;
+        font-size: 0.9rem;
+    }
+    
+    .btn-lg {
+        padding: 12px 24px;
+        font-size: 0.95rem;
+    }
+    
+    /* Feature items */
+    .feature-item,
+    .right-item,
+    .responsibility-item {
+        padding: 15px;
+    }
+    
+    /* All grids to single column */
+    .rights-grid,
+    .responsibility-grid,
+    .service-grid,
+    .ip-grid,
+    .security-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    /* Stats */
+    .stat-value {
+        font-size: 1.75rem;
+    }
+    
+    .stat-label {
+        font-size: 0.85rem;
+    }
+    
+    /* Team cards */
+    .team-card {
+        padding: 15px;
+    }
+    
+    .team-avatar {
+        width: 80px;
+        height: 80px;
+    }
+    
+    /* Tables - stack on very small screens */
+    .table thead {
+        display: none;
+    }
+    
+    .table tr {
+        display: block;
+        margin-bottom: 15px;
+        border: 1px solid var(--gray-200);
+        border-radius: 8px;
+        padding: 10px;
+    }
+    
+    .table td {
+        display: block;
+        text-align: right;
+        padding: 8px;
+        border: none;
+    }
+    
+    .table td::before {
+        content: attr(data-label);
+        float: left;
+        font-weight: 600;
+        color: var(--gray-700);
+    }
+    
+    /* Reduce icon sizes */
+    .fas,
+    .fab {
+        font-size: inherit;
+    }
+    
+    /* Contact link spacing */
+    .contact-link {
+        padding: 12px 15px;
+        font-size: 0.9rem;
+    }
+    
+    /* Social links */
+    .social-links a {
+        width: 35px;
+        height: 35px;
+        font-size: 14px;
+    }
+    
+    /* Breadcrumb */
+    .breadcrumb {
+        font-size: 0.8rem;
+    }
+    
+    /* Last updated */
+    .last-updated {
+        font-size: 0.8rem;
+        padding: 15px;
+    }
+    
+    /* Info banner */
+    .info-banner {
+        padding: 20px 15px;
+        font-size: 0.85rem;
+    }
+    
+    /* Modal adjustments */
+    .modal-content {
+        width: 100%;
+        max-height: 95vh;
+        border-radius: 12px;
+    }
+    
+    .modal-header,
+    .modal-body,
+    .modal-footer {
+        padding: 15px;
+    }
+}
+
+/* Extra Small Devices (400px and below) */
+@media (max-width: 400px) {
+    /* Minimal spacing for very small devices */
+    .container {
+        padding: 0 12px;
+    }
+    
+    h1 {
+        font-size: 1.5rem;
+    }
+    
+    h2 {
+        font-size: 1.25rem;
+    }
+    
+    h3 {
+        font-size: 1rem;
+    }
+    
+    p {
+        font-size: 0.9rem;
+    }
+    
+    .card,
+    .content-card {
+        padding: 15px 12px;
+    }
+    
+    .btn {
+        padding: 8px 16px;
+        font-size: 0.85rem;
+    }
+}
+
+/* Touch device optimizations */
+@media (hover: none) and (pointer: coarse) {
+    /* Increase touch targets */
+    a,
+    button,
+    .btn,
+    .nav-link {
+        min-height: 44px;
+        min-width: 44px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    /* Remove hover effects on touch devices */
+    .card:hover,
+    .feature-item:hover,
+    .service-item:hover {
+        transform: none;
+    }
+    
+    /* Make sure dropdowns work on touch */
+    .dropdown:active .dropdown-menu {
+        display: block;
+    }
+}
+
+/* Landscape orientation adjustments */
+@media (max-width: 768px) and (orientation: landscape) {
+    .page-header {
+        padding: 40px 0 30px;
+    }
+    
+    .hero-section {
+        padding: 40px 0;
+    }
+    
+    section {
+        padding: 40px 0;
+    }
+}
+
+/* Print styles */
+@media print {
+    .top-header,
+    .main-header,
+    .mobile-menu-toggle,
+    .footer,
+    .btn,
+    button {
+        display: none;
+    }
+    
+    .page-header {
+        background: none;
+        color: black;
+        padding: 20px 0;
+    }
+    
+    .container {
+        max-width: 100%;
+    }
+    
+    a {
+        text-decoration: underline;
+    }
+}

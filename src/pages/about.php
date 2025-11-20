@@ -75,110 +75,6 @@ require_once __DIR__ . '/../includes/header.php';
             </div>
         </div>
         
-        <!-- Gallery -->
-        <div class="gallery-section" data-aos="fade-up" data-aos-delay="150">
-            <div class="section-header-center">
-                <h2 class="section-title">Galeri</h2>
-                <p class="section-description">TEKMER'den görüntüler ve videolar</p>
-            </div>
-            
-            <div class="gallery-grid">
-                <?php
-                try {
-                    $db = Database::getInstance();
-                    $galleries = $db->fetchAll(
-                        'SELECT * FROM gallery WHERE is_active = ? ORDER BY sort_order ASC, id DESC',
-                        [true]
-                    );
-                    
-                    if (empty($galleries)) {
-                        echo '<p class="text-center">Henüz galeri öğesi eklenmemiş.</p>';
-                    } else {
-                        foreach ($galleries as $item):
-                            if ($item['type'] === 'image'):
-                ?>
-                    <div class="gallery-item" data-aos="zoom-in" data-aos-delay="100">
-                        <div class="gallery-image">
-                            <img src="<?php echo url($item['media_path']); ?>" 
-                                 alt="<?php echo Security::escape($item['title'] ?? 'Galeri resmi'); ?>"
-                                 loading="lazy">
-                            <div class="gallery-overlay">
-                                <i class="fas fa-search-plus"></i>
-                            </div>
-                        </div>
-                        <?php if ($item['title'] || $item['description']): ?>
-                        <div class="gallery-content">
-                            <?php if ($item['title']): ?>
-                                <h3><?php echo Security::escape($item['title']); ?></h3>
-                            <?php endif; ?>
-                            <?php if ($item['description']): ?>
-                                <p><?php echo Security::escape($item['description']); ?></p>
-                            <?php endif; ?>
-                        </div>
-                        <?php endif; ?>
-                    </div>
-                <?php
-                            elseif ($item['type'] === 'video'):
-                                // YouTube veya Vimeo URL'si varsa
-                                if ($item['video_url']):
-                                    $videoId = '';
-                                    $platform = '';
-                                    
-                                    // YouTube video ID'sini çıkar
-                                    if (preg_match('/(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/ ]{11})/i', $item['video_url'], $match)) {
-                                        $videoId = $match[1];
-                                        $platform = 'youtube';
-                                    }
-                                    // Vimeo video ID'sini çıkar
-                                    elseif (preg_match('/vimeo\.com\/(\d+)/i', $item['video_url'], $match)) {
-                                        $videoId = $match[1];
-                                        $platform = 'vimeo';
-                                    }
-                                    
-                                    if ($videoId):
-                ?>
-                    <div class="gallery-item gallery-video" data-aos="zoom-in" data-aos-delay="100">
-                        <div class="gallery-image">
-                            <?php if ($platform === 'youtube'): ?>
-                                <iframe src="https://www.youtube.com/embed/<?php echo $videoId; ?>" 
-                                        frameborder="0" 
-                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                                        allowfullscreen></iframe>
-                            <?php elseif ($platform === 'vimeo'): ?>
-                                <iframe src="https://player.vimeo.com/video/<?php echo $videoId; ?>" 
-                                        frameborder="0" 
-                                        allow="autoplay; fullscreen; picture-in-picture" 
-                                        allowfullscreen></iframe>
-                            <?php endif; ?>
-                            <div class="video-badge">
-                                <i class="fas fa-play-circle"></i>
-                            </div>
-                        </div>
-                        <?php if ($item['title'] || $item['description']): ?>
-                        <div class="gallery-content">
-                            <?php if ($item['title']): ?>
-                                <h3><?php echo Security::escape($item['title']); ?></h3>
-                            <?php endif; ?>
-                            <?php if ($item['description']): ?>
-                                <p><?php echo Security::escape($item['description']); ?></p>
-                            <?php endif; ?>
-                        </div>
-                        <?php endif; ?>
-                    </div>
-                <?php
-                                    endif;
-                                endif;
-                            endif;
-                        endforeach;
-                    }
-                } catch (Exception $e) {
-                    error_log('Error fetching gallery: ' . $e->getMessage());
-                    echo '<p class="text-center">Galeri yüklenirken bir hata oluştu.</p>';
-                }
-                ?>
-            </div>
-        </div>
-        
         <!-- FAQ -->
         <div class="faq-section" data-aos="fade-up" data-aos-delay="200">
             <div class="section-header-center">
@@ -261,5 +157,74 @@ require_once __DIR__ . '/../includes/header.php';
         });
     });
 </script>
+
+<!-- Mobile Optimizations for About Page -->
+<style>
+@media (max-width: 768px) {
+    .features-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+    }
+    
+    .feature-item {
+        padding: 15px 10px;
+    }
+    
+    .feature-item i {
+        font-size: 28px;
+    }
+    
+    .feature-item span {
+        font-size: 0.85rem;
+    }
+    
+    .highlight-text {
+        font-size: 1rem;
+    }
+    
+    .faq-accordion {
+        padding: 0;
+    }
+    
+    .faq-item {
+        margin-bottom: 15px;
+    }
+    
+    .faq-question h3 {
+        font-size: 1rem;
+    }
+    
+    .faq-answer {
+        padding: 15px;
+        font-size: 0.9rem;
+    }
+    
+    .cta-card {
+        padding: 30px 20px;
+    }
+    
+    .cta-card h2 {
+        font-size: 1.5rem;
+    }
+    
+    .cta-card p {
+        font-size: 0.95rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .features-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .feature-item {
+        padding: 20px 15px;
+    }
+    
+    .cta-card {
+        padding: 25px 15px;
+    }
+}
+</style>
 
 <?php require_once __DIR__ . '/../includes/footer.php'; ?>

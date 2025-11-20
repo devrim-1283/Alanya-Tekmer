@@ -331,6 +331,132 @@ require_once __DIR__ . '/../includes/header.php';
     });
 </script>
 
+<!-- Mobile Optimizations for Home Page -->
+<style>
+@media (max-width: 768px) {
+    /* Hero section mobile */
+    .hero-wrapper {
+        flex-direction: column;
+        gap: 30px;
+    }
+    
+    .hero-text {
+        text-align: center;
+    }
+    
+    .hero-title {
+        font-size: 1.75rem;
+        line-height: 1.2;
+    }
+    
+    .hero-description {
+        font-size: 1rem;
+    }
+    
+    .hero-buttons {
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .btn-hero-primary,
+    .btn-hero-secondary {
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .hero-image {
+        order: -1; /* Show image first on mobile */
+        max-width: 100%;
+    }
+    
+    .hero-image-wrapper {
+        height: 250px;
+    }
+    
+    .scroll-indicator {
+        display: none; /* Hide scroll indicator on mobile */
+    }
+    
+    /* Stats grid mobile */
+    .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+    }
+    
+    .stat-card {
+        padding: 20px 15px;
+    }
+    
+    .stat-value {
+        font-size: 1.75rem;
+    }
+    
+    .stat-label {
+        font-size: 0.85rem;
+    }
+    
+    /* Features mobile */
+    .features-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .feature-card {
+        padding: 25px 20px;
+    }
+    
+    /* Services mobile */
+    .services-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    /* Events mobile */
+    .events-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .event-card {
+        flex-direction: column;
+    }
+    
+    .event-image {
+        width: 100%;
+        height: 200px;
+    }
+    
+    .event-content {
+        padding: 20px;
+    }
+    
+    /* CTA buttons mobile */
+    .cta-buttons {
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .cta-buttons .btn {
+        width: 100%;
+    }
+}
+
+@media (max-width: 576px) {
+    .hero-title {
+        font-size: 1.5rem;
+    }
+    
+    .hero-subtitle {
+        font-size: 0.9rem;
+    }
+    
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .stat-value {
+        font-size: 2rem;
+    }
+}
+</style>
+
 <?php
 // Helper functions for stats
 function getTotalCompanies() {
