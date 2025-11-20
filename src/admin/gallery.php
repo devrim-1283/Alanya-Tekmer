@@ -3,11 +3,13 @@
 require_once __DIR__ . '/../config/db.php';
 require_once __DIR__ . '/../config/security.php';
 require_once __DIR__ . '/../utils/upload.php';
+require_once __DIR__ . '/../utils/helpers.php';
 
 // Check authentication
-Security::requireAuth();
+requireAdmin();
 
 $pageTitle = 'Galeri Yönetimi';
+$currentAdminPage = 'gallery';
 
 // Handle AJAX requests
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {

@@ -137,7 +137,7 @@ En az lisans derecesine sahip Ar-Ge personeli istihdam eden teknoloji merkezleri
 
 Bu destekler ve istisnalar, teknoloji merkezlerinin Ar-Ge, yenilik ve tasarım faaliyetlerini teşvik etmek ve desteklemek amacıyla sağlanmaktadır.
 """
- Geliştirme: React + Node.js, Database: Postresql Redis 
+ Geliştirme: php vanilla, Database: Postresql Redis 
 
 
 Site resmi kurum sitesi olacağı için güvenlik en önemli konu:
@@ -221,4 +221,5 @@ Admin panelinde sağlam bir şekilde hangi sayfaya kim tıklamış görmek istiy
 
 db_url: postgres://wsYXAesjhO4H:cVWiK286CdOxU05DKSB1YwdpIV4vjc38POHwe0EqP5Kacnq3Ph9GMbL465m3U9Te@z8g404kgwg4os4k40oo808cw:5432/postgres
 
-redis_url: redis://default:Nxih8AYkYIxybN7sBvHApJumU00fexsKwDM6fN4cwasTj2PyqTk8lQH6Txvlmne9@zk0cc8ggk0k444swg0c80ck8:6379/0
+redis_url: redis://
+default:Nxih8AYkYIxybN7sBvHApJumU00fexsKwDM6fN4cwasTj2PyqTk8lQH6Txvlmne9@zk0cc8ggk0k444swg0c80ck8:6379/0

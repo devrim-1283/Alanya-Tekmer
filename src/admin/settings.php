@@ -92,9 +92,9 @@ include __DIR__ . '/header.php';
                 <div class="form-group">
                     <label><?php echo Security::escape($key); ?></label>
                     <?php if (strlen($value) > 100): ?>
-                        <textarea name="settings[<?php echo $key; ?>]" rows="3"><?php echo Security::escape($value); ?></textarea>
+                        <textarea name="settings[<?php echo $key; ?>]" rows="3" class="form-control"><?php echo Security::escape($value); ?></textarea>
                     <?php else: ?>
-                        <input type="text" name="settings[<?php echo $key; ?>]" value="<?php echo Security::escape($value); ?>">
+                        <input type="text" name="settings[<?php echo $key; ?>]" value="<?php echo Security::escape($value); ?>" class="form-control">
                     <?php endif; ?>
                 </div>
             <?php endforeach; ?>

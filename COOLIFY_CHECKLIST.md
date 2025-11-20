@@ -64,14 +64,28 @@ Coolify → Application → Health Check:
 
 **ÖNEMLİ:** Health Check URL **mutlaka** `/health` olmalı!
 
-### 3. **Storage (Persistent Volume)**
+### 3. **Storage (Persistent Volume)** ⚠️ ÇOK ÖNEMLİ!
 
 Coolify → Application → Storage → Add Storage:
 
 ```
 Name: uploads
-Source: (Coolify auto)
-Destination: /app/uploads
+Source Path: (Coolify otomatik oluşturur)
+Destination Path: /app/uploads
+Mount Type: Bind Mount veya Volume
+```
+
+**Önemli Notlar:**
+- Bu olmadan yüklenen dosyalar container restart'ta silinir!
+- Destination path mutlaka `/app/uploads` olmalı
+- Permissions: 777 (yazma izni için)
+
+**Logs için (opsiyonel):**
+```
+Name: logs
+Source Path: (Coolify otomatik oluşturur)
+Destination Path: /app/logs
+Mount Type: Bind Mount veya Volume
 ```
 
 ### 4. **Port**
