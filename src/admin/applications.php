@@ -323,240 +323,6 @@ include __DIR__ . '/header.php';
     </div>
 </div>
 
-<style>
-#deleteModal {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 10000 !important;
-    background: rgba(0, 0, 0, 0.7);
-}
-
-#deleteModal.active {
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-}
-
-/* Force modal styles */
-.modal#deleteModal {
-    display: none;
-}
-
-.modal#deleteModal.active {
-    display: flex !important;
-}
-
-.modal-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.7);
-    backdrop-filter: blur(4px);
-}
-
-.modal-content {
-    position: relative;
-    background: white;
-    border-radius: 16px;
-    max-width: 900px;
-    width: 90%;
-    max-height: 90vh;
-    overflow: hidden;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-    animation: slideUp 0.3s ease;
-    display: flex;
-    flex-direction: column;
-}
-
-.modal-lg {
-    max-width: 1100px;
-}
-
-@keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
-}
-
-@keyframes slideUp {
-    from {
-        opacity: 0;
-        transform: translateY(30px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-.modal-header {
-    padding: 25px 30px;
-    border-bottom: 2px solid var(--gray-100);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    color: white;
-}
-
-.modal-header h2 {
-    margin: 0;
-    font-size: 1.5rem;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-}
-
-.modal-close {
-    width: 40px;
-    height: 40px;
-    border: none;
-    background: rgba(255, 255, 255, 0.2);
-    color: white;
-    border-radius: 50%;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.3s ease;
-    font-size: 1.2rem;
-}
-
-.modal-close:hover {
-    background: rgba(255, 255, 255, 0.3);
-    transform: rotate(90deg);
-}
-
-.modal-body {
-    padding: 30px;
-    overflow-y: auto;
-    flex: 1;
-}
-
-.detail-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 25px;
-    margin-bottom: 30px;
-}
-
-.detail-item {
-    background: var(--gray-50);
-    padding: 20px;
-    border-radius: 12px;
-    border-left: 4px solid var(--primary);
-}
-
-.detail-item.full-width {
-    grid-column: 1 / -1;
-}
-
-.detail-label {
-    font-size: 0.85rem;
-    color: var(--gray-500);
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    margin-bottom: 8px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-.detail-label i {
-    color: var(--primary);
-}
-
-.detail-value {
-    font-size: 1rem;
-    color: var(--gray-800);
-    font-weight: 500;
-    line-height: 1.6;
-}
-
-.detail-value.multiline {
-    white-space: pre-wrap;
-}
-
-.status-badge-large {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    padding: 8px 16px;
-    border-radius: 20px;
-    font-weight: 600;
-    font-size: 0.9rem;
-}
-
-.status-badge-large.pending {
-    background: #fff3cd;
-    color: #856404;
-}
-
-.status-badge-large.reviewed {
-    background: #d1ecf1;
-    color: #0c5460;
-}
-
-.status-badge-large.approved {
-    background: #d4edda;
-    color: #155724;
-}
-
-.status-badge-large.rejected {
-    background: #f8d7da;
-    color: #721c24;
-}
-
-.modal-actions {
-    display: flex;
-    gap: 15px;
-    padding: 20px 30px;
-    border-top: 2px solid var(--gray-100);
-    background: var(--gray-50);
-}
-
-.modal-actions .btn {
-    flex: 1;
-    padding: 12px 24px;
-    font-weight: 600;
-}
-
-@media (max-width: 768px) {
-    .detail-grid {
-        grid-template-columns: 1fr;
-        gap: 15px;
-    }
-    
-    .modal-content {
-        width: 95%;
-        max-height: 95vh;
-    }
-    
-    .modal-header {
-        padding: 20px;
-    }
-    
-    .modal-header h2 {
-        font-size: 1.2rem;
-    }
-    
-    .modal-body {
-        padding: 20px;
-    }
-    
-    .modal-actions {
-        flex-direction: column;
-        padding: 15px;
-    }
-}
-</style>
-
 <script>
 // Delete confirmation modal
 function confirmDelete(id, projectName, fullName) {
@@ -640,6 +406,200 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 </script>
+
+<style>
+/* Delete Modal - Override admin.css */
+#deleteModal {
+    display: none !important;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 10000 !important;
+    background: rgba(0, 0, 0, 0.7);
+}
+
+#deleteModal.active {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+/* Force modal styles with higher specificity */
+.modal#deleteModal {
+    display: none !important;
+}
+
+.modal#deleteModal.active {
+    display: flex !important;
+}
+
+#deleteModal .modal-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(4px);
+}
+
+#deleteModal .modal-content {
+    position: relative;
+    background: white;
+    border-radius: 16px;
+    max-width: 600px;
+    width: 90%;
+    max-height: 90vh;
+    overflow: hidden;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    animation: slideUp 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    z-index: 10001;
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+#deleteModal .modal-header {
+    padding: 25px 30px;
+    border-bottom: 2px solid #f5f5f5;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+    color: white;
+}
+
+#deleteModal .modal-header.danger {
+    background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+}
+
+#deleteModal .modal-header h2 {
+    margin: 0;
+    font-size: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+#deleteModal .modal-close {
+    width: 40px;
+    height: 40px;
+    border: none;
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    font-size: 1.2rem;
+}
+
+#deleteModal .modal-close:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: rotate(90deg);
+}
+
+#deleteModal .modal-body {
+    padding: 30px;
+    overflow-y: auto;
+    flex: 1;
+}
+
+#deleteModal .delete-warning {
+    text-align: center;
+}
+
+#deleteModal .warning-icon {
+    font-size: 64px;
+    color: #dc3545;
+    margin-bottom: 20px;
+    animation: shake 0.5s ease;
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-10px); }
+    75% { transform: translateX(10px); }
+}
+
+#deleteModal .warning-text {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #dc3545;
+    margin-bottom: 15px;
+}
+
+#deleteModal .delete-info,
+#deleteModal .delete-sub-info {
+    font-size: 1rem;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+#deleteModal .delete-note {
+    background: #fff3cd;
+    padding: 12px 16px;
+    border-radius: 8px;
+    color: #856404;
+    font-size: 0.9rem;
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+#deleteModal .modal-actions {
+    display: flex;
+    gap: 15px;
+    padding: 20px 30px;
+    border-top: 2px solid #f5f5f5;
+    background: #fafafa;
+}
+
+#deleteModal .modal-actions .btn {
+    flex: 1;
+    padding: 12px 24px;
+    font-weight: 600;
+}
+
+@media (max-width: 768px) {
+    #deleteModal .modal-content {
+        width: 95%;
+        max-height: 95vh;
+    }
+    
+    #deleteModal .modal-header {
+        padding: 20px;
+    }
+    
+    #deleteModal .modal-header h2 {
+        font-size: 1.2rem;
+    }
+    
+    #deleteModal .modal-body {
+        padding: 20px;
+    }
+    
+    #deleteModal .modal-actions {
+        flex-direction: column;
+        padding: 15px;
+    }
+}
+</style>
 
 <?php include __DIR__ . '/footer.php'; ?>
 
