@@ -81,6 +81,11 @@ include __DIR__ . '/header.php';
     <div class="alert alert-danger"><?php echo Security::escape($error); ?></div>
 <?php endif; ?>
 
+<!-- Debug: Test Modal Button -->
+<button onclick="testModal()" style="position: fixed; bottom: 20px; right: 20px; z-index: 99999; background: red; color: white; padding: 10px; border: none; border-radius: 5px; cursor: pointer; font-weight: bold;">
+    🧪 TEST MODAL
+</button>
+
 <div class="card">
     <div class="card-header">
         <h3>Başvurular</h3>
@@ -323,13 +328,22 @@ include __DIR__ . '/header.php';
     width: 100%;
     height: 100%;
     z-index: 10000 !important;
-    background: transparent;
+    background: rgba(0, 0, 0, 0.7);
 }
 
 #deleteModal.active {
     display: flex !important;
-    align-items: center;
-    justify-content: center;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+/* Force modal styles */
+.modal#deleteModal {
+    display: none;
+}
+
+.modal#deleteModal.active {
+    display: flex !important;
 }
 
 .modal-overlay {
@@ -589,8 +603,21 @@ document.addEventListener('DOMContentLoaded', function() {
         console.error('DELETE MODAL NOT FOUND IN DOM!');
     } else {
         console.log('Modal found successfully');
+        console.log('Modal classes:', modal.className);
+        console.log('Modal display:', window.getComputedStyle(modal).display);
     }
 });
+
+// Test function - call this from console: testModal()
+window.testModal = function() {
+    console.log('Testing modal...');
+    const modal = document.getElementById('deleteModal');
+    if (modal) {
+        modal.classList.add('active');
+        console.log('Modal classes after adding active:', modal.className);
+        console.log('Modal display after adding active:', window.getComputedStyle(modal).display);
+    }
+};
 </script>
 
 <?php include __DIR__ . '/footer.php'; ?>
