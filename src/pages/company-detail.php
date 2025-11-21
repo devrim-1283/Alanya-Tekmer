@@ -42,7 +42,7 @@ include __DIR__ . '/../includes/header.php';
             <!-- Company Logo -->
             <div class="detail-logo-card">
                 <?php if ($company['logo']): ?>
-                    <img src="<?php echo url('uploads/' . Security::escape($company['logo'])); ?>" 
+                    <img src="<?php echo getUploadUrl($company['logo']); ?>" 
                          alt="<?php echo Security::escape($company['name']); ?>">
                 <?php else: ?>
                     <div class="no-logo-placeholder">

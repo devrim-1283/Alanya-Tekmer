@@ -29,7 +29,7 @@ include __DIR__ . '/../includes/header.php';
                     <a href="<?php echo url('firma/' . $company['id']); ?>" class="company-logo-card">
                         <?php if ($company['logo']): ?>
                             <div class="logo-wrapper">
-                                <img src="<?php echo url('uploads/' . Security::escape($company['logo'])); ?>" 
+                                <img src="<?php echo getUploadUrl($company['logo']); ?>" 
                                      alt="<?php echo Security::escape($company['name']); ?>"
                                      loading="lazy">
                             </div>
