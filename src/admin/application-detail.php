@@ -20,6 +20,9 @@ if (!$application) {
 $success = '';
 $error = '';
 
+// Generate CSRF token
+$csrfToken = Security::generateCsrfToken();
+
 // Handle actions
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
     if (Security::validateCsrfToken($_POST['csrf_token'] ?? '')) {

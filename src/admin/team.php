@@ -4,6 +4,9 @@ $currentAdminPage = 'team';
 $db = Database::getInstance();
 $success = $error = '';
 
+// Generate CSRF token
+$csrfToken = Security::generateCsrfToken();
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && Security::validateCsrfToken($_POST['csrf_token'] ?? '')) {
     if ($_POST['action'] === 'add') {
         if (isset($_FILES['photo']) && $_FILES['photo']['error'] !== UPLOAD_ERR_NO_FILE) {

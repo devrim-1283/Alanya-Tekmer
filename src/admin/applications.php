@@ -6,6 +6,9 @@ $db = Database::getInstance();
 $success = '';
 $error = '';
 
+// Generate CSRF token
+$csrfToken = Security::generateCsrfToken();
+
 // Check for success message from redirect
 if (isset($_GET['deleted']) && $_GET['deleted'] == 1) {
     $success = 'Başvuru başarıyla silindi.';

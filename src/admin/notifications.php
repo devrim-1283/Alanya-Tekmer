@@ -6,6 +6,9 @@ $db = Database::getInstance();
 $success = '';
 $error = '';
 
+// Generate CSRF token
+$csrfToken = Security::generateCsrfToken();
+
 // Handle actions (delete, acknowledge, mark as read)
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
     if (Security::validateCsrfToken($_POST['csrf_token'] ?? '')) {
