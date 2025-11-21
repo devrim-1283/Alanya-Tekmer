@@ -175,3 +175,26 @@ function getStatusBadge($status) {
     return $badges[$status] ?? $status;
 }
 
+function getTimeAgo($datetime) {
+    $timestamp = is_numeric($datetime) ? $datetime : strtotime($datetime);
+    $diff = time() - $timestamp;
+    
+    if ($diff < 60) {
+        return 'Az önce';
+    } elseif ($diff < 3600) {
+        $minutes = floor($diff / 60);
+        return $minutes . ' dakika önce';
+    } elseif ($diff < 86400) {
+        $hours = floor($diff / 3600);
+        return $hours . ' saat önce';
+    } elseif ($diff < 604800) {
+        $days = floor($diff / 86400);
+        return $days . ' gün önce';
+    } elseif ($diff < 2592000) {
+        $weeks = floor($diff / 604800);
+        return $weeks . ' hafta önce';
+    } else {
+        return formatDate($datetime, 'd.m.Y');
+    }
+}
+

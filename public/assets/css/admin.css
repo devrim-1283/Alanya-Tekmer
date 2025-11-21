@@ -969,6 +969,55 @@ select.form-control {
 }
 
 /* ==========================================
+   NOTIFICATIONS MODAL
+   ========================================== */
+
+.notification-empty {
+    text-align: center;
+    padding: 40px 20px;
+    color: var(--gray-400);
+}
+
+.notification-empty i {
+    font-size: 3rem;
+    margin-bottom: 15px;
+    display: block;
+    opacity: 0.5;
+}
+
+.notification-empty p {
+    margin: 0;
+    font-size: 0.95rem;
+}
+
+.notifications-body .notification-item {
+    padding: 15px;
+    border-bottom: 1px solid var(--gray-100);
+    transition: background-color 0.2s ease;
+}
+
+.notifications-body .notification-item:hover {
+    background-color: var(--gray-50);
+}
+
+.notifications-body .notification-item:last-child {
+    border-bottom: none;
+}
+
+.notifications-body .notification-item.unread {
+    background-color: #f0f4ff;
+}
+
+.notifications-body .notification-item.unread:hover {
+    background-color: #e6edff;
+}
+
+.notifications-body .notification-item small {
+    display: block;
+    margin-top: 5px;
+}
+
+/* ==========================================
    RESPONSIVE DESIGN
    ========================================== */
 

@@ -77,6 +77,23 @@
                         </div>
                         <span class="nav-text">Analitikler</span>
                     </a>
+                    
+                    <a href="<?php echo url(getenv('ADMIN_PATH') . '/notifications'); ?>" 
+                       class="nav-item <?php echo ($currentAdminPage ?? '') === 'notifications' ? 'active' : ''; ?>">
+                        <div class="nav-icon">
+                            <i class="fas fa-bell"></i>
+                        </div>
+                        <span class="nav-text">Bildirimler</span>
+                        <?php
+                        try {
+                            $unreadCount = $db->fetchOne('SELECT COUNT(*) as count FROM notifications WHERE is_acknowledged = FALSE')['count'];
+                            if ($unreadCount > 0):
+                        ?>
+                        <div class="nav-badge">
+                            <span class="badge badge-danger"><?php echo $unreadCount; ?></span>
+                        </div>
+                        <?php endif; } catch(Exception $e) {} ?>
+                    </a>
                 </div>
                 
                 <div class="nav-section">
@@ -190,7 +207,13 @@
                         
                         <button class="header-btn" title="Bildirimler" onclick="toggleNotifications()">
                             <i class="fas fa-bell"></i>
-                            <span class="notification-badge">3</span>
+                            <?php
+                            try {
+                                $headerUnreadCount = $db->fetchOne('SELECT COUNT(*) as count FROM notifications WHERE is_acknowledged = FALSE')['count'];
+                                if ($headerUnreadCount > 0):
+                            ?>
+                            <span class="notification-badge"><?php echo $headerUnreadCount; ?></span>
+                            <?php endif; } catch(Exception $e) {} ?>
                         </button>
                         
                         <button class="header-btn" title="Tam Ekran" onclick="toggleFullscreen()">
@@ -207,29 +230,61 @@
                             </button>
                         </div>
                         <div class="notifications-body">
-                            <div class="notification-item unread">
-                                <div class="notification-icon success">
-                                    <i class="fas fa-check-circle"></i>
+                            <?php
+                            try {
+                                // Sadece onaylanmamış bildirimleri göster
+                                $headerNotifications = $db->fetchAll(
+                                    'SELECT * FROM notifications WHERE is_acknowledged = FALSE ORDER BY created_at DESC LIMIT 5'
+                                );
+                                
+                                if (empty($headerNotifications)):
+                            ?>
+                                <div class="notification-empty">
+                                    <i class="fas fa-bell-slash"></i>
+                                    <p>Bildirim yok</p>
+                                </div>
+                            <?php 
+                                else:
+                                    foreach ($headerNotifications as $notif):
+                                        $timeAgo = getTimeAgo($notif['created_at']);
+                                        $iconClass = '';
+                                        $iconName = 'fa-bell';
+                                        
+                                        switch ($notif['type']) {
+                                            case 'new_application':
+                                                $iconClass = 'success';
+                                                $iconName = 'fa-file-alt';
+                                                break;
+                                            case 'contact_form':
+                                                $iconClass = 'info';
+                                                $iconName = 'fa-envelope';
+                                                break;
+                                            case 'system':
+                                                $iconClass = 'warning';
+                                                $iconName = 'fa-cog';
+                                                break;
+                                        }
+                            ?>
+                            <div class="notification-item <?php echo !$notif['is_read'] ? 'unread' : ''; ?>">
+                                <div class="notification-icon <?php echo $iconClass; ?>">
+                                    <i class="fas <?php echo $iconName; ?>"></i>
                                 </div>
                                 <div class="notification-content">
-                                    <p><strong>Yeni Başvuru</strong></p>
-                                    <span>Ahmet Yılmaz başvuru yaptı</span>
-                                    <small>5 dakika önce</small>
+                                    <p><strong><?php echo Security::escape($notif['title']); ?></strong></p>
+                                    <span><?php echo Security::escape($notif['message']); ?></span>
+                                    <small><?php echo $timeAgo; ?></small>
                                 </div>
                             </div>
-                            <div class="notification-item">
-                                <div class="notification-icon info">
-                                    <i class="fas fa-info-circle"></i>
-                                </div>
-                                <div class="notification-content">
-                                    <p><strong>Sistem Güncellemesi</strong></p>
-                                    <span>Yeni özellikler eklendi</span>
-                                    <small>2 saat önce</small>
-                                </div>
-                            </div>
+                            <?php 
+                                    endforeach;
+                                endif;
+                            } catch(Exception $e) {
+                                echo '<div class="notification-empty"><i class="fas fa-exclamation-triangle"></i><p>Bildirimler yüklenemedi</p></div>';
+                            }
+                            ?>
                         </div>
                         <div class="notifications-footer">
-                            <a href="#">Tümünü Gör</a>
+                            <a href="<?php echo url(getenv('ADMIN_PATH') . '/notifications'); ?>">Tümünü Gör</a>
                         </div>
                     </div>
                 </div>

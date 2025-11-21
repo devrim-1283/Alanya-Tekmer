@@ -91,6 +91,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                     ]
                                 );
                                 
+                                // Create notification for new application
+                                $applicationId = $db->lastInsertId();
+                                $db->execute(
+                                    'INSERT INTO notifications (type, title, message, reference_type, reference_id) 
+                                     VALUES (?, ?, ?, ?, ?)',
+                                    [
+                                        'new_application',
+                                        'Yeni Başvuru',
+                                        Security::cleanInput($_POST['full_name']) . ' adlı kişiden yeni bir başvuru geldi. Proje: ' . Security::cleanInput($_POST['project_name']),
+                                        'application',
+                                        $applicationId
+                                    ]
+                                );
+                                
                                 $success = true;
                             } catch (Exception $e) {
                                 // Delete uploaded file if database insert fails

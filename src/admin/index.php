@@ -84,6 +84,11 @@ switch ($requestUri) {
         require __DIR__ . '/analytics.php';
         break;
         
+    case 'notifications':
+        requireAdmin();
+        require __DIR__ . '/notifications.php';
+        break;
+        
     case 'logout':
         requireAdmin();
         require __DIR__ . '/logout.php';
