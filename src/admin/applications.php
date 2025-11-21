@@ -147,7 +147,11 @@ include __DIR__ . '/header.php';
                                     <i class="fas fa-download"></i> PDF
                                 </a>
                             <?php endif; ?>
-                            <button onclick="confirmDelete(<?php echo $app['id']; ?>, '<?php echo addslashes(Security::escape($app['project_name'])); ?>', '<?php echo addslashes(Security::escape($app['full_name'])); ?>')" class="btn btn-sm btn-danger">
+                            <button 
+                                class="btn btn-sm btn-danger delete-btn" 
+                                data-id="<?php echo $app['id']; ?>"
+                                data-project="<?php echo Security::escape($app['project_name']); ?>"
+                                data-name="<?php echo Security::escape($app['full_name']); ?>">
                                 <i class="fas fa-trash"></i> Sil
                             </button>
                         </td>
@@ -595,19 +599,6 @@ document.addEventListener('keydown', function(e) {
     }
 });
 
-// Test modal on page load
-document.addEventListener('DOMContentLoaded', function() {
-    const modal = document.getElementById('deleteModal');
-    console.log('Page loaded, modal element:', modal);
-    if (!modal) {
-        console.error('DELETE MODAL NOT FOUND IN DOM!');
-    } else {
-        console.log('Modal found successfully');
-        console.log('Modal classes:', modal.className);
-        console.log('Modal display:', window.getComputedStyle(modal).display);
-    }
-});
-
 // Test function - call this from console: testModal()
 window.testModal = function() {
     console.log('Testing modal...');
@@ -618,6 +609,36 @@ window.testModal = function() {
         console.log('Modal display after adding active:', window.getComputedStyle(modal).display);
     }
 };
+
+// Initialize on page load
+document.addEventListener('DOMContentLoaded', function() {
+    // Test modal element
+    const modal = document.getElementById('deleteModal');
+    console.log('Page loaded, modal element:', modal);
+    if (!modal) {
+        console.error('DELETE MODAL NOT FOUND IN DOM!');
+    } else {
+        console.log('Modal found successfully');
+        console.log('Modal classes:', modal.className);
+        console.log('Modal display:', window.getComputedStyle(modal).display);
+    }
+    
+    // Add click listeners to delete buttons
+    const deleteButtons = document.querySelectorAll('.delete-btn');
+    console.log('Found delete buttons:', deleteButtons.length);
+    
+    deleteButtons.forEach(button => {
+        button.addEventListener('click', function(e) {
+            e.preventDefault();
+            const id = this.getAttribute('data-id');
+            const project = this.getAttribute('data-project');
+            const name = this.getAttribute('data-name');
+            
+            console.log('Delete button clicked:', { id, project, name });
+            confirmDelete(id, project, name);
+        });
+    });
+});
 </script>
 
 <?php include __DIR__ . '/footer.php'; ?>
