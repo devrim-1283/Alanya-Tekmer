@@ -101,8 +101,8 @@ switch ($requestUri) {
             $_GET['id'] = $matches[1];
             require __DIR__ . '/application-detail.php';
         } else {
-            http_response_code(404);
-            echo '404 - Page not found';
+        http_response_code(404);
+        echo '404 - Page not found';
         }
         break;
 }

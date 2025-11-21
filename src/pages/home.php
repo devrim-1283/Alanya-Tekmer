@@ -160,8 +160,7 @@ require_once __DIR__ . '/../includes/header.php';
             try {
                 $db = Database::getInstance();
                 $events = $db->fetchAll(
-                    'SELECT * FROM events WHERE status = ? AND event_date >= CURRENT_DATE ORDER BY event_date ASC LIMIT 3',
-                    ['active']
+                    'SELECT * FROM events WHERE event_date >= CURRENT_DATE ORDER BY event_date ASC LIMIT 3'
                 );
                 
                 if (empty($events)) {
@@ -500,7 +499,7 @@ function getTotalCompanies() {
 function getTotalEvents() {
     try {
         $db = Database::getInstance();
-        $result = $db->fetchOne('SELECT COUNT(*) as count FROM events WHERE status = ?', ['active']);
+        $result = $db->fetchOne('SELECT COUNT(*) as count FROM events');
         return $result['count'] ?? 0;
     } catch (Exception $e) {
         return 0;

@@ -52,11 +52,6 @@ include __DIR__ . '/header.php';
     <div class="alert alert-danger"><?php echo Security::escape($error); ?></div>
 <?php endif; ?>
 
-<!-- Debug: Test Modal Button -->
-<button onclick="testModal()" style="position: fixed; bottom: 20px; right: 20px; z-index: 99999; background: red; color: white; padding: 10px; border: none; border-radius: 5px; cursor: pointer; font-weight: bold;">
-    🧪 TEST MODAL
-</button>
-
 <div class="card">
     <div class="card-header">
         <h3>Başvurular</h3>

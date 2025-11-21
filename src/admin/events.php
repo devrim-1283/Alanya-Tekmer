@@ -648,6 +648,59 @@ include __DIR__ . '/header.php';
     font-size: 1rem;
 }
 
+/* Event Gallery */
+.event-gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 15px;
+    margin-top: 15px;
+}
+
+.gallery-item {
+    position: relative;
+    aspect-ratio: 1;
+    border-radius: 12px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.gallery-item:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+}
+
+.gallery-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.gallery-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.gallery-item:hover .gallery-overlay {
+    opacity: 1;
+}
+
+.gallery-overlay i {
+    color: white;
+    font-size: 2rem;
+}
+
 @media (max-width: 768px) {
     .events-grid {
         grid-template-columns: 1fr;
@@ -708,21 +761,46 @@ function clearPreviews() {
 
 function viewEvent(eventData) {
     const event = typeof eventData === 'string' ? JSON.parse(eventData) : eventData;
-    const photos = JSON.parse(event.photos || '[]');
+    
+    // Parse photos
+    let photos = [];
+    try {
+        photos = JSON.parse(event.photos || '[]');
+    } catch (e) {
+        console.error('Error parsing photos:', e);
+        photos = [];
+    }
+    
+    console.log('Event photos:', photos);
     
     let photosHtml = '';
-    if (photos.length > 0) {
-        photosHtml = '<h3><i class="fas fa-images"></i> Fotoğraflar</h3><div class="event-gallery">';
+    if (photos && photos.length > 0) {
+        photosHtml = `
+            <div class="detail-item full-width">
+                <div class="detail-label">
+                    <i class="fas fa-images"></i>
+                    Fotoğraflar (${photos.length})
+                </div>
+                <div class="event-gallery">`;
+        
         photos.forEach(photo => {
-            photosHtml += `<img src="<?php echo url('uploads/'); ?>${photo}" alt="Event photo">`;
+            const photoUrl = `<?php echo url('uploads/'); ?>${photo}`;
+            photosHtml += `
+                <div class="gallery-item">
+                    <img src="${photoUrl}" alt="Event photo" onclick="window.open('${photoUrl}', '_blank')">
+                    <div class="gallery-overlay">
+                        <i class="fas fa-search-plus"></i>
+                    </div>
+                </div>`;
         });
-        photosHtml += '</div>';
+        
+        photosHtml += '</div></div>';
     }
     
     const modalBody = document.getElementById('eventModalBody');
     modalBody.innerHTML = `
         <div class="detail-grid">
-            <div class="detail-item full-width">
+            <div class="detail-item">
                 <div class="detail-label">
                     <i class="fas fa-tag"></i>
                     Tür
@@ -732,6 +810,14 @@ function viewEvent(eventData) {
                         ${event.type === 'etkinlik' ? '📅 Etkinlik' : '📢 Duyuru'}
                     </span>
                 </div>
+            </div>
+            
+            <div class="detail-item">
+                <div class="detail-label">
+                    <i class="fas fa-calendar"></i>
+                    Etkinlik Tarihi
+                </div>
+                <div class="detail-value">${event.event_date ? formatDate(event.event_date) : 'Tarih yok'}</div>
             </div>
             
             <div class="detail-item full-width">
@@ -750,13 +836,7 @@ function viewEvent(eventData) {
                 <div class="detail-value multiline">${escapeHtml(event.description)}</div>
             </div>
             
-            <div class="detail-item">
-                <div class="detail-label">
-                    <i class="fas fa-calendar"></i>
-                    Etkinlik Tarihi
-                </div>
-                <div class="detail-value">${event.event_date ? formatDate(event.event_date) : 'Tarih yok'}</div>
-            </div>
+            ${photosHtml}
             
             <div class="detail-item">
                 <div class="detail-label">

@@ -26,69 +26,22 @@ include __DIR__ . '/../includes/header.php';
         <?php if (!empty($companies)): ?>
             <div class="companies-grid">
                 <?php foreach ($companies as $company): ?>
-                    <div class="company-card">
+                    <a href="<?php echo url('firma/' . $company['id']); ?>" class="company-logo-card">
                         <?php if ($company['logo']): ?>
-                            <div class="company-logo">
+                            <div class="logo-wrapper">
                                 <img src="<?php echo url('uploads/' . Security::escape($company['logo'])); ?>" 
                                      alt="<?php echo Security::escape($company['name']); ?>"
                                      loading="lazy">
                             </div>
-                        <?php endif; ?>
-                        
-                        <div class="company-content">
-                            <h3><?php echo Security::escape($company['name']); ?></h3>
-                            
-                            <?php if ($company['description']): ?>
-                                <p class="company-description">
-                                    <?php echo nl2br(Security::escape($company['description'])); ?>
-                                </p>
-                            <?php endif; ?>
-                            
-                            <?php if ($company['contact_person']): ?>
-                                <p class="company-contact">
-                                    <i class="fas fa-user"></i> 
-                                    <strong>Yetkili:</strong> <?php echo Security::escape($company['contact_person']); ?>
-                                </p>
-                            <?php endif; ?>
-                            
-                            <div class="company-links">
-                                <?php if ($company['phone']): ?>
-                                    <a href="tel:<?php echo Security::normalizePhone($company['phone']); ?>" 
-                                       class="company-link" title="Telefon">
-                                        <i class="fas fa-phone"></i>
-                                    </a>
-                                <?php endif; ?>
-                                
-                                <?php if ($company['whatsapp']): ?>
-                                    <a href="https://wa.me/<?php echo Security::normalizePhone($company['whatsapp']); ?>" 
-                                       class="company-link" title="WhatsApp" target="_blank" rel="noopener">
-                                        <i class="fab fa-whatsapp"></i>
-                                    </a>
-                                <?php endif; ?>
-                                
-                                <?php if ($company['instagram']): ?>
-                                    <a href="<?php echo Security::escape($company['instagram']); ?>" 
-                                       class="company-link" title="Instagram" target="_blank" rel="noopener">
-                                        <i class="fab fa-instagram"></i>
-                                    </a>
-                                <?php endif; ?>
-                                
-                                <?php if ($company['linkedin']): ?>
-                                    <a href="<?php echo Security::escape($company['linkedin']); ?>" 
-                                       class="company-link" title="LinkedIn" target="_blank" rel="noopener">
-                                        <i class="fab fa-linkedin"></i>
-                                    </a>
-                                <?php endif; ?>
-                                
-                                <?php if ($company['website']): ?>
-                                    <a href="<?php echo Security::escape($company['website']); ?>" 
-                                       class="company-link" title="Website" target="_blank" rel="noopener">
-                                        <i class="fas fa-globe"></i>
-                                    </a>
-                                <?php endif; ?>
+                        <?php else: ?>
+                            <div class="logo-wrapper no-logo">
+                                <i class="fas fa-building"></i>
                             </div>
+                        <?php endif; ?>
+                        <div class="company-name-overlay">
+                            <span><?php echo Security::escape($company['name']); ?></span>
                         </div>
-                    </div>
+                    </a>
                 <?php endforeach; ?>
             </div>
         <?php else: ?>
@@ -100,43 +53,159 @@ include __DIR__ . '/../includes/header.php';
     </div>
 </section>
 
-<!-- Mobile Optimizations for Companies Page -->
 <style>
-@media (max-width: 768px) {
+.companies-section {
+    padding: 60px 0;
+}
+
+.companies-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 30px;
+    margin-top: 40px;
+}
+
+.company-logo-card {
+    position: relative;
+    background: white;
+    border-radius: 16px;
+    padding: 30px;
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease;
+    text-decoration: none;
+    overflow: hidden;
+}
+
+.company-logo-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+}
+
+.logo-wrapper {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 15px;
+}
+
+.logo-wrapper img {
+    max-width: 100%;
+    max-height: 100%;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    filter: grayscale(20%);
+    transition: all 0.3s ease;
+}
+
+.company-logo-card:hover .logo-wrapper img {
+    filter: grayscale(0%);
+    transform: scale(1.05);
+}
+
+.logo-wrapper.no-logo {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 12px;
+}
+
+.logo-wrapper.no-logo i {
+    font-size: 4rem;
+    color: white;
+    opacity: 0.8;
+}
+
+.company-name-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.85), transparent);
+    padding: 25px 15px 15px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.company-logo-card:hover .company-name-overlay {
+    opacity: 1;
+}
+
+.company-name-overlay span {
+    color: white;
+    font-weight: 600;
+    font-size: 0.95rem;
+    text-align: center;
+    display: block;
+    line-height: 1.3;
+}
+
+.no-data {
+    text-align: center;
+    padding: 80px 20px;
+    color: #999;
+}
+
+.no-data i {
+    font-size: 5rem;
+    color: #ddd;
+    margin-bottom: 20px;
+}
+
+.no-data p {
+    font-size: 1.1rem;
+    color: #666;
+}
+
+/* Tablet */
+@media (max-width: 992px) {
     .companies-grid {
-        grid-template-columns: 1fr;
-        gap: 20px;
-    }
-    
-    .company-card {
-        flex-direction: column;
-        text-align: center;
-    }
-    
-    .company-logo {
-        width: 100%;
-        height: 150px;
-    }
-    
-    .company-info {
-        padding: 20px;
-    }
-    
-    .company-name {
-        font-size: 1.1rem;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 25px;
     }
 }
 
-@media (max-width: 576px) {
-    .company-info {
+/* Mobile */
+@media (max-width: 768px) {
+    .companies-section {
+        padding: 40px 0;
+    }
+    
+    .companies-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+        margin-top: 30px;
+    }
+    
+    .company-logo-card {
+        padding: 20px;
+        border-radius: 12px;
+    }
+    
+    .company-name-overlay span {
+        font-size: 0.85rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .companies-grid {
+        gap: 15px;
+    }
+    
+    .company-logo-card {
         padding: 15px;
     }
     
-    .company-name {
-        font-size: 1rem;
+    .logo-wrapper.no-logo i {
+        font-size: 3rem;
     }
 }
 </style>
 
 <?php include __DIR__ . '/../includes/footer.php'; ?>
+
 
