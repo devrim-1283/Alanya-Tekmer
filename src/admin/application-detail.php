@@ -39,35 +39,49 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
                 
             case 'delete':
                 try {
+                    error_log("Deleting application ID: $id");
+                    
                     // Get file info before deleting
                     $app = $db->fetchOne('SELECT project_file FROM applications WHERE id = ?', [$id]);
                     
+                    if (!$app) {
+                        throw new Exception("Application not found");
+                    }
+                    
                     // Delete from database
-                    $db->execute('DELETE FROM applications WHERE id = ?', [$id]);
+                    $result = $db->execute('DELETE FROM applications WHERE id = ?', [$id]);
+                    error_log("Delete result: " . ($result ? 'success' : 'failed'));
                     
                     // Delete file if exists
-                    if ($app && $app['project_file']) {
+                    if ($app['project_file']) {
+                        error_log("Attempting to delete file: " . $app['project_file']);
+                        
                         // Try UPLOAD_PATH first
                         $uploadPath = getenv('UPLOAD_PATH');
                         if ($uploadPath) {
                             $filePath = $uploadPath . '/' . $app['project_file'];
                             if (file_exists($filePath)) {
-                                @unlink($filePath);
+                                $deleted = @unlink($filePath);
+                                error_log("Deleted from UPLOAD_PATH: " . ($deleted ? 'yes' : 'no'));
                             }
                         }
                         
                         // Try public/uploads
                         $filePath = __DIR__ . '/../../public/uploads/' . $app['project_file'];
                         if (file_exists($filePath)) {
-                            @unlink($filePath);
+                            $deleted = @unlink($filePath);
+                            error_log("Deleted from public/uploads: " . ($deleted ? 'yes' : 'no'));
                         }
                     }
+                    
+                    error_log("Redirecting to applications list");
                     
                     // Redirect to applications list
                     header('Location: ' . url(getenv('ADMIN_PATH') . '/applications?deleted=1'));
                     exit;
                 } catch (Exception $e) {
-                    $error = 'Silme işlemi başarısız.';
+                    error_log("Delete error: " . $e->getMessage());
+                    $error = 'Silme işlemi başarısız: ' . $e->getMessage();
                 }
                 break;
         }
@@ -343,6 +357,98 @@ include __DIR__ . '/header.php';
     color: var(--gray-500);
 }
 
+/* Delete Modal Styles */
+.delete-warning {
+    text-align: center;
+    padding: 20px;
+}
+
+.warning-icon {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 20px;
+    background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: pulse 2s infinite;
+}
+
+.warning-icon i {
+    font-size: 2.5rem;
+    color: #dc2626;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(220, 38, 38, 0.4);
+    }
+    50% {
+        transform: scale(1.05);
+        box-shadow: 0 0 0 15px rgba(220, 38, 38, 0);
+    }
+}
+
+.warning-text {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #dc2626;
+    margin-bottom: 20px;
+}
+
+.delete-info {
+    font-size: 1.1rem;
+    color: var(--gray-700);
+    margin-bottom: 15px;
+    line-height: 1.6;
+}
+
+.delete-info strong {
+    color: var(--gray-900);
+    display: block;
+    margin-top: 10px;
+}
+
+.delete-sub-info {
+    color: var(--gray-600);
+    margin-bottom: 20px;
+}
+
+.delete-sub-info strong {
+    color: var(--gray-800);
+}
+
+.delete-note {
+    background: #fef3c7;
+    border: 2px solid #fbbf24;
+    border-radius: 10px;
+    padding: 15px;
+    color: #92400e;
+    font-size: 0.95rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.delete-note i {
+    font-size: 1.2rem;
+    color: #f59e0b;
+}
+
+.modal-actions {
+    display: flex;
+    gap: 15px;
+    margin-top: 30px;
+    justify-content: center;
+}
+
+.modal-actions .btn {
+    min-width: 140px;
+}
+
 @media (max-width: 968px) {
     .detail-grid {
         grid-template-columns: 1fr;
@@ -359,6 +465,14 @@ include __DIR__ . '/header.php';
     
     .info-item.full-width {
         grid-template-columns: 1fr;
+    }
+    
+    .modal-actions {
+        flex-direction: column;
+    }
+    
+    .modal-actions .btn {
+        width: 100%;
     }
 }
 </style>
@@ -591,7 +705,7 @@ include __DIR__ . '/header.php';
                         Telefon Et
                     </a>
                     
-                    <button onclick="confirmDelete(<?php echo $application['id']; ?>, '<?php echo Security::escape($application['project_name']); ?>', '<?php echo Security::escape($application['full_name']); ?>')" class="btn btn-danger">
+                    <button onclick="confirmDelete(<?php echo $application['id']; ?>, '<?php echo addslashes(Security::escape($application['project_name'])); ?>', '<?php echo addslashes(Security::escape($application['full_name'])); ?>')" class="btn btn-danger">
                         <i class="fas fa-trash"></i>
                         Başvuruyu Sil
                     </button>
@@ -629,18 +743,18 @@ include __DIR__ . '/header.php';
                 </p>
             </div>
             
-            <form method="POST" id="deleteForm">
+            <div class="modal-actions">
+                <button type="button" onclick="closeDeleteModal()" class="btn btn-secondary btn-lg">
+                    <i class="fas fa-times"></i> İptal
+                </button>
+                <button type="button" onclick="submitDelete()" class="btn btn-danger btn-lg">
+                    <i class="fas fa-trash"></i> Evet, Sil
+                </button>
+            </div>
+            
+            <form method="POST" id="deleteForm" style="display: none;">
                 <input type="hidden" name="csrf_token" value="<?php echo $csrfToken; ?>">
                 <input type="hidden" name="action" value="delete">
-                
-                <div class="modal-actions">
-                    <button type="button" onclick="closeDeleteModal()" class="btn btn-secondary btn-lg">
-                        <i class="fas fa-times"></i> İptal
-                    </button>
-                    <button type="submit" class="btn btn-danger btn-lg">
-                        <i class="fas fa-trash"></i> Evet, Sil
-                    </button>
-                </div>
             </form>
         </div>
     </div>
@@ -648,9 +762,15 @@ include __DIR__ . '/header.php';
 
 <script>
 function confirmDelete(id, projectName, fullName) {
+    console.log('Delete ID:', id, 'Project:', projectName, 'Name:', fullName);
     document.getElementById('deleteProjectName').textContent = projectName;
     document.getElementById('deleteFullName').textContent = fullName;
     document.getElementById('deleteModal').classList.add('active');
+}
+
+function submitDelete() {
+    // Submit the form
+    document.getElementById('deleteForm').submit();
 }
 
 function closeDeleteModal() {
