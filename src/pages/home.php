@@ -4,6 +4,8 @@ $pageTitle = 'Ana Sayfa - Alanya TEKMER';
 $metaDescription = 'Alanya Teknoloji Geliştirme Merkezi - Girişimcilere yönelik danışmanlık, mentorluk ve destekler';
 $currentPage = 'home';
 
+logPageView('home');
+
 require_once __DIR__ . '/../includes/header.php';
 ?>
 

@@ -192,6 +192,13 @@ body.modern-admin-body {
     flex: 1;
     padding: 10px 15px;
     overflow-y: auto;
+    /* Scroll çubuğunu gizle */
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE and Edge */
+}
+
+.sidebar-nav::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera */
 }
 
 .nav-section {

@@ -3,6 +3,8 @@ $pageTitle = 'Hakkımızda - Alanya TEKMER';
 $metaDescription = 'Alanya TEKMER A.Ş., Alanya Alaaddin Keykubat Üniversitesi ve KOSGEB proje desteği ile kurulmuştur.';
 $currentPage = 'about';
 
+logPageView('about');
+
 require_once __DIR__ . '/../includes/header.php';
 ?>
 

@@ -3,6 +3,8 @@ $pageTitle = 'Galeri - Alanya TEKMER';
 $metaDescription = 'Alanya TEKMER fotoğraf ve video galerisi. Tesisimizden görüntüler ve etkinliklerden anlar.';
 $currentPage = 'gallery';
 
+logPageView('gallery');
+
 require_once __DIR__ . '/../includes/header.php';
 ?>
 

@@ -1,6 +1,9 @@
 <?php
 $pageTitle = '404 - Sayfa Bulunamadı';
 $currentPage = '';
+
+logPageView('404');
+
 include __DIR__ . '/../includes/header.php';
 ?>
 
