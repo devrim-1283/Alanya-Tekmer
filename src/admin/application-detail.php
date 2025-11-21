@@ -39,54 +39,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
                     $error = 'Güncelleme başarısız.';
                 }
                 break;
-                
-            case 'delete':
-                try {
-                    error_log("Deleting application ID: $id");
-                    
-                    // Get file info before deleting
-                    $app = $db->fetchOne('SELECT project_file FROM applications WHERE id = ?', [$id]);
-                    
-                    if (!$app) {
-                        throw new Exception("Application not found");
-                    }
-                    
-                    // Delete from database
-                    $result = $db->execute('DELETE FROM applications WHERE id = ?', [$id]);
-                    error_log("Delete result: " . ($result ? 'success' : 'failed'));
-                    
-                    // Delete file if exists
-                    if ($app['project_file']) {
-                        error_log("Attempting to delete file: " . $app['project_file']);
-                        
-                        // Try UPLOAD_PATH first
-                        $uploadPath = getenv('UPLOAD_PATH');
-                        if ($uploadPath) {
-                            $filePath = $uploadPath . '/' . $app['project_file'];
-                            if (file_exists($filePath)) {
-                                $deleted = @unlink($filePath);
-                                error_log("Deleted from UPLOAD_PATH: " . ($deleted ? 'yes' : 'no'));
-                            }
-                        }
-                        
-                        // Try public/uploads
-                        $filePath = __DIR__ . '/../../public/uploads/' . $app['project_file'];
-                        if (file_exists($filePath)) {
-                            $deleted = @unlink($filePath);
-                            error_log("Deleted from public/uploads: " . ($deleted ? 'yes' : 'no'));
-                        }
-                    }
-                    
-                    error_log("Redirecting to applications list");
-                    
-                    // Redirect to applications list
-                    header('Location: ' . url(getenv('ADMIN_PATH') . '/applications?deleted=1'));
-                    exit;
-                } catch (Exception $e) {
-                    error_log("Delete error: " . $e->getMessage());
-                    $error = 'Silme işlemi başarısız: ' . $e->getMessage();
-                }
-                break;
         }
     }
 }
@@ -708,85 +660,11 @@ include __DIR__ . '/header.php';
                         Telefon Et
                     </a>
                     
-                    <button onclick="confirmDelete(<?php echo $application['id']; ?>, '<?php echo addslashes(Security::escape($application['project_name'])); ?>', '<?php echo addslashes(Security::escape($application['full_name'])); ?>')" class="btn btn-danger">
-                        <i class="fas fa-trash"></i>
-                        Başvuruyu Sil
-                    </button>
                 </div>
             </div>
         </div>
     </div>
 </div>
-
-<!-- Delete Confirmation Modal -->
-<div class="modal" id="deleteModal">
-    <div class="modal-overlay" onclick="closeDeleteModal()"></div>
-    <div class="modal-content modal-sm">
-        <div class="modal-header danger">
-            <h2><i class="fas fa-exclamation-triangle"></i> Başvuruyu Sil</h2>
-            <button class="modal-close" onclick="closeDeleteModal()">
-                <i class="fas fa-times"></i>
-            </button>
-        </div>
-        <div class="modal-body">
-            <div class="delete-warning">
-                <div class="warning-icon">
-                    <i class="fas fa-trash-alt"></i>
-                </div>
-                <p class="warning-text">Bu işlem geri alınamaz!</p>
-                <p class="delete-info">
-                    <strong id="deleteProjectName"></strong> projesine ait başvuruyu silmek üzeresiniz.
-                </p>
-                <p class="delete-sub-info">
-                    Başvuru sahibi: <strong id="deleteFullName"></strong>
-                </p>
-                <p class="delete-note">
-                    <i class="fas fa-info-circle"></i>
-                    Başvuruya ait tüm veriler ve dosyalar kalıcı olarak silinecektir.
-                </p>
-            </div>
-            
-            <div class="modal-actions">
-                <button type="button" onclick="closeDeleteModal()" class="btn btn-secondary btn-lg">
-                    <i class="fas fa-times"></i> İptal
-                </button>
-                <button type="button" onclick="submitDelete()" class="btn btn-danger btn-lg">
-                    <i class="fas fa-trash"></i> Evet, Sil
-                </button>
-            </div>
-            
-            <form method="POST" id="deleteForm" style="display: none;">
-                <input type="hidden" name="csrf_token" value="<?php echo $csrfToken; ?>">
-                <input type="hidden" name="action" value="delete">
-            </form>
-        </div>
-    </div>
-</div>
-
-<script>
-function confirmDelete(id, projectName, fullName) {
-    console.log('Delete ID:', id, 'Project:', projectName, 'Name:', fullName);
-    document.getElementById('deleteProjectName').textContent = projectName;
-    document.getElementById('deleteFullName').textContent = fullName;
-    document.getElementById('deleteModal').classList.add('active');
-}
-
-function submitDelete() {
-    // Submit the form
-    document.getElementById('deleteForm').submit();
-}
-
-function closeDeleteModal() {
-    document.getElementById('deleteModal').classList.remove('active');
-}
-
-// Close modal on ESC key
-document.addEventListener('keydown', function(e) {
-    if (e.key === 'Escape') {
-        closeDeleteModal();
-    }
-});
-</script>
 
 <?php include __DIR__ . '/footer.php'; ?>
 
