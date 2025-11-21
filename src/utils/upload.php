@@ -22,10 +22,12 @@ class FileUpload {
         $uploadPath = $uploadDir . '/' . $filename;
         
         if (move_uploaded_file($file['tmp_name'], $uploadPath)) {
+            error_log('PDF uploaded successfully: ' . $uploadPath);
+            chmod($uploadPath, 0644); // Set readable permissions
             return ['success' => true, 'filename' => $filename];
         }
         
-        error_log('PDF upload failed: ' . error_get_last()['message'] ?? 'Unknown error');
+        error_log('PDF upload failed: ' . ($uploadDir . '/' . $filename) . ' - ' . (error_get_last()['message'] ?? 'Unknown error'));
         return ['success' => false, 'error' => 'Dosya yüklenemedi. Lütfen tekrar deneyin.'];
     }
     

@@ -142,14 +142,12 @@ include __DIR__ . '/../includes/header.php';
 <section class="application-wizard-section">
     <div class="container">
         <?php if ($success): ?>
-            <div class="success-card" data-aos="zoom-in">
+            <div class="success-card">
                 <div class="success-animation">
                     <div class="success-checkmark">
                         <div class="check-icon">
                             <span class="icon-line line-tip"></span>
                             <span class="icon-line line-long"></span>
-                            <div class="icon-circle"></div>
-                            <div class="icon-fix"></div>
                         </div>
                     </div>
                 </div>
@@ -552,6 +550,18 @@ include __DIR__ . '/../includes/header.php';
     box-shadow: 0 10px 40px rgba(0,0,0,0.1);
     max-width: 600px;
     margin: 0 auto;
+    animation: slideUpFade 0.5s ease-out;
+}
+
+@keyframes slideUpFade {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .success-animation {
@@ -559,98 +569,116 @@ include __DIR__ . '/../includes/header.php';
 }
 
 .success-checkmark {
-    width: 80px;
-    height: 80px;
-    border-radius: 50%;
-    display: block;
-    stroke-width: 2;
-    stroke: #4BB543;
-    stroke-miterlimit: 10;
+    width: 100px;
+    height: 100px;
     margin: 0 auto;
-    box-shadow: inset 0 0 0 #4BB543;
-    animation: fill 0.4s ease-in-out 0.4s forwards, scale 0.3s ease-in-out 0.9s both;
     position: relative;
+    animation: scaleIn 0.5s ease-out;
 }
 
-.success-checkmark .check-icon {
-    width: 80px;
-    height: 80px;
-    position: relative;
+@keyframes scaleIn {
+    0% {
+        transform: scale(0);
+        opacity: 0;
+    }
+    50% {
+        transform: scale(1.1);
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.check-icon {
+    width: 100px;
+    height: 100px;
+    background: linear-gradient(135deg, #4BB543, #3a9337);
     border-radius: 50%;
-    box-sizing: content-box;
-    border: 4px solid #4BB543;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 8px 24px rgba(75, 181, 67, 0.3);
+    position: relative;
 }
 
-.success-checkmark .icon-line {
+.check-icon::before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: rgba(75, 181, 67, 0.2);
+    border-radius: 50%;
+    animation: ripple 2s infinite;
+}
+
+@keyframes ripple {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(1.5);
+        opacity: 0;
+    }
+}
+
+.icon-line {
+    position: absolute;
+}
+
+.icon-line.line-tip {
+    width: 30px;
     height: 5px;
-    background-color: #4BB543;
-    display: block;
-    border-radius: 2px;
-    position: absolute;
-    z-index: 10;
-}
-
-.success-checkmark .icon-line.line-tip {
-    top: 46px;
-    left: 14px;
-    width: 25px;
+    background: white;
+    left: 24px;
+    top: 52px;
     transform: rotate(45deg);
-    animation: icon-line-tip 0.75s;
+    border-radius: 3px;
+    animation: drawTip 0.4s ease-out 0.2s forwards;
+    transform-origin: left center;
+    opacity: 0;
 }
 
-.success-checkmark .icon-line.line-long {
-    top: 38px;
-    right: 8px;
-    width: 47px;
+.icon-line.line-long {
+    width: 50px;
+    height: 5px;
+    background: white;
+    right: 16px;
+    top: 45px;
     transform: rotate(-45deg);
-    animation: icon-line-long 0.75s;
+    border-radius: 3px;
+    animation: drawLong 0.4s ease-out 0.4s forwards;
+    transform-origin: right center;
+    opacity: 0;
 }
 
-.success-checkmark .icon-circle {
-    top: -4px;
-    left: -4px;
-    z-index: 10;
-    width: 80px;
-    height: 80px;
-    border-radius: 50%;
-    position: absolute;
-    box-sizing: content-box;
-    border: 4px solid rgba(75, 181, 67, 0.5);
+@keyframes drawTip {
+    0% {
+        width: 0;
+        opacity: 0;
+    }
+    100% {
+        width: 30px;
+        opacity: 1;
+    }
 }
 
-.success-checkmark .icon-fix {
-    top: 8px;
-    width: 5px;
-    left: 26px;
-    z-index: 1;
-    height: 85px;
-    position: absolute;
-    transform: rotate(-45deg);
-    background-color: white;
+@keyframes drawLong {
+    0% {
+        width: 0;
+        opacity: 0;
+    }
+    100% {
+        width: 50px;
+        opacity: 1;
+    }
 }
 
-@keyframes icon-line-tip {
-    0% { width: 0; left: 1px; top: 19px; }
-    54% { width: 0; left: 1px; top: 19px; }
-    70% { width: 50px; left: -8px; top: 37px; }
-    84% { width: 17px; left: 21px; top: 48px; }
-    100% { width: 25px; left: 14px; top: 45px; }
-}
-
-@keyframes icon-line-long {
-    0% { width: 0; right: 46px; top: 54px; }
-    65% { width: 0; right: 46px; top: 54px; }
-    84% { width: 55px; right: 0; top: 35px; }
-    100% { width: 47px; right: 8px; top: 38px; }
-}
-
-@keyframes fill {
-    100% { box-shadow: inset 0 0 0 60px #4BB543; }
-}
-
-@keyframes scale {
-    0%, 100% { transform: none; }
-    50% { transform: scale3d(1.1, 1.1, 1); }
+/* Remove unused elements */
+.icon-circle,
+.icon-fix {
+    display: none;
 }
 
 .success-card h2 {

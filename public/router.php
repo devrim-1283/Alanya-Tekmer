@@ -30,6 +30,45 @@ if ($uri === '/debug.php' || $uri === '/debug') {
     }
 }
 
+// Handle uploads directory specially
+if (strpos($uri, '/uploads/') === 0) {
+    $filename = basename($uri);
+    
+    // Try public/uploads first
+    $publicPath = __DIR__ . '/uploads/' . $filename;
+    if (file_exists($publicPath)) {
+        return false; // Let PHP server handle it
+    }
+    
+    // Try UPLOAD_PATH if set
+    $uploadPath = getenv('UPLOAD_PATH');
+    if ($uploadPath) {
+        $uploadFile = $uploadPath . '/' . $filename;
+        if (file_exists($uploadFile)) {
+            // Serve the file
+            $finfo = finfo_open(FILEINFO_MIME_TYPE);
+            $mimeType = finfo_file($finfo, $uploadFile);
+            finfo_close($finfo);
+            
+            header('Content-Type: ' . $mimeType);
+            header('Content-Length: ' . filesize($uploadFile));
+            
+            // For PDFs, suggest download
+            if ($mimeType === 'application/pdf') {
+                header('Content-Disposition: attachment; filename="' . $filename . '"');
+            }
+            
+            readfile($uploadFile);
+            exit(0);
+        }
+    }
+    
+    // File not found
+    http_response_code(404);
+    echo '404 - File not found';
+    exit(0);
+}
+
 // Serve static files directly (assets, images, etc)
 if ($uri !== '/' && file_exists(__DIR__ . $uri)) {
     return false; // Let PHP server handle it
