@@ -26,8 +26,8 @@
                         <span class="brand-subtitle">Admin Panel</span>
                     </div>
                 </div>
-                <button class="sidebar-toggle" onclick="toggleSidebar()">
-                    <i class="fas fa-times"></i>
+                <button class="sidebar-toggle" onclick="toggleSidebarCollapse()" title="Menüyü Daralt/Genişlet">
+                    <i class="fas fa-chevron-left"></i>
                 </button>
             </div>
             
@@ -43,7 +43,8 @@
                     <span class="nav-section-title">Ana Menü</span>
                     
                     <a href="<?php echo url(getenv('ADMIN_PATH') . '/dashboard'); ?>" 
-                       class="nav-item <?php echo ($currentAdminPage ?? '') === 'dashboard' ? 'active' : ''; ?>">
+                       class="nav-item <?php echo ($currentAdminPage ?? '') === 'dashboard' ? 'active' : ''; ?>"
+                       data-title="Dashboard">
                         <div class="nav-icon">
                             <i class="fas fa-home"></i>
                         </div>
@@ -54,7 +55,8 @@
                     </a>
                     
                     <a href="<?php echo url(getenv('ADMIN_PATH') . '/applications'); ?>" 
-                       class="nav-item <?php echo ($currentAdminPage ?? '') === 'applications' ? 'active' : ''; ?>">
+                       class="nav-item <?php echo ($currentAdminPage ?? '') === 'applications' ? 'active' : ''; ?>"
+                       data-title="Başvurular">
                         <div class="nav-icon">
                             <i class="fas fa-file-alt"></i>
                         </div>
@@ -71,7 +73,8 @@
                     </a>
                     
                     <a href="<?php echo url(getenv('ADMIN_PATH') . '/analytics'); ?>" 
-                       class="nav-item <?php echo ($currentAdminPage ?? '') === 'analytics' ? 'active' : ''; ?>">
+                       class="nav-item <?php echo ($currentAdminPage ?? '') === 'analytics' ? 'active' : ''; ?>"
+                       data-title="Analitikler">
                         <div class="nav-icon">
                             <i class="fas fa-chart-line"></i>
                         </div>
@@ -79,7 +82,8 @@
                     </a>
                     
                     <a href="<?php echo url(getenv('ADMIN_PATH') . '/notifications'); ?>" 
-                       class="nav-item <?php echo ($currentAdminPage ?? '') === 'notifications' ? 'active' : ''; ?>">
+                       class="nav-item <?php echo ($currentAdminPage ?? '') === 'notifications' ? 'active' : ''; ?>"
+                       data-title="Bildirimler">
                         <div class="nav-icon">
                             <i class="fas fa-bell"></i>
                         </div>
@@ -100,7 +104,8 @@
                     <span class="nav-section-title">İçerik Yönetimi</span>
                     
                     <a href="<?php echo url(getenv('ADMIN_PATH') . '/events'); ?>" 
-                       class="nav-item <?php echo ($currentAdminPage ?? '') === 'events' ? 'active' : ''; ?>">
+                       class="nav-item <?php echo ($currentAdminPage ?? '') === 'events' ? 'active' : ''; ?>"
+                       data-title="Etkinlikler">
                         <div class="nav-icon">
                             <i class="fas fa-calendar-alt"></i>
                         </div>
@@ -108,7 +113,8 @@
                     </a>
                     
                     <a href="<?php echo url(getenv('ADMIN_PATH') . '/companies'); ?>" 
-                       class="nav-item <?php echo ($currentAdminPage ?? '') === 'companies' ? 'active' : ''; ?>">
+                       class="nav-item <?php echo ($currentAdminPage ?? '') === 'companies' ? 'active' : ''; ?>"
+                       data-title="Firmalar">
                         <div class="nav-icon">
                             <i class="fas fa-building"></i>
                         </div>
@@ -116,7 +122,8 @@
                     </a>
                     
                     <a href="<?php echo url(getenv('ADMIN_PATH') . '/team'); ?>" 
-                       class="nav-item <?php echo ($currentAdminPage ?? '') === 'team' ? 'active' : ''; ?>">
+                       class="nav-item <?php echo ($currentAdminPage ?? '') === 'team' ? 'active' : ''; ?>"
+                       data-title="Ekip">
                         <div class="nav-icon">
                             <i class="fas fa-users"></i>
                         </div>
@@ -124,7 +131,8 @@
                     </a>
                     
                     <a href="<?php echo url(getenv('ADMIN_PATH') . '/gallery'); ?>" 
-                       class="nav-item <?php echo ($currentAdminPage ?? '') === 'gallery' ? 'active' : ''; ?>">
+                       class="nav-item <?php echo ($currentAdminPage ?? '') === 'gallery' ? 'active' : ''; ?>"
+                       data-title="Galeri">
                         <div class="nav-icon">
                             <i class="fas fa-images"></i>
                         </div>
@@ -132,7 +140,8 @@
                     </a>
                     
                     <a href="<?php echo url(getenv('ADMIN_PATH') . '/faq'); ?>" 
-                       class="nav-item <?php echo ($currentAdminPage ?? '') === 'faq' ? 'active' : ''; ?>">
+                       class="nav-item <?php echo ($currentAdminPage ?? '') === 'faq' ? 'active' : ''; ?>"
+                       data-title="SSS">
                         <div class="nav-icon">
                             <i class="fas fa-question-circle"></i>
                         </div>
@@ -144,7 +153,8 @@
                     <span class="nav-section-title">Sistem</span>
                     
                     <a href="<?php echo url(getenv('ADMIN_PATH') . '/settings'); ?>" 
-                       class="nav-item <?php echo ($currentAdminPage ?? '') === 'settings' ? 'active' : ''; ?>">
+                       class="nav-item <?php echo ($currentAdminPage ?? '') === 'settings' ? 'active' : ''; ?>"
+                       data-title="Ayarlar">
                         <div class="nav-icon">
                             <i class="fas fa-cog"></i>
                         </div>

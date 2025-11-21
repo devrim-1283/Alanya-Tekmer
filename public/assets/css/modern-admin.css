@@ -28,7 +28,8 @@
     --gray-900: #111827;
     
     /* Layout */
-    --sidebar-width: 280px;
+    --sidebar-width: 320px;
+    --sidebar-width-collapsed: 80px;
     --header-height: 70px;
     --content-padding: 30px;
     
@@ -83,7 +84,7 @@ body.modern-admin-body {
     height: 100vh;
     z-index: 1000;
     overflow-y: auto;
-    transition: transform var(--transition);
+    transition: width var(--transition), transform var(--transition);
     box-shadow: var(--shadow-xl);
     /* Scroll çubuğunu gizle */
     scrollbar-width: none; /* Firefox */
@@ -92,6 +93,69 @@ body.modern-admin-body {
 
 .modern-sidebar::-webkit-scrollbar {
     display: none; /* Chrome, Safari, Opera */
+}
+
+/* Collapsed State */
+.modern-sidebar.collapsed {
+    width: var(--sidebar-width-collapsed);
+}
+
+.modern-sidebar.collapsed .brand-text,
+.modern-sidebar.collapsed .nav-text,
+.modern-sidebar.collapsed .nav-section-title,
+.modern-sidebar.collapsed .nav-badge,
+.modern-sidebar.collapsed .sidebar-search,
+.modern-sidebar.collapsed .user-info,
+.modern-sidebar.collapsed .user-actions {
+    display: none;
+}
+
+.modern-sidebar.collapsed .nav-icon {
+    margin: 0 auto;
+}
+
+.modern-sidebar.collapsed .nav-item {
+    justify-content: center;
+    padding: 12px;
+}
+
+.modern-sidebar.collapsed .user-profile {
+    justify-content: center;
+    padding: 12px;
+}
+
+.modern-sidebar.collapsed .sidebar-footer {
+    padding: 10px;
+}
+
+/* Collapsed durumda tooltip gibi göster */
+.modern-sidebar.collapsed .nav-item {
+    position: relative;
+}
+
+.modern-sidebar.collapsed .nav-item:hover::after {
+    content: attr(data-title);
+    position: absolute;
+    left: 100%;
+    top: 50%;
+    transform: translateY(-50%);
+    margin-left: 10px;
+    padding: 8px 12px;
+    background: rgba(0, 0, 0, 0.9);
+    color: white;
+    border-radius: 6px;
+    font-size: 13px;
+    white-space: nowrap;
+    z-index: 10000;
+    pointer-events: none;
+    opacity: 0;
+    animation: fadeInTooltip 0.2s ease forwards;
+}
+
+@keyframes fadeInTooltip {
+    to {
+        opacity: 1;
+    }
 }
 
 /* Sidebar Header */
@@ -134,7 +198,7 @@ body.modern-admin-body {
 }
 
 .sidebar-toggle {
-    display: none;
+    display: flex;
     width: 32px;
     height: 32px;
     background: rgba(255, 255, 255, 0.1);
@@ -149,6 +213,20 @@ body.modern-admin-body {
 
 .sidebar-toggle:hover {
     background: rgba(255, 255, 255, 0.15);
+    transform: scale(1.1);
+}
+
+.sidebar-toggle:active {
+    transform: scale(0.95);
+}
+
+/* Toggle icon rotation */
+.sidebar-toggle i {
+    transition: transform var(--transition);
+}
+
+.modern-sidebar.collapsed .sidebar-toggle i {
+    transform: rotate(180deg);
 }
 
 /* Search Box */
@@ -439,7 +517,12 @@ body.modern-admin-body {
     min-height: 100vh;
     display: flex;
     flex-direction: column;
-    transition: margin-left var(--transition);
+    transition: margin-left var(--transition), width var(--transition);
+}
+
+.modern-sidebar.collapsed ~ .admin-main-wrapper {
+    margin-left: var(--sidebar-width-collapsed);
+    width: calc(100% - var(--sidebar-width-collapsed));
 }
 
 /* ==========================================
@@ -757,19 +840,24 @@ body.modern-admin-body {
 @media (max-width: 768px) {
     .modern-sidebar {
         transform: translateX(-100%);
+        width: var(--sidebar-width) !important;
     }
     
-    .modern-sidebar.active {
+    .modern-sidebar.mobile-open {
         transform: translateX(0);
     }
     
+    .modern-sidebar.collapsed {
+        transform: translateX(-100%);
+    }
+    
     .sidebar-toggle {
-        display: flex;
+        display: none !important; /* Hide collapse button on mobile */
     }
     
     .admin-main-wrapper {
-        margin-left: 0;
-        width: 100%;
+        margin-left: 0 !important;
+        width: 100% !important;
     }
     
     .mobile-sidebar-toggle {
