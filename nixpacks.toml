@@ -5,8 +5,9 @@ aptPkgs = ["imagemagick"]
 [phases.install]
 cmds = [
     "composer install --no-dev --optimize-autoloader --no-interaction",
-    "mkdir -p /app/uploads /app/logs",
-    "chmod -R 777 /app/uploads",
+    "mkdir -p /app/public/uploads /app/storage/uploads /app/logs",
+    "chmod -R 777 /app/public/uploads",
+    "chmod -R 777 /app/storage/uploads",
     "chmod -R 755 /app/logs"
 ]
 

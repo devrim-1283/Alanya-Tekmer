@@ -3,7 +3,8 @@
 // This file handles routing for PHP built-in server
 
 // Get request URI
-$uri = urldecode(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH));
+$uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+$uri = $uri ? urldecode($uri) : '/';
 
 // Log all requests (for debugging) - only in debug mode
 if (getenv('DEBUG_MODE') === 'true') {
