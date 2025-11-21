@@ -453,6 +453,9 @@ include __DIR__ . '/../includes/header.php';
                         
                         <div class="turnstile-wrapper">
                             <div class="cf-turnstile" data-sitekey="<?php echo getenv('TURNSTILE_SITE_KEY'); ?>"></div>
+                            <div id="turnstile-error" class="error-message" style="display: none; color: #dc3545; font-size: 14px; margin-top: 8px;">
+                                <i class="fas fa-exclamation-circle"></i> Lütfen robot doğrulamasını tamamlayın
+                            </div>
                         </div>
                     </div>
                     
@@ -1540,6 +1543,33 @@ document.querySelectorAll('.form-control').forEach(input => {
 updateProgress();
 updateButtons();
 
+// Monitor Turnstile completion
+if (typeof window.turnstile !== 'undefined') {
+    // When turnstile is completed, hide error
+    const observer = new MutationObserver(function(mutations) {
+        const turnstileResponse = document.querySelector('input[name="cf-turnstile-response"]');
+        const turnstileError = document.getElementById('turnstile-error');
+        
+        if (turnstileResponse && turnstileResponse.value && turnstileError) {
+            turnstileError.style.display = 'none';
+            const widget = document.querySelector('.cf-turnstile');
+            if (widget) {
+                widget.style.border = '';
+            }
+        }
+    });
+    
+    // Start observing
+    const turnstileWidget = document.querySelector('.cf-turnstile');
+    if (turnstileWidget) {
+        observer.observe(turnstileWidget, { 
+            childList: true, 
+            subtree: true, 
+            attributes: true 
+        });
+    }
+}
+
 // Form submission validation
 document.getElementById('applicationForm')?.addEventListener('submit', function(e) {
     if (!validateStep(currentStep)) {
@@ -1549,6 +1579,45 @@ document.getElementById('applicationForm')?.addEventListener('submit', function(
             firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
             firstError.focus();
         }
+        return;
+    }
+    
+    // Check Turnstile response
+    const turnstileResponse = document.querySelector('input[name="cf-turnstile-response"]');
+    const turnstileError = document.getElementById('turnstile-error');
+    
+    if (!turnstileResponse || !turnstileResponse.value) {
+        e.preventDefault();
+        
+        // Show error message
+        if (turnstileError) {
+            turnstileError.style.display = 'block';
+        }
+        
+        // Scroll to turnstile widget
+        const turnstileWidget = document.querySelector('.cf-turnstile');
+        if (turnstileWidget) {
+            turnstileWidget.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            // Highlight the widget
+            turnstileWidget.style.border = '2px solid #dc3545';
+            turnstileWidget.style.borderRadius = '4px';
+            setTimeout(() => {
+                turnstileWidget.style.border = '';
+            }, 3000);
+        }
+        return;
+    }
+    
+    // Hide error if it was showing
+    if (turnstileError) {
+        turnstileError.style.display = 'none';
+    }
+    
+    // Show loading state
+    const submitBtn = document.querySelector('.btn-submit');
+    if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Gönderiliyor...';
     }
 });
 </script>
