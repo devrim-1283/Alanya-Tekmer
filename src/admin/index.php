@@ -95,8 +95,15 @@ switch ($requestUri) {
         break;
         
     default:
-        http_response_code(404);
-        echo '404 - Page not found';
+        // Check for application detail route: application/{id}
+        if (preg_match('/^application\/(\d+)$/', $requestUri, $matches)) {
+            requireAdmin();
+            $_GET['id'] = $matches[1];
+            require __DIR__ . '/application-detail.php';
+        } else {
+            http_response_code(404);
+            echo '404 - Page not found';
+        }
         break;
 }
 

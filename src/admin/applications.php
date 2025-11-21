@@ -6,6 +6,11 @@ $db = Database::getInstance();
 $success = '';
 $error = '';
 
+// Check for success message from redirect
+if (isset($_GET['deleted']) && $_GET['deleted'] == 1) {
+    $success = 'Başvuru başarıyla silindi.';
+}
+
 // Handle actions
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
     if (Security::validateCsrfToken($_POST['csrf_token'] ?? '')) {
@@ -32,9 +37,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
                     
                     // Delete file if exists
                     if ($app && $app['project_file']) {
+                        // Try UPLOAD_PATH first
+                        $uploadPath = getenv('UPLOAD_PATH');
+                        if ($uploadPath) {
+                            $filePath = $uploadPath . '/' . $app['project_file'];
+                            if (file_exists($filePath)) {
+                                @unlink($filePath);
+                            }
+                        }
+                        
+                        // Try public/uploads
                         $filePath = __DIR__ . '/../../public/uploads/' . $app['project_file'];
                         if (file_exists($filePath)) {
-                            unlink($filePath);
+                            @unlink($filePath);
                         }
                     }
                     
@@ -119,9 +134,9 @@ include __DIR__ . '/header.php';
                             </form>
                         </td>
                         <td>
-                            <button onclick="viewApplication(<?php echo htmlspecialchars(json_encode($app)); ?>)" class="btn btn-sm btn-info">
+                            <a href="<?php echo url(getenv('ADMIN_PATH') . '/application/' . $app['id']); ?>" class="btn btn-sm btn-info">
                                 <i class="fas fa-eye"></i> Detay
-                            </button>
+                            </a>
                             <?php if ($app['project_file']): ?>
                                 <a href="<?php echo url('uploads/' . $app['project_file']); ?>" class="btn btn-sm btn-success" download>
                                     <i class="fas fa-download"></i> PDF
@@ -252,22 +267,6 @@ include __DIR__ . '/header.php';
     font-size: 1rem;
 }
 </style>
-
-<!-- Application Detail Modal -->
-<div class="modal" id="applicationModal">
-    <div class="modal-overlay" onclick="closeApplicationModal()"></div>
-    <div class="modal-content modal-lg">
-        <div class="modal-header">
-            <h2><i class="fas fa-file-alt"></i> Başvuru Detayları</h2>
-            <button class="modal-close" onclick="closeApplicationModal()">
-                <i class="fas fa-times"></i>
-            </button>
-        </div>
-        <div class="modal-body" id="modalBody">
-            <!-- Content will be loaded here -->
-        </div>
-    </div>
-</div>
 
 <!-- Delete Confirmation Modal -->
 <div class="modal" id="deleteModal">
@@ -541,208 +540,6 @@ include __DIR__ . '/header.php';
 </style>
 
 <script>
-function viewApplication(appData) {
-    const app = typeof appData === 'string' ? JSON.parse(appData) : appData;
-    
-    const statusTexts = {
-        'pending': 'Bekleyen',
-        'reviewed': 'İncelendi',
-        'approved': 'Onaylandı',
-        'rejected': 'Reddedildi'
-    };
-    
-    const modalBody = document.getElementById('modalBody');
-    modalBody.innerHTML = `
-        <div class="detail-grid">
-            <div class="detail-item">
-                <div class="detail-label">
-                    <i class="fas fa-project-diagram"></i>
-                    Proje Adı
-                </div>
-                <div class="detail-value">${escapeHtml(app.project_name)}</div>
-            </div>
-            
-            <div class="detail-item">
-                <div class="detail-label">
-                    <i class="fas fa-tag"></i>
-                    Proje Türü
-                </div>
-                <div class="detail-value">${escapeHtml(app.project_type)}</div>
-            </div>
-            
-            <div class="detail-item">
-                <div class="detail-label">
-                    <i class="fas fa-industry"></i>
-                    Faaliyet Alanı
-                </div>
-                <div class="detail-value">${escapeHtml(app.activity_area)}</div>
-            </div>
-            
-            <div class="detail-item">
-                <div class="detail-label">
-                    <i class="fas fa-map-marked-alt"></i>
-                    Talep Edilen Alan
-                </div>
-                <div class="detail-value">${escapeHtml(app.requested_space)}</div>
-            </div>
-            
-            <div class="detail-item">
-                <div class="detail-label">
-                    <i class="fas fa-user"></i>
-                    Ad Soyad
-                </div>
-                <div class="detail-value">${escapeHtml(app.full_name)}</div>
-            </div>
-            
-            <div class="detail-item">
-                <div class="detail-label">
-                    <i class="fas fa-phone"></i>
-                    Telefon
-                </div>
-                <div class="detail-value">${escapeHtml(app.phone)}</div>
-            </div>
-            
-            <div class="detail-item">
-                <div class="detail-label">
-                    <i class="fas fa-envelope"></i>
-                    E-posta
-                </div>
-                <div class="detail-value">${escapeHtml(app.email)}</div>
-            </div>
-            
-            <div class="detail-item">
-                <div class="detail-label">
-                    <i class="fas fa-id-card"></i>
-                    TC Kimlik No
-                </div>
-                <div class="detail-value">${escapeHtml(app.tc_number)}</div>
-            </div>
-            
-            ${app.university ? `
-            <div class="detail-item">
-                <div class="detail-label">
-                    <i class="fas fa-graduation-cap"></i>
-                    Üniversite
-                </div>
-                <div class="detail-value">${escapeHtml(app.university)}</div>
-            </div>
-            ` : ''}
-            
-            ${app.department ? `
-            <div class="detail-item">
-                <div class="detail-label">
-                    <i class="fas fa-book"></i>
-                    Bölüm
-                </div>
-                <div class="detail-value">${escapeHtml(app.department)}</div>
-            </div>
-            ` : ''}
-            
-            ${app.company_name ? `
-            <div class="detail-item">
-                <div class="detail-label">
-                    <i class="fas fa-building"></i>
-                    Firma Adı
-                </div>
-                <div class="detail-value">${escapeHtml(app.company_name)}</div>
-            </div>
-            ` : ''}
-            
-            <div class="detail-item">
-                <div class="detail-label">
-                    <i class="fas fa-users"></i>
-                    Ekip Büyüklüğü
-                </div>
-                <div class="detail-value">${app.team_size} kişi</div>
-            </div>
-            
-            <div class="detail-item">
-                <div class="detail-label">
-                    <i class="fas fa-calendar"></i>
-                    Başvuru Tarihi
-                </div>
-                <div class="detail-value">${formatDate(app.created_at)}</div>
-            </div>
-            
-            <div class="detail-item">
-                <div class="detail-label">
-                    <i class="fas fa-info-circle"></i>
-                    Durum
-                </div>
-                <div class="detail-value">
-                    <span class="status-badge-large ${app.status}">
-                        <i class="fas fa-${getStatusIcon(app.status)}"></i>
-                        ${statusTexts[app.status] || app.status}
-                    </span>
-                </div>
-            </div>
-            
-            <div class="detail-item full-width">
-                <div class="detail-label">
-                    <i class="fas fa-align-left"></i>
-                    Proje Özeti
-                </div>
-                <div class="detail-value multiline">${escapeHtml(app.project_summary)}</div>
-            </div>
-            
-            ${app.expectations ? `
-            <div class="detail-item full-width">
-                <div class="detail-label">
-                    <i class="fas fa-bullseye"></i>
-                    TEKMER'den Beklentiler
-                </div>
-                <div class="detail-value multiline">${escapeHtml(app.expectations)}</div>
-            </div>
-            ` : ''}
-        </div>
-        
-        <div class="modal-actions">
-            ${app.project_file ? `
-                <a href="<?php echo url('uploads/'); ?>${app.project_file}" class="btn btn-success" download>
-                    <i class="fas fa-download"></i> Proje Dosyasını İndir (PDF)
-                </a>
-            ` : '<div></div>'}
-            <button onclick="closeApplicationModal()" class="btn btn-secondary">
-                <i class="fas fa-times"></i> Kapat
-            </button>
-        </div>
-    `;
-    
-    document.getElementById('applicationModal').classList.add('active');
-}
-
-function closeApplicationModal() {
-    document.getElementById('applicationModal').classList.remove('active');
-}
-
-function escapeHtml(text) {
-    if (!text) return '';
-    const div = document.createElement('div');
-    div.textContent = text;
-    return div.innerHTML;
-}
-
-function formatDate(dateStr) {
-    const date = new Date(dateStr);
-    return date.toLocaleDateString('tr-TR', { 
-        year: 'numeric', 
-        month: 'long', 
-        day: 'numeric',
-        hour: '2-digit',
-        minute: '2-digit'
-    });
-}
-
-function getStatusIcon(status) {
-    const icons = {
-        'pending': 'clock',
-        'reviewed': 'eye',
-        'approved': 'check-circle',
-        'rejected': 'times-circle'
-    };
-    return icons[status] || 'info-circle';
-}
-
 // Delete confirmation modal
 function confirmDelete(id, projectName, fullName) {
     document.getElementById('deleteId').value = id;
@@ -758,7 +555,6 @@ function closeDeleteModal() {
 // Close modals on ESC key
 document.addEventListener('keydown', function(e) {
     if (e.key === 'Escape') {
-        closeApplicationModal();
         closeDeleteModal();
     }
 });
