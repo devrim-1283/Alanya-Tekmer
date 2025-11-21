@@ -123,7 +123,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 $csrfToken = Security::generateCsrfToken();
-$additionalCss = ['application'];
 include __DIR__ . '/../includes/header.php';
 ?>
 
@@ -1269,7 +1268,6 @@ include __DIR__ . '/../includes/header.php';
 </style>
 
 <?php 
-$additionalJs = ['application'];
 include __DIR__ . '/../includes/footer.php'; 
 ?>
 

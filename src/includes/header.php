@@ -8,7 +8,7 @@
     <meta name="author" content="Alanya TEKMER">
     <title><?php echo Security::escape($pageTitle ?? 'Alanya TEKMER'); ?></title>
     
-    <link rel="icon" type="image/x-icon" href="<?php echo url('logo.ico'); ?>">
+    <link rel="icon" type="image/x-icon" href="<?php echo url('favicon.ico'); ?>">
     
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">

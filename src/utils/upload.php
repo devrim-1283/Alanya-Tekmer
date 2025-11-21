@@ -13,13 +13,20 @@ class FileUpload {
         
         $filename = self::generateUniqueFilename($prefix, 'pdf');
         $uploadDir = getenv('UPLOAD_PATH') ?: __DIR__ . '/../../public/uploads';
+        
+        // Create upload directory if it doesn't exist
+        if (!file_exists($uploadDir)) {
+            mkdir($uploadDir, 0755, true);
+        }
+        
         $uploadPath = $uploadDir . '/' . $filename;
         
         if (move_uploaded_file($file['tmp_name'], $uploadPath)) {
             return ['success' => true, 'filename' => $filename];
         }
         
-        return ['success' => false, 'error' => 'Dosya yüklenirken bir hata oluştu'];
+        error_log('PDF upload failed: ' . error_get_last()['message'] ?? 'Unknown error');
+        return ['success' => false, 'error' => 'Dosya yüklenemedi. Lütfen tekrar deneyin.'];
     }
     
     public static function uploadImage($file, $prefix = 'image', $maxWidth = 1920, $convertToWebp = true) {

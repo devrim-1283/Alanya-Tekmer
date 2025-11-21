@@ -127,14 +127,9 @@ include __DIR__ . '/header.php';
                                     <i class="fas fa-download"></i> PDF
                                 </a>
                             <?php endif; ?>
-                            <form method="POST" style="display:inline;" onsubmit="return confirm('Bu başvuruyu silmek istediğinizden emin misiniz?');">
-                                <input type="hidden" name="csrf_token" value="<?php echo $csrfToken; ?>">
-                                <input type="hidden" name="action" value="delete">
-                                <input type="hidden" name="id" value="<?php echo $app['id']; ?>">
-                                <button type="submit" class="btn btn-sm btn-danger">
-                                    <i class="fas fa-trash"></i> Sil
-                                </button>
-                            </form>
+                            <button onclick="confirmDelete(<?php echo $app['id']; ?>, '<?php echo Security::escape($app['project_name']); ?>', '<?php echo Security::escape($app['full_name']); ?>')" class="btn btn-sm btn-danger">
+                                <i class="fas fa-trash"></i> Sil
+                            </button>
                         </td>
                     </tr>
                 <?php endforeach; ?>
@@ -165,6 +160,97 @@ include __DIR__ . '/header.php';
 .empty-state p {
     color: var(--gray-500);
 }
+
+/* Delete Modal Styles */
+.modal-sm {
+    max-width: 500px;
+}
+
+.modal-header.danger {
+    background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+}
+
+.delete-warning {
+    text-align: center;
+    padding: 20px;
+}
+
+.warning-icon {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 20px;
+    background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4);
+    }
+    50% {
+        transform: scale(1.05);
+        box-shadow: 0 0 0 10px rgba(239, 68, 68, 0);
+    }
+}
+
+.warning-icon i {
+    font-size: 2.5rem;
+    color: var(--danger);
+}
+
+.warning-text {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--danger);
+    margin-bottom: 20px;
+}
+
+.delete-info {
+    font-size: 1rem;
+    color: var(--gray-700);
+    margin-bottom: 10px;
+    line-height: 1.6;
+}
+
+.delete-sub-info {
+    font-size: 0.95rem;
+    color: var(--gray-600);
+    margin-bottom: 20px;
+}
+
+.delete-note {
+    background: var(--gray-50);
+    padding: 15px;
+    border-radius: 10px;
+    border-left: 4px solid var(--warning);
+    font-size: 0.9rem;
+    color: var(--gray-600);
+    text-align: left;
+    margin-top: 20px;
+}
+
+.delete-note i {
+    color: var(--warning);
+    margin-right: 8px;
+}
+
+.modal-actions {
+    display: flex;
+    gap: 15px;
+    margin-top: 30px;
+}
+
+.modal-actions .btn {
+    flex: 1;
+    padding: 14px 24px;
+    font-weight: 600;
+    font-size: 1rem;
+}
 </style>
 
 <!-- Application Detail Modal -->
@@ -179,6 +265,52 @@ include __DIR__ . '/header.php';
         </div>
         <div class="modal-body" id="modalBody">
             <!-- Content will be loaded here -->
+        </div>
+    </div>
+</div>
+
+<!-- Delete Confirmation Modal -->
+<div class="modal" id="deleteModal">
+    <div class="modal-overlay" onclick="closeDeleteModal()"></div>
+    <div class="modal-content modal-sm">
+        <div class="modal-header danger">
+            <h2><i class="fas fa-exclamation-triangle"></i> Başvuruyu Sil</h2>
+            <button class="modal-close" onclick="closeDeleteModal()">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="modal-body">
+            <div class="delete-warning">
+                <div class="warning-icon">
+                    <i class="fas fa-trash-alt"></i>
+                </div>
+                <p class="warning-text">Bu işlem geri alınamaz!</p>
+                <p class="delete-info">
+                    <strong id="deleteProjectName"></strong> projesine ait başvuruyu silmek üzeresiniz.
+                </p>
+                <p class="delete-sub-info">
+                    Başvuru sahibi: <strong id="deleteFullName"></strong>
+                </p>
+                <p class="delete-note">
+                    <i class="fas fa-info-circle"></i>
+                    Başvuruya ait tüm veriler ve dosyalar kalıcı olarak silinecektir.
+                </p>
+            </div>
+            
+            <form method="POST" id="deleteForm">
+                <input type="hidden" name="csrf_token" value="<?php echo $csrfToken; ?>">
+                <input type="hidden" name="action" value="delete">
+                <input type="hidden" name="id" id="deleteId">
+                
+                <div class="modal-actions">
+                    <button type="button" onclick="closeDeleteModal()" class="btn btn-secondary btn-lg">
+                        <i class="fas fa-times"></i> İptal
+                    </button>
+                    <button type="submit" class="btn btn-danger btn-lg">
+                        <i class="fas fa-trash"></i> Evet, Sil
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
@@ -611,10 +743,23 @@ function getStatusIcon(status) {
     return icons[status] || 'info-circle';
 }
 
-// Close modal on ESC key
+// Delete confirmation modal
+function confirmDelete(id, projectName, fullName) {
+    document.getElementById('deleteId').value = id;
+    document.getElementById('deleteProjectName').textContent = projectName;
+    document.getElementById('deleteFullName').textContent = fullName;
+    document.getElementById('deleteModal').classList.add('active');
+}
+
+function closeDeleteModal() {
+    document.getElementById('deleteModal').classList.remove('active');
+}
+
+// Close modals on ESC key
 document.addEventListener('keydown', function(e) {
     if (e.key === 'Escape') {
         closeApplicationModal();
+        closeDeleteModal();
     }
 });
 </script>
