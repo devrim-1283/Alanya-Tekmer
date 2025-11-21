@@ -142,7 +142,7 @@ include __DIR__ . '/header.php';
                                     <i class="fas fa-download"></i> PDF
                                 </a>
                             <?php endif; ?>
-                            <button onclick="confirmDelete(<?php echo $app['id']; ?>, '<?php echo Security::escape($app['project_name']); ?>', '<?php echo Security::escape($app['full_name']); ?>')" class="btn btn-sm btn-danger">
+                            <button onclick="confirmDelete(<?php echo $app['id']; ?>, '<?php echo addslashes(Security::escape($app['project_name'])); ?>', '<?php echo addslashes(Security::escape($app['full_name'])); ?>')" class="btn btn-sm btn-danger">
                                 <i class="fas fa-trash"></i> Sil
                             </button>
                         </td>
@@ -315,19 +315,19 @@ include __DIR__ . '/header.php';
 </div>
 
 <style>
-.modal {
+#deleteModal {
     display: none;
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    z-index: 10000;
-    animation: fadeIn 0.3s ease;
+    z-index: 10000 !important;
+    background: transparent;
 }
 
-.modal.active {
-    display: flex;
+#deleteModal.active {
+    display: flex !important;
     align-items: center;
     justify-content: center;
 }
@@ -542,10 +542,32 @@ include __DIR__ . '/header.php';
 <script>
 // Delete confirmation modal
 function confirmDelete(id, projectName, fullName) {
-    document.getElementById('deleteId').value = id;
-    document.getElementById('deleteProjectName').textContent = projectName;
-    document.getElementById('deleteFullName').textContent = fullName;
-    document.getElementById('deleteModal').classList.add('active');
+    console.log('confirmDelete called');
+    console.log('ID:', id);
+    console.log('Project:', projectName);
+    console.log('Name:', fullName);
+    
+    const modal = document.getElementById('deleteModal');
+    console.log('Modal element:', modal);
+    
+    const deleteIdInput = document.getElementById('deleteId');
+    const projectNameEl = document.getElementById('deleteProjectName');
+    const fullNameEl = document.getElementById('deleteFullName');
+    
+    console.log('deleteId input:', deleteIdInput);
+    console.log('projectName element:', projectNameEl);
+    console.log('fullName element:', fullNameEl);
+    
+    if (deleteIdInput) deleteIdInput.value = id;
+    if (projectNameEl) projectNameEl.textContent = projectName;
+    if (fullNameEl) fullNameEl.textContent = fullName;
+    
+    if (modal) {
+        modal.classList.add('active');
+        console.log('Modal opened');
+    } else {
+        console.error('Modal not found!');
+    }
 }
 
 function closeDeleteModal() {
@@ -556,6 +578,17 @@ function closeDeleteModal() {
 document.addEventListener('keydown', function(e) {
     if (e.key === 'Escape') {
         closeDeleteModal();
+    }
+});
+
+// Test modal on page load
+document.addEventListener('DOMContentLoaded', function() {
+    const modal = document.getElementById('deleteModal');
+    console.log('Page loaded, modal element:', modal);
+    if (!modal) {
+        console.error('DELETE MODAL NOT FOUND IN DOM!');
+    } else {
+        console.log('Modal found successfully');
     }
 });
 </script>
