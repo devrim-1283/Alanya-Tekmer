@@ -71,11 +71,15 @@ include __DIR__ . '/../includes/header.php';
                 <?php endif; ?>
 
                 <!-- Contact Information -->
-                <?php if ($company['contact_person'] || $company['phone'] || $company['email']): ?>
+                <?php 
+                $hasContact = !empty($company['contact_person']) || 
+                             !empty($company['phone']) || 
+                             (isset($company['email']) && !empty($company['email']));
+                if ($hasContact): ?>
                     <div class="info-section">
                         <h3><i class="fas fa-address-card"></i> İletişim Bilgileri</h3>
                         <div class="contact-grid">
-                            <?php if ($company['contact_person']): ?>
+                            <?php if (!empty($company['contact_person'])): ?>
                                 <div class="contact-item">
                                     <i class="fas fa-user"></i>
                                     <div>
@@ -85,7 +89,7 @@ include __DIR__ . '/../includes/header.php';
                                 </div>
                             <?php endif; ?>
 
-                            <?php if ($company['phone']): ?>
+                            <?php if (!empty($company['phone'])): ?>
                                 <div class="contact-item">
                                     <i class="fas fa-phone"></i>
                                     <div>
@@ -97,7 +101,7 @@ include __DIR__ . '/../includes/header.php';
                                 </div>
                             <?php endif; ?>
 
-                            <?php if ($company['email']): ?>
+                            <?php if (isset($company['email']) && !empty($company['email'])): ?>
                                 <div class="contact-item">
                                     <i class="fas fa-envelope"></i>
                                     <div>
@@ -314,30 +318,37 @@ include __DIR__ . '/../includes/header.php';
 }
 
 .social-links {
-    display: flex;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
     gap: 15px;
-    flex-wrap: wrap;
 }
 
 .social-link {
-    display: inline-flex;
+    display: flex;
     align-items: center;
-    gap: 10px;
-    padding: 15px 30px;
+    justify-content: center;
+    gap: 12px;
+    padding: 16px 24px;
     border-radius: 12px;
     text-decoration: none;
     color: white;
     font-weight: 600;
+    font-size: 0.95rem;
     transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 .social-link:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
 }
 
 .social-link i {
-    font-size: 1.5rem;
+    font-size: 1.4rem;
+}
+
+.social-link span {
+    font-weight: 600;
 }
 
 .social-link.whatsapp {
@@ -356,28 +367,38 @@ include __DIR__ . '/../includes/header.php';
     margin-top: 50px;
     padding-top: 30px;
     border-top: 2px solid #f0f0f0;
+    display: flex;
+    justify-content: center;
 }
 
 .btn {
     display: inline-flex;
     align-items: center;
     gap: 10px;
-    padding: 14px 30px;
-    border-radius: 10px;
+    padding: 16px 32px;
+    border-radius: 12px;
     text-decoration: none;
     font-weight: 600;
+    font-size: 1rem;
     transition: all 0.3s ease;
+    border: none;
+    cursor: pointer;
 }
 
 .btn-secondary {
-    background: #6c757d;
+    background: linear-gradient(135deg, #6c757d 0%, #5a6268 100%);
     color: white;
+    box-shadow: 0 4px 12px rgba(108, 117, 125, 0.3);
 }
 
 .btn-secondary:hover {
-    background: #5a6268;
-    transform: translateY(-2px);
-    box-shadow: 0 6px 15px rgba(108, 117, 125, 0.3);
+    background: linear-gradient(135deg, #5a6268 0%, #495057 100%);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(108, 117, 125, 0.4);
+}
+
+.btn-secondary i {
+    font-size: 1rem;
 }
 
 /* Responsive */
@@ -416,10 +437,20 @@ include __DIR__ . '/../includes/header.php';
     }
     
     .social-links {
-        flex-direction: column;
+        grid-template-columns: 1fr;
     }
     
     .social-link {
+        width: 100%;
+    }
+    
+    .action-buttons {
+        margin-top: 40px;
+        padding-top: 25px;
+    }
+    
+    .btn {
+        width: 100%;
         justify-content: center;
     }
 }
