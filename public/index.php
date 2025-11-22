@@ -87,11 +87,6 @@ switch ($requestUri) {
     case 'firmalar':
         require __DIR__ . '/../src/pages/companies.php';
         break;
-    
-    case (preg_match('/^firma\/(\d+)$/', $uri, $matches) ? true : false):
-        $_GET['id'] = $matches[1];
-        require __DIR__ . '/../src/pages/company-detail.php';
-        break;
         
     case 'basvuru':
         require __DIR__ . '/../src/pages/application.php';
@@ -112,8 +107,15 @@ switch ($requestUri) {
     case 'kvkk':
         require __DIR__ . '/../src/pages/kvkk.php';
         break;
-        
+    
     default:
+        // Check for dynamic routes before 404
+        if (preg_match('/^firma\/(\d+)$/', $requestUri, $matches)) {
+            $_GET['id'] = $matches[1];
+            require __DIR__ . '/../src/pages/company-detail.php';
+            break;
+        }
+        
         // Check if it's admin panel
         $adminPath = getenv('ADMIN_PATH');
         if ($adminPath && strpos($requestUri, $adminPath) === 0) {
