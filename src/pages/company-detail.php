@@ -27,16 +27,8 @@ include __DIR__ . '/../includes/header.php';
 
 <section class="page-header">
     <div class="container">
-        <div class="page-header-content">
-            <nav class="breadcrumb">
-                <a href="<?php echo url(); ?>">Ana Sayfa</a>
-                <span>/</span>
-                <a href="<?php echo url('firmalar'); ?>">Firmalar</a>
-                <span>/</span>
-                <span><?php echo Security::escape($company['name']); ?></span>
-            </nav>
-            <h1 class="page-title"><?php echo Security::escape($company['name']); ?></h1>
-        </div>
+        <h1><?php echo Security::escape($company['name']); ?></h1>
+        <p>Firma Detayları</p>
     </div>
 </section>
 
@@ -177,8 +169,6 @@ include __DIR__ . '/../includes/header.php';
     padding: 60px 0;
     min-height: 60vh;
 }
-
-/* Breadcrumb styles are in main style.css */
 
 .company-detail-wrapper {
     max-width: 1000px;
