@@ -307,13 +307,13 @@ include __DIR__ . '/../includes/header.php';
     color: #667eea;
 }
 
-.social-links {
+.company-detail-section .social-links {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
     gap: 15px;
 }
 
-.social-link {
+.company-detail-section .social-link {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -328,28 +328,28 @@ include __DIR__ . '/../includes/header.php';
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
-.social-link:hover {
+.company-detail-section .social-link:hover {
     transform: translateY(-4px);
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
 }
 
-.social-link i {
+.company-detail-section .social-link i {
     font-size: 1.4rem;
 }
 
-.social-link span {
+.company-detail-section .social-link span {
     font-weight: 600;
 }
 
-.social-link.whatsapp {
+.company-detail-section .social-link.whatsapp {
     background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
 }
 
-.social-link.instagram {
+.company-detail-section .social-link.instagram {
     background: linear-gradient(135deg, #E1306C 0%, #C13584 50%, #833AB4 100%);
 }
 
-.social-link.linkedin {
+.company-detail-section .social-link.linkedin {
     background: linear-gradient(135deg, #0077B5 0%, #00669C 100%);
 }
 
@@ -426,11 +426,11 @@ include __DIR__ . '/../includes/header.php';
         gap: 15px;
     }
     
-    .social-links {
+    .company-detail-section .social-links {
         grid-template-columns: 1fr;
     }
     
-    .social-link {
+    .company-detail-section .social-link {
         width: 100%;
     }
     
