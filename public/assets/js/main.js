@@ -1,26 +1,18 @@
 // Main JavaScript
 
-document.addEventListener('DOMContentLoaded', function() {
-    // Mobile menu toggle
-    const mobileToggle = document.querySelector('.mobile-menu-toggle');
-    const navMenu = document.getElementById('navMenu');
-    
-    if (mobileToggle) {
-        mobileToggle.addEventListener('click', function() {
-            navMenu.classList.toggle('active');
-        });
-    }
-    
+document.addEventListener('DOMContentLoaded', function () {
+    // Mobile menu toggle handled by inline onclick in header.php and footer.php script
+
     // Close mobile menu on link click
     const navLinks = document.querySelectorAll('.nav-menu a');
     navLinks.forEach(link => {
-        link.addEventListener('click', function() {
+        link.addEventListener('click', function () {
             if (window.innerWidth <= 768) {
                 navMenu.classList.remove('active');
             }
         });
     });
-    
+
     // Smooth scroll for anchor links
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
@@ -50,10 +42,5 @@ if (!localStorage.getItem('cookieConsent')) {
 }
 
 // Mobile menu toggle
-function toggleMobileMenu() {
-    const navMenu = document.getElementById('navMenu');
-    if (navMenu) {
-        navMenu.classList.toggle('active');
-    }
-}
+// toggleMobileMenu is defined in footer.php
 
