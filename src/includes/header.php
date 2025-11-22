@@ -48,15 +48,15 @@
                 <div class="contact-info">
                     <a href="tel:<?php echo getSetting('contact_phone'); ?>" class="contact-item">
                         <i class="fas fa-phone-alt"></i>
-                        <span><?php echo getSetting('contact_phone'); ?></span>
+                        <?php echo getSetting('contact_phone'); ?>
                     </a>
                     <a href="mailto:<?php echo getSetting('contact_email'); ?>" class="contact-item">
                         <i class="fas fa-envelope"></i>
-                        <span><?php echo getSetting('contact_email'); ?></span>
+                        <?php echo getSetting('contact_email'); ?>
                     </a>
                     <div class="contact-item">
                         <i class="fas fa-map-marker-alt"></i>
-                        <span><?php echo Security::escape(getSetting('contact_address')); ?></span>
+                        <?php echo Security::escape(getSetting('contact_address')); ?>
                     </div>
                 </div>
                 <div class="social-links">
