@@ -82,7 +82,7 @@
         </div>
     </footer>
 
-    <script src="<?php echo asset('js/main.js'); ?>"></script>
+    <script src="<?php echo asset('js/main.js'); ?>?v=<?php echo time(); ?>"></script>
     
     <?php if (isset($additionalJs)): ?>
         <?php foreach ((array)$additionalJs as $js): ?>
@@ -91,6 +91,30 @@
     <?php endif; ?>
     
     <script>
+    // Mobile menu toggle - Inline fallback to ensure it works
+    function toggleMobileMenu() {
+        const navMenu = document.getElementById('navMenu');
+        const mobileToggle = document.getElementById('mobileMenuToggle');
+        const mobileOverlay = document.getElementById('mobileOverlay');
+        const body = document.body;
+        
+        if (navMenu && mobileToggle) {
+            navMenu.classList.toggle('active');
+            mobileToggle.classList.toggle('active');
+            
+            if (mobileOverlay) {
+                mobileOverlay.classList.toggle('active');
+            }
+            
+            // Prevent background scrolling
+            if (navMenu.classList.contains('active')) {
+                body.style.overflow = 'hidden';
+            } else {
+                body.style.overflow = '';
+            }
+        }
+    }
+
     // Cookie consent
     function acceptCookies() {
         localStorage.setItem('cookieConsent', 'accepted');
