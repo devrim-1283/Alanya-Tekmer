@@ -30,6 +30,14 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
+    // Mobile menu close button
+    const closeBtn = document.querySelector('.mobile-menu-close');
+    if (closeBtn) {
+        closeBtn.addEventListener('click', function () {
+            closeMobileMenu();
+        });
+    }
+
     // Close mobile menu on link click
     const navLinks = document.querySelectorAll('.nav-menu a');
     navLinks.forEach(link => {

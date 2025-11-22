@@ -106,6 +106,15 @@
                 </button>
                 
                 <ul class="nav-menu" id="navMenu">
+                    <div class="mobile-menu-header">
+                        <div class="mobile-menu-logo">
+                            <img src="<?php echo asset('images/logo.png'); ?>" alt="Alanya TEKMER">
+                            <span>Alanya TEKMER</span>
+                        </div>
+                        <button class="mobile-menu-close" onclick="toggleMobileMenu()">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
                     <li class="nav-item dropdown" data-dropdown>
                         <a href="#" class="nav-link dropdown-toggle <?php echo in_array(($currentPage ?? ''), ['about', 'team', 'mevzuat', 'gallery']) ? 'active' : ''; ?>" onclick="return false;">
                             <i class="fas fa-info-circle"></i>
