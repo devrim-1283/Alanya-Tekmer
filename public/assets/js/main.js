@@ -1,26 +1,8 @@
 // Main JavaScript
 
 document.addEventListener('DOMContentLoaded', function () {
-    // Mobile menu toggle - Event Listener approach (Backup for onclick)
-    const mobileToggle = document.getElementById('mobileMenuToggle');
-    const navMenu = document.getElementById('navMenu');
-    const mobileOverlay = document.getElementById('mobileOverlay');
-
-    function handleMenuToggle(e) {
-        if (e) e.preventDefault();
-        toggleMobileMenu();
-    }
-
-    if (mobileToggle) {
-        // Remove old listeners to be safe (though we can't really do that easily without reference)
-        // Just add the new one. If onclick works, this might double toggle if not careful.
-        // But we will make toggleMobileMenu smart.
-        mobileToggle.onclick = handleMenuToggle; // Override inline onclick to be sure
-    }
-
-    if (mobileOverlay) {
-        mobileOverlay.onclick = handleMenuToggle;
-    }
+    // Mobile menu toggle is handled by the global toggleMobileMenu function
+    // called via onclick attribute in HTML.
 
     // Close mobile menu on link click
     const navLinks = document.querySelectorAll('.nav-menu a');
