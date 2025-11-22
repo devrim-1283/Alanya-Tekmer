@@ -110,6 +110,12 @@ switch ($requestUri) {
     
     default:
         // Check for dynamic routes before 404
+        if (preg_match('/^etkinlik\/(\d+)$/', $requestUri, $matches)) {
+            $_GET['id'] = $matches[1];
+            require __DIR__ . '/../src/pages/event-detail.php';
+            break;
+        }
+
         if (preg_match('/^firma\/(\d+)$/', $requestUri, $matches)) {
             $_GET['id'] = $matches[1];
             require __DIR__ . '/../src/pages/company-detail.php';
