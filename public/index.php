@@ -20,6 +20,7 @@ try {
     require_once __DIR__ . '/../src/config/redis.php';
     require_once __DIR__ . '/../src/config/security.php';
     require_once __DIR__ . '/../src/utils/helpers.php';
+    require_once __DIR__ . '/../src/utils/upload_path.php';
     require_once __DIR__ . '/../src/utils/validation.php';
     require_once __DIR__ . '/../src/utils/upload.php';
     require_once __DIR__ . '/../src/utils/cache.php';

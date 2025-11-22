@@ -27,17 +27,19 @@ include __DIR__ . '/../includes/header.php';
             <div class="companies-grid">
                 <?php foreach ($companies as $company): ?>
                     <a href="<?php echo url('firma/' . $company['id']); ?>" class="company-logo-card">
-                        <?php if ($company['logo']): ?>
-                            <div class="logo-wrapper">
-                                <img src="<?php echo getUploadUrl($company['logo']); ?>" 
+                        <div class="logo-image-wrapper">
+                            <?php if ($company['logo']): ?>
+                                <img src="<?php echo url('uploads/' . basename($company['logo'])); ?>" 
                                      alt="<?php echo Security::escape($company['name']); ?>"
-                                     loading="lazy">
-                            </div>
-                        <?php else: ?>
-                            <div class="logo-wrapper no-logo">
-                                <i class="fas fa-building"></i>
-                            </div>
-                        <?php endif; ?>
+                                     class="logo-image"
+                                     loading="lazy"
+                                     onerror="this.onerror=null; this.parentElement.innerHTML='<div class=\'logo-image-placeholder\'><i class=\'fas fa-building\'></i></div>';">
+                            <?php else: ?>
+                                <div class="logo-image-placeholder">
+                                    <i class="fas fa-building"></i>
+                                </div>
+                            <?php endif; ?>
+                        </div>
                         <div class="company-name-overlay">
                             <span><?php echo Security::escape($company['name']); ?></span>
                         </div>
@@ -85,16 +87,18 @@ include __DIR__ . '/../includes/header.php';
     box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
 }
 
-.logo-wrapper {
+.logo-image-wrapper {
+    position: relative;
     width: 100%;
     height: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
     padding: 15px;
+    overflow: hidden;
 }
 
-.logo-wrapper img {
+.logo-image {
     max-width: 100%;
     max-height: 100%;
     width: auto;
@@ -104,17 +108,22 @@ include __DIR__ . '/../includes/header.php';
     transition: all 0.3s ease;
 }
 
-.company-logo-card:hover .logo-wrapper img {
+.company-logo-card:hover .logo-image {
     filter: grayscale(0%);
     transform: scale(1.05);
 }
 
-.logo-wrapper.no-logo {
+.logo-image-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     border-radius: 12px;
 }
 
-.logo-wrapper.no-logo i {
+.logo-image-placeholder i {
     font-size: 4rem;
     color: white;
     opacity: 0.8;
@@ -200,7 +209,7 @@ include __DIR__ . '/../includes/header.php';
         padding: 15px;
     }
     
-    .logo-wrapper.no-logo i {
+    .logo-image-placeholder i {
         font-size: 3rem;
     }
 }
