@@ -121,7 +121,10 @@ a {
 
 .social-links {
     display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
     gap: 12px;
+    align-items: center;
 }
 
 .social-link {
@@ -130,12 +133,15 @@ a {
     justify-content: center;
     width: 32px;
     height: 32px;
+    min-width: 32px;
+    min-height: 32px;
     background: rgba(255, 255, 255, 0.1);
     border-radius: 50%;
     color: white;
     font-size: 14px;
     transition: all 0.3s ease;
     backdrop-filter: blur(10px);
+    flex-shrink: 0;
 }
 
 .social-link:hover {
@@ -411,6 +417,11 @@ a {
     z-index: 999;
     opacity: 0;
     transition: opacity 0.3s ease;
+}
+
+.mobile-overlay.active {
+    display: block;
+    opacity: 1;
 }
 
 /* HERO SECTION - SPLIT LAYOUT */
@@ -1655,10 +1666,17 @@ a {
         transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         overflow-y: auto;
         align-items: stretch;
+        z-index: 1001;
     }
     
     .nav-menu.active {
         right: 0;
+    }
+    
+    .mobile-overlay.active {
+        display: block !important;
+        opacity: 1;
+        z-index: 1000;
     }
     
     .nav-item {
@@ -2584,9 +2602,15 @@ a {
     }
     
     /* Social links */
-    .social-links a {
-        width: 35px;
-        height: 35px;
+    .social-links {
+        gap: 10px;
+    }
+    
+    .social-links .social-link {
+        width: 32px;
+        height: 32px;
+        min-width: 32px;
+        min-height: 32px;
         font-size: 14px;
     }
     

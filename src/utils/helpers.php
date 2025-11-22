@@ -129,6 +129,17 @@ function formatDate($date, $format = 'd.m.Y') {
     return date($format, $timestamp);
 }
 
+function getTurkishMonth($date) {
+    $months = [
+        1 => 'Oca', 2 => 'Şub', 3 => 'Mar', 4 => 'Nis',
+        5 => 'May', 6 => 'Haz', 7 => 'Tem', 8 => 'Ağu',
+        9 => 'Eyl', 10 => 'Eki', 11 => 'Kas', 12 => 'Ara'
+    ];
+    $timestamp = is_numeric($date) ? $date : strtotime($date);
+    $month = (int)date('n', $timestamp);
+    return $months[$month] ?? date('M', $timestamp);
+}
+
 function formatPhone($phone) {
     $phone = preg_replace('/[^0-9]/', '', $phone);
     if (strlen($phone) === 10) {

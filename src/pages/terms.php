@@ -536,11 +536,118 @@ require_once __DIR__ . '/../includes/header.php';
     line-height: 1.6;
 }
 
+/* Responsive Design */
+@media (max-width: 992px) {
+    .legal-content-section {
+        padding: 60px 0;
+    }
+    
+    .legal-intro-card {
+        padding: 35px 25px;
+    }
+    
+    .card-header {
+        padding: 20px 25px;
+    }
+    
+    .card-body {
+        padding: 25px;
+    }
+}
+
 @media (max-width: 768px) {
+    .legal-content-section {
+        padding: 40px 0;
+    }
+    
+    .legal-intro-card {
+        padding: 25px 20px;
+        margin-bottom: 30px;
+    }
+    
+    .legal-intro-card h2 {
+        font-size: 22px;
+    }
+    
+    .legal-intro-card p {
+        font-size: 14px;
+    }
+    
+    .intro-icon {
+        font-size: 36px;
+        margin-bottom: 15px;
+    }
+    
+    .legal-card {
+        margin-bottom: 20px;
+    }
+    
+    .card-header {
+        padding: 18px 20px;
+        flex-wrap: wrap;
+        gap: 12px;
+    }
+    
+    .card-header h2 {
+        font-size: 18px;
+    }
+    
+    .card-icon {
+        width: 40px;
+        height: 40px;
+        font-size: 20px;
+    }
+    
+    .card-body {
+        padding: 20px;
+    }
+    
+    .card-body p {
+        font-size: 14px;
+        line-height: 1.7;
+    }
+    
+    .card-body .lead {
+        font-size: 15px;
+    }
+    
     .service-grid,
     .responsibility-grid,
     .ip-grid {
         grid-template-columns: 1fr;
+        gap: 15px;
+    }
+    
+    .service-item,
+    .responsibility-item,
+    .ip-item {
+        padding: 20px 15px;
+    }
+    
+    .service-item i,
+    .ip-item i {
+        font-size: 28px;
+    }
+    
+    .resp-icon {
+        width: 50px;
+        height: 50px;
+    }
+    
+    .resp-icon i {
+        font-size: 24px;
+    }
+    
+    .responsibility-item strong,
+    .service-item strong,
+    .ip-item strong {
+        font-size: 15px;
+    }
+    
+    .responsibility-item p,
+    .service-item p,
+    .ip-item p {
+        font-size: 12px;
     }
     
     .terms-box,
@@ -548,11 +655,98 @@ require_once __DIR__ . '/../includes/header.php';
     .update-box {
         flex-direction: column;
         text-align: center;
+        padding: 18px;
+        gap: 15px;
+    }
+    
+    .terms-box i,
+    .warning-box i,
+    .update-box i {
+        font-size: 24px;
     }
     
     .agreement-box {
         flex-direction: column;
         text-align: center;
+        padding: 25px 20px;
+        gap: 15px;
+    }
+    
+    .agreement-box i {
+        font-size: 36px;
+    }
+    
+    .agreement-box strong {
+        font-size: 16px;
+    }
+    
+    .agreement-box p {
+        font-size: 14px;
+    }
+    
+    .styled-list li {
+        font-size: 14px;
+        padding: 10px 0;
+    }
+    
+    .styled-list li i {
+        font-size: 16px;
+    }
+    
+    .contact-info-grid {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+    
+    .contact-link {
+        padding: 14px 18px;
+        font-size: 14px;
+    }
+    
+    .cta-button {
+        margin-top: 25px;
+    }
+    
+    .btn {
+        padding: 12px 24px;
+        font-size: 14px;
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .last-updated {
+        padding: 15px;
+        font-size: 13px;
+    }
+}
+
+@media (max-width: 480px) {
+    .legal-content-section {
+        padding: 30px 0;
+    }
+    
+    .legal-intro-card {
+        padding: 20px 15px;
+    }
+    
+    .legal-intro-card h2 {
+        font-size: 20px;
+    }
+    
+    .card-header {
+        padding: 15px;
+    }
+    
+    .card-header h2 {
+        font-size: 16px;
+    }
+    
+    .card-body {
+        padding: 18px;
+    }
+    
+    .card-body p {
+        font-size: 13px;
     }
 }
 </style>

@@ -178,7 +178,7 @@ require_once __DIR__ . '/../includes/header.php';
                             <img src="<?php echo getUploadUrl($mainPhoto); ?>" alt="<?php echo Security::escape($event['title']); ?>">
                             <div class="event-date-badge">
                                 <span class="day"><?php echo date('d', strtotime($event['event_date'])); ?></span>
-                                <span class="month"><?php echo date('M', strtotime($event['event_date'])); ?></span>
+                                <span class="month"><?php echo getTurkishMonth($event['event_date']); ?></span>
                             </div>
                         </div>
                     <?php endif; ?>

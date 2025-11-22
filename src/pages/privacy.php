@@ -361,19 +361,207 @@ require_once __DIR__ . '/../includes/header.php';
     line-height: 1.6;
 }
 
+/* Responsive Design */
+@media (max-width: 992px) {
+    .legal-content-section {
+        padding: 60px 0;
+    }
+    
+    .legal-intro-card {
+        padding: 35px 25px;
+    }
+    
+    .card-header {
+        padding: 20px 25px;
+    }
+    
+    .card-body {
+        padding: 25px;
+    }
+}
+
 @media (max-width: 768px) {
+    .legal-content-section {
+        padding: 40px 0;
+    }
+    
+    .legal-intro-card {
+        padding: 25px 20px;
+        margin-bottom: 30px;
+    }
+    
+    .legal-intro-card h2 {
+        font-size: 22px;
+    }
+    
+    .legal-intro-card p {
+        font-size: 14px;
+    }
+    
+    .intro-icon {
+        font-size: 36px;
+        margin-bottom: 15px;
+    }
+    
+    .legal-card {
+        margin-bottom: 20px;
+    }
+    
+    .card-header {
+        padding: 18px 20px;
+        flex-wrap: wrap;
+        gap: 12px;
+    }
+    
+    .card-header h2 {
+        font-size: 18px;
+    }
+    
+    .card-icon {
+        width: 40px;
+        height: 40px;
+        font-size: 20px;
+    }
+    
+    .card-body {
+        padding: 20px;
+    }
+    
+    .card-body p {
+        font-size: 14px;
+        line-height: 1.7;
+    }
+    
+    .card-body .lead {
+        font-size: 15px;
+    }
+    
     .security-grid {
-        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+    
+    .security-item {
+        padding: 20px 15px;
+    }
+    
+    .security-item i {
+        font-size: 28px;
+    }
+    
+    .security-item strong {
+        font-size: 15px;
+    }
+    
+    .security-item p {
+        font-size: 12px;
+    }
+    
+    .feature-list {
+        gap: 15px;
+    }
+    
+    .feature-item {
+        padding: 15px;
+        gap: 12px;
+    }
+    
+    .feature-item i {
+        font-size: 20px;
+    }
+    
+    .feature-item strong {
+        font-size: 15px;
+    }
+    
+    .feature-item p {
+        font-size: 13px;
     }
     
     .info-box {
         flex-direction: column;
         text-align: center;
+        padding: 20px;
+        gap: 15px;
+    }
+    
+    .info-box i {
+        font-size: 28px;
     }
     
     .info-banner {
         flex-direction: column;
         text-align: center;
+        padding: 20px;
+        gap: 15px;
+    }
+    
+    .info-banner i {
+        font-size: 24px;
+    }
+    
+    .info-banner strong {
+        font-size: 15px;
+    }
+    
+    .info-banner p {
+        font-size: 13px;
+    }
+    
+    .contact-info-grid {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+    
+    .contact-link {
+        padding: 14px 18px;
+        font-size: 14px;
+    }
+    
+    .cta-button {
+        margin-top: 25px;
+    }
+    
+    .btn {
+        padding: 12px 24px;
+        font-size: 14px;
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .last-updated {
+        padding: 15px;
+        font-size: 13px;
+    }
+}
+
+@media (max-width: 480px) {
+    .legal-content-section {
+        padding: 30px 0;
+    }
+    
+    .legal-intro-card {
+        padding: 20px 15px;
+    }
+    
+    .legal-intro-card h2 {
+        font-size: 20px;
+    }
+    
+    .card-header {
+        padding: 15px;
+    }
+    
+    .card-header h2 {
+        font-size: 16px;
+    }
+    
+    .card-body {
+        padding: 18px;
+    }
+    
+    .card-body p {
+        font-size: 13px;
     }
 }
 </style>
