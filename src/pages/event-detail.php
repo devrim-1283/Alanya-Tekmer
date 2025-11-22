@@ -11,7 +11,7 @@ if (!$id) {
 // Get event from database
 $db = Database::getInstance();
 $sql = 'SELECT * FROM events WHERE id = ?';
-$event = $db->fetch($sql, [$id]);
+$event = $db->fetchOne($sql, [$id]);
 
 if (!$event) {
     http_response_code(404);
