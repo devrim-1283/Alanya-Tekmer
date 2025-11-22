@@ -4,6 +4,32 @@ document.addEventListener('DOMContentLoaded', function () {
     // Mobile menu toggle is handled by the global toggleMobileMenu function
     // called via onclick attribute in HTML.
 
+    // Mobile Dropdown Toggle
+    const dropdownToggles = document.querySelectorAll('.dropdown-toggle');
+
+    dropdownToggles.forEach(toggle => {
+        toggle.addEventListener('click', function (e) {
+            // Only prevent default on mobile
+            if (window.innerWidth <= 768) {
+                e.preventDefault();
+                e.stopPropagation();
+
+                const dropdown = this.closest('.dropdown');
+                const isActive = dropdown.classList.contains('active');
+
+                // Close other dropdowns (Accordion behavior)
+                document.querySelectorAll('.dropdown.active').forEach(other => {
+                    if (other !== dropdown) {
+                        other.classList.remove('active');
+                    }
+                });
+
+                // Toggle current
+                dropdown.classList.toggle('active');
+            }
+        });
+    });
+
     // Close mobile menu on link click
     const navLinks = document.querySelectorAll('.nav-menu a');
     navLinks.forEach(link => {
