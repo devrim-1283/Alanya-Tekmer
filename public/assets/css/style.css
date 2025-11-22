@@ -386,8 +386,10 @@ a {
     background: none;
     border: none;
     cursor: pointer;
+    cursor: pointer;
     padding: 10px;
-    z-index: 1001;
+    z-index: 1003;
+    position: relative;
 }
 
 .hamburger-line {
@@ -2231,7 +2233,7 @@ a {
         padding: 80px 20px 20px;
         box-shadow: -5px 0 15px rgba(0,0,0,0.1);
         transition: right 0.3s ease;
-        z-index: 999;
+        z-index: 1002;
         overflow-y: auto;
     }
     

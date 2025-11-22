@@ -76,10 +76,7 @@ include __DIR__ . '/../includes/header.php';
                                 </div>
                             <?php endif; ?>
                             
-                            <div class="event-badge <?php echo $event['type']; ?>">
-                                <i class="fas <?php echo $eventTypeIcon; ?>"></i>
-                                <span><?php echo $eventTypeLabel; ?></span>
-                            </div>
+                            <!-- Badge removed as per user request -->
                             
                             <?php if ($photoCount > 1): ?>
                                 <div class="event-photo-count">
