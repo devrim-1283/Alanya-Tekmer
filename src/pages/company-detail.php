@@ -262,7 +262,7 @@ include __DIR__ . '/../includes/header.php';
     gap: 25px;
 }
 
-.contact-item {
+.company-detail-section .contact-item {
     display: flex;
     gap: 15px;
     padding: 20px;
@@ -271,23 +271,23 @@ include __DIR__ . '/../includes/header.php';
     transition: all 0.3s ease;
 }
 
-.contact-item:hover {
+.company-detail-section .contact-item:hover {
     background: #e9ecef;
     transform: translateX(5px);
 }
 
-.contact-item > i {
+.company-detail-section .contact-item > i {
     font-size: 1.5rem;
     color: #667eea;
     width: 30px;
     flex-shrink: 0;
 }
 
-.contact-item > div {
+.company-detail-section .contact-item > div {
     flex: 1;
 }
 
-.contact-item strong {
+.company-detail-section .contact-item strong {
     display: block;
     color: #6c757d;
     font-size: 0.85rem;
@@ -296,14 +296,14 @@ include __DIR__ . '/../includes/header.php';
     margin-bottom: 5px;
 }
 
-.contact-item span,
-.contact-item a {
+.company-detail-section .contact-item span,
+.company-detail-section .contact-item a {
     font-size: 1.05rem;
     color: #2c3e50;
     text-decoration: none;
 }
 
-.contact-item a:hover {
+.company-detail-section .contact-item a:hover {
     color: #667eea;
 }
 
@@ -421,7 +421,7 @@ include __DIR__ . '/../includes/header.php';
         margin-bottom: 30px;
     }
     
-    .contact-grid {
+    .company-detail-section .contact-grid {
         grid-template-columns: 1fr;
         gap: 15px;
     }

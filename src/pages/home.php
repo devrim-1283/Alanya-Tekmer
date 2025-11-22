@@ -168,11 +168,14 @@ require_once __DIR__ . '/../includes/header.php';
                 } else {
                     $delay = 100;
                     foreach ($events as $event):
+                        // Get first photo from photos JSON
+                        $photos = json_decode($event['photos'] ?? '[]', true) ?? [];
+                        $mainPhoto = !empty($photos) ? $photos[0] : null;
             ?>
                 <div class="event-card" data-aos="fade-up" data-aos-delay="<?php echo $delay; ?>">
-                    <?php if ($event['image_path']): ?>
+                    <?php if ($mainPhoto): ?>
                         <div class="event-image">
-                            <img src="<?php echo url($event['image_path']); ?>" alt="<?php echo Security::escape($event['title']); ?>">
+                            <img src="<?php echo getUploadUrl($mainPhoto); ?>" alt="<?php echo Security::escape($event['title']); ?>">
                             <div class="event-date-badge">
                                 <span class="day"><?php echo date('d', strtotime($event['event_date'])); ?></span>
                                 <span class="month"><?php echo date('M', strtotime($event['event_date'])); ?></span>
@@ -185,7 +188,9 @@ require_once __DIR__ . '/../includes/header.php';
                         <p class="event-excerpt"><?php echo mb_substr(strip_tags($event['description']), 0, 120); ?>...</p>
                         <div class="event-meta">
                             <span><i class="fas fa-calendar"></i> <?php echo date('d.m.Y', strtotime($event['event_date'])); ?></span>
-                            <span><i class="fas fa-map-marker-alt"></i> <?php echo Security::escape($event['location']); ?></span>
+                            <?php if (isset($event['location']) && !empty($event['location'])): ?>
+                                <span><i class="fas fa-map-marker-alt"></i> <?php echo Security::escape($event['location']); ?></span>
+                            <?php endif; ?>
                         </div>
                     </div>
                 </div>
