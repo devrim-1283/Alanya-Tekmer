@@ -27,12 +27,16 @@ include __DIR__ . '/../includes/header.php';
 
 <section class="page-header">
     <div class="container">
-        <div class="breadcrumb">
-            <a href="<?php echo url('firmalar'); ?>">
-                <i class="fas fa-arrow-left"></i> Firmalara Dön
-            </a>
+        <div class="page-header-content">
+            <nav class="breadcrumb">
+                <a href="<?php echo url(); ?>">Ana Sayfa</a>
+                <span>/</span>
+                <a href="<?php echo url('firmalar'); ?>">Firmalar</a>
+                <span>/</span>
+                <span><?php echo Security::escape($company['name']); ?></span>
+            </nav>
+            <h1 class="page-title"><?php echo Security::escape($company['name']); ?></h1>
         </div>
-        <h1><?php echo Security::escape($company['name']); ?></h1>
     </div>
 </section>
 
@@ -42,8 +46,9 @@ include __DIR__ . '/../includes/header.php';
             <!-- Company Logo -->
             <div class="detail-logo-card">
                 <?php if ($company['logo']): ?>
-                    <img src="<?php echo getUploadUrl($company['logo']); ?>" 
-                         alt="<?php echo Security::escape($company['name']); ?>">
+                    <img src="<?php echo url('uploads/' . basename($company['logo'])); ?>" 
+                         alt="<?php echo Security::escape($company['name']); ?>"
+                         onerror="this.onerror=null; this.parentElement.innerHTML='<div class=\'no-logo-placeholder\'><i class=\'fas fa-building\'></i></div>';">
                 <?php else: ?>
                     <div class="no-logo-placeholder">
                         <i class="fas fa-building"></i>
@@ -169,25 +174,7 @@ include __DIR__ . '/../includes/header.php';
     min-height: 60vh;
 }
 
-.breadcrumb {
-    margin-bottom: 20px;
-}
-
-.breadcrumb a {
-    color: white;
-    text-decoration: none;
-    opacity: 0.9;
-    transition: opacity 0.3s ease;
-    font-size: 0.95rem;
-}
-
-.breadcrumb a:hover {
-    opacity: 1;
-}
-
-.breadcrumb i {
-    margin-right: 8px;
-}
+/* Breadcrumb styles are in main style.css */
 
 .company-detail-wrapper {
     max-width: 1000px;
